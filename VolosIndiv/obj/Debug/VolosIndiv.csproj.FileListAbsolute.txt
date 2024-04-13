@@ -1,0 +1,253 @@
+E:\Open\fun\VolosIndiv\VolosIndiv\bin\Debug\VolosIndiv.exe.config
+E:\Open\fun\VolosIndiv\VolosIndiv\bin\Debug\VolosIndiv.exe
+E:\Open\fun\VolosIndiv\VolosIndiv\bin\Debug\VolosIndiv.pdb
+E:\Open\fun\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.csprojResolveAssemblyReference.cache
+E:\Open\fun\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.Form1.resources
+E:\Open\fun\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.Properties.Resources.resources
+E:\Open\fun\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.csproj.GenerateResource.Cache
+E:\Open\fun\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.exe
+E:\Open\fun\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.pdb
+D:\1\5 курс\Кушнір\VolosIndiv\VolosIndiv\VolosIndiv\bin\Debug\VolosIndiv.exe.config
+D:\1\5 курс\Кушнір\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.exe
+D:\1\5 курс\Кушнір\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.pdb
+D:\1\5 курс\Кушнір\VolosIndiv\VolosIndiv\VolosIndiv\bin\Debug\VolosIndiv.exe
+D:\1\5 курс\Кушнір\VolosIndiv\VolosIndiv\VolosIndiv\bin\Debug\VolosIndiv.pdb
+D:\1\5 курс\Кушнір\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.csprojResolveAssemblyReference.cache
+D:\1\5 курс\Кушнір\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.Form1.resources
+D:\1\5 курс\Кушнір\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.Properties.Resources.resources
+D:\1\5 курс\Кушнір\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.csproj.GenerateResource.Cache
+F:\fun\VolosIndiv\VolosIndiv\VolosIndiv\VolosIndiv\bin\Debug\VolosIndiv.exe.config
+F:\fun\VolosIndiv\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.exe
+F:\fun\VolosIndiv\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.pdb
+F:\fun\VolosIndiv\VolosIndiv\VolosIndiv\VolosIndiv\bin\Debug\VolosIndiv.exe
+F:\fun\VolosIndiv\VolosIndiv\VolosIndiv\VolosIndiv\bin\Debug\VolosIndiv.pdb
+F:\fun\VolosIndiv\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.csprojResolveAssemblyReference.cache
+F:\fun\VolosIndiv\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.Form1.resources
+F:\fun\VolosIndiv\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.Properties.Resources.resources
+F:\fun\VolosIndiv\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.csproj.GenerateResource.Cache
+D:\1\5 курс\Кушнір\Словник\VolosIndiv\VolosIndiv\VolosIndiv\bin\Debug\VolosIndiv.exe.config
+D:\1\5 курс\Кушнір\Словник\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.exe
+D:\1\5 курс\Кушнір\Словник\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.pdb
+D:\1\5 курс\Кушнір\Словник\VolosIndiv\VolosIndiv\VolosIndiv\bin\Debug\VolosIndiv.exe
+D:\1\5 курс\Кушнір\Словник\VolosIndiv\VolosIndiv\VolosIndiv\bin\Debug\VolosIndiv.pdb
+D:\1\5 курс\Кушнір\Словник\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.csprojResolveAssemblyReference.cache
+D:\1\5 курс\Кушнір\Словник\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.Form1.resources
+D:\1\5 курс\Кушнір\Словник\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.Properties.Resources.resources
+D:\1\5 курс\Кушнір\Словник\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.csproj.GenerateResource.Cache
+I:\Кушнір\Словник\VolosIndiv\VolosIndiv\VolosIndiv\bin\Debug\VolosIndiv.exe.config
+I:\Кушнір\Словник\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.exe
+I:\Кушнір\Словник\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.pdb
+I:\Кушнір\Словник\VolosIndiv\VolosIndiv\VolosIndiv\bin\Debug\VolosIndiv.exe
+I:\Кушнір\Словник\VolosIndiv\VolosIndiv\VolosIndiv\bin\Debug\VolosIndiv.pdb
+I:\Кушнір\Словник\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.csprojResolveAssemblyReference.cache
+I:\Кушнір\Словник\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.Form1.resources
+I:\Кушнір\Словник\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.Properties.Resources.resources
+I:\Кушнір\Словник\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.csproj.GenerateResource.Cache
+I:\Волос Назар 5 курс ФЕІ-53\Всі програми\Словник\VolosIndiv\VolosIndiv\VolosIndiv\bin\Debug\VolosIndiv.exe.config
+I:\Волос Назар 5 курс ФЕІ-53\Всі програми\Словник\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.exe
+I:\Волос Назар 5 курс ФЕІ-53\Всі програми\Словник\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.pdb
+I:\Волос Назар 5 курс ФЕІ-53\Всі програми\Словник\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.csprojResolveAssemblyReference.cache
+I:\Волос Назар 5 курс ФЕІ-53\Всі програми\Словник\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.Form1.resources
+I:\Волос Назар 5 курс ФЕІ-53\Всі програми\Словник\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.Properties.Resources.resources
+I:\Волос Назар 5 курс ФЕІ-53\Всі програми\Словник\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.csproj.GenerateResource.Cache
+I:\Волос Назар 5 курс ФЕІ-53\Всі програми\Словник\VolosIndiv\VolosIndiv\VolosIndiv\bin\Debug\VolosIndiv.exe
+I:\Волос Назар 5 курс ФЕІ-53\Всі програми\Словник\VolosIndiv\VolosIndiv\VolosIndiv\bin\Debug\VolosIndiv.pdb
+D:\Назар Волос\Волос Назар 5 курс ФЕІ-53\Всі програми\Словник\VolosIndiv\VolosIndiv\VolosIndiv\bin\Debug\VolosIndiv.exe.config
+D:\Назар Волос\Волос Назар 5 курс ФЕІ-53\Всі програми\Словник\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.exe
+D:\Назар Волос\Волос Назар 5 курс ФЕІ-53\Всі програми\Словник\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.pdb
+D:\Назар Волос\Волос Назар 5 курс ФЕІ-53\Всі програми\Словник\VolosIndiv\VolosIndiv\VolosIndiv\bin\Debug\VolosIndiv.exe
+D:\Назар Волос\Волос Назар 5 курс ФЕІ-53\Всі програми\Словник\VolosIndiv\VolosIndiv\VolosIndiv\bin\Debug\VolosIndiv.pdb
+D:\Назар Волос\Волос Назар 5 курс ФЕІ-53\Всі програми\Словник\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.Form1.resources
+D:\Назар Волос\Волос Назар 5 курс ФЕІ-53\Всі програми\Словник\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.Properties.Resources.resources
+D:\Назар Волос\Волос Назар 5 курс ФЕІ-53\Всі програми\Словник\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.csproj.GenerateResource.Cache
+D:\Назар Волос\Волос Назар 5 курс ФЕІ-53\Всі програми\Словник\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.csprojResolveAssemblyReference.cache
+E:\Назар Волос\1\Флешка\Словник\VolosIndiv\VolosIndiv\VolosIndiv\bin\Debug\VolosIndiv.exe.config
+E:\Назар Волос\1\Флешка\Словник\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.exe
+E:\Назар Волос\1\Флешка\Словник\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.pdb
+E:\Назар Волос\1\Флешка\Словник\VolosIndiv\VolosIndiv\VolosIndiv\bin\Debug\VolosIndiv.exe
+E:\Назар Волос\1\Флешка\Словник\VolosIndiv\VolosIndiv\VolosIndiv\bin\Debug\VolosIndiv.pdb
+E:\Назар Волос\1\Флешка\Словник\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.csprojResolveAssemblyReference.cache
+E:\Назар Волос\1\Флешка\Словник\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.Form1.resources
+E:\Назар Волос\1\Флешка\Словник\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.Properties.Resources.resources
+E:\Назар Волос\1\Флешка\Словник\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.csproj.GenerateResource.Cache
+G:\Диплом\Словник\Словник\VolosIndiv\VolosIndiv\VolosIndiv\bin\Debug\VolosIndiv.exe.config
+G:\Диплом\Словник\Словник\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.exe
+G:\Диплом\Словник\Словник\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.pdb
+C:\Users\weave\Desktop\Словник\VolosIndiv\VolosIndiv\VolosIndiv\bin\Debug\VolosIndiv.exe.config
+C:\Users\weave\Desktop\Словник\VolosIndiv\VolosIndiv\VolosIndiv\bin\Debug\VolosIndiv.exe
+C:\Users\weave\Desktop\Словник\VolosIndiv\VolosIndiv\VolosIndiv\bin\Debug\VolosIndiv.pdb
+C:\Users\weave\Desktop\Словник\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.csprojResolveAssemblyReference.cache
+C:\Users\weave\Desktop\Словник\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.Form1.resources
+C:\Users\weave\Desktop\Словник\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.Properties.Resources.resources
+C:\Users\weave\Desktop\Словник\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.csproj.GenerateResource.Cache
+C:\Users\weave\Desktop\Словник\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.exe
+C:\Users\weave\Desktop\Словник\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.pdb
+C:\Users\shz\Documents\Ткач (диплом)\Словник\VolosIndiv\VolosIndiv\VolosIndiv\bin\Debug\VolosIndiv.exe.config
+C:\Users\shz\Documents\Ткач (диплом)\Словник\VolosIndiv\VolosIndiv\VolosIndiv\bin\Debug\VolosIndiv.exe
+C:\Users\shz\Documents\Ткач (диплом)\Словник\VolosIndiv\VolosIndiv\VolosIndiv\bin\Debug\VolosIndiv.pdb
+C:\Users\shz\Documents\Ткач (диплом)\Словник\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.csprojResolveAssemblyReference.cache
+C:\Users\shz\Documents\Ткач (диплом)\Словник\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.Form1.resources
+C:\Users\shz\Documents\Ткач (диплом)\Словник\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.Properties.Resources.resources
+C:\Users\shz\Documents\Ткач (диплом)\Словник\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.csproj.GenerateResource.Cache
+C:\Users\shz\Documents\Ткач (диплом)\Словник\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.exe
+C:\Users\shz\Documents\Ткач (диплом)\Словник\VolosIndiv\VolosIndiv\VolosIndiv\obj\Debug\VolosIndiv.pdb
+D:\Навчання\ДИПЛОМ\VolosIndiv_02.06.17\VolosIndiv\bin\Debug\VolosIndiv.exe.config
+D:\Навчання\ДИПЛОМ\VolosIndiv_02.06.17\VolosIndiv\bin\Debug\VolosIndiv.exe
+D:\Навчання\ДИПЛОМ\VolosIndiv_02.06.17\VolosIndiv\bin\Debug\VolosIndiv.pdb
+D:\Навчання\ДИПЛОМ\VolosIndiv_02.06.17\VolosIndiv\obj\Debug\VolosIndiv.csprojResolveAssemblyReference.cache
+D:\Навчання\ДИПЛОМ\VolosIndiv_02.06.17\VolosIndiv\obj\Debug\VolosIndiv.Form1.resources
+D:\Навчання\ДИПЛОМ\VolosIndiv_02.06.17\VolosIndiv\obj\Debug\VolosIndiv.Properties.Resources.resources
+D:\Навчання\ДИПЛОМ\VolosIndiv_02.06.17\VolosIndiv\obj\Debug\VolosIndiv.csproj.GenerateResource.Cache
+D:\Навчання\ДИПЛОМ\VolosIndiv_02.06.17\VolosIndiv\obj\Debug\VolosIndiv.exe
+D:\Навчання\ДИПЛОМ\VolosIndiv_02.06.17\VolosIndiv\obj\Debug\VolosIndiv.pdb
+E:\Work\+VolosIndiv_02.06.17\VolosIndiv\bin\Debug\VolosIndiv.exe.config
+E:\Work\+VolosIndiv_02.06.17\VolosIndiv\bin\Debug\VolosIndiv.exe
+E:\Work\+VolosIndiv_02.06.17\VolosIndiv\bin\Debug\VolosIndiv.pdb
+E:\Work\+VolosIndiv_02.06.17\VolosIndiv\obj\Debug\VolosIndiv.csprojResolveAssemblyReference.cache
+E:\Work\+VolosIndiv_02.06.17\VolosIndiv\obj\Debug\VolosIndiv.Form1.resources
+E:\Work\+VolosIndiv_02.06.17\VolosIndiv\obj\Debug\VolosIndiv.Properties.Resources.resources
+E:\Work\+VolosIndiv_02.06.17\VolosIndiv\obj\Debug\VolosIndiv.csproj.GenerateResource.Cache
+E:\Work\+VolosIndiv_02.06.17\VolosIndiv\obj\Debug\VolosIndiv.csproj.CoreCompileInputs.cache
+E:\Work\+VolosIndiv_02.06.17\VolosIndiv\obj\Debug\VolosIndiv.exe
+E:\Work\+VolosIndiv_02.06.17\VolosIndiv\obj\Debug\VolosIndiv.pdb
+G:\Документи\Університет\11 семестр\Комп'ютерна лінгвістика\8Зохнюк\+VolosIndiv_02.06.17_editBy_Vashstchuk_Zokhniuk\VolosIndiv\bin\Debug\VolosIndiv.exe.config
+G:\Документи\Університет\11 семестр\Комп'ютерна лінгвістика\8Зохнюк\+VolosIndiv_02.06.17_editBy_Vashstchuk_Zokhniuk\VolosIndiv\bin\Debug\VolosIndiv.exe
+G:\Документи\Університет\11 семестр\Комп'ютерна лінгвістика\8Зохнюк\+VolosIndiv_02.06.17_editBy_Vashstchuk_Zokhniuk\VolosIndiv\bin\Debug\VolosIndiv.pdb
+G:\Документи\Університет\11 семестр\Комп'ютерна лінгвістика\8Зохнюк\+VolosIndiv_02.06.17_editBy_Vashstchuk_Zokhniuk\VolosIndiv\obj\Debug\VolosIndiv.csprojResolveAssemblyReference.cache
+G:\Документи\Університет\11 семестр\Комп'ютерна лінгвістика\8Зохнюк\+VolosIndiv_02.06.17_editBy_Vashstchuk_Zokhniuk\VolosIndiv\obj\Debug\VolosIndiv.Form1.resources
+G:\Документи\Університет\11 семестр\Комп'ютерна лінгвістика\8Зохнюк\+VolosIndiv_02.06.17_editBy_Vashstchuk_Zokhniuk\VolosIndiv\obj\Debug\VolosIndiv.Properties.Resources.resources
+G:\Документи\Університет\11 семестр\Комп'ютерна лінгвістика\8Зохнюк\+VolosIndiv_02.06.17_editBy_Vashstchuk_Zokhniuk\VolosIndiv\obj\Debug\VolosIndiv.csproj.GenerateResource.Cache
+G:\Документи\Університет\11 семестр\Комп'ютерна лінгвістика\8Зохнюк\+VolosIndiv_02.06.17_editBy_Vashstchuk_Zokhniuk\VolosIndiv\obj\Debug\VolosIndiv.exe
+G:\Документи\Університет\11 семестр\Комп'ютерна лінгвістика\8Зохнюк\+VolosIndiv_02.06.17_editBy_Vashstchuk_Zokhniuk\VolosIndiv\obj\Debug\VolosIndiv.pdb
+G:\Документи\Університет\11 семестр\Комп'ютерна лінгвістика\8Зохнюк\+VolosIndiv_02.06.17_editBy_Vashstchuk_Zokhniuk\VolosIndiv\obj\Debug\Interop.WMPLib.dll
+G:\Документи\Університет\11 семестр\Комп'ютерна лінгвістика\8Зохнюк\+VolosIndiv_02.06.17_editBy_Vashstchuk_Zokhniuk\VolosIndiv\obj\Debug\VolosIndiv.csproj.ResolveComReference.cache
+E:\+VolosIndiv_02.06.17_editBy_Vashstchuk_Zokhniuk\VolosIndiv\bin\Debug\Accord.dll.config
+E:\+VolosIndiv_02.06.17_editBy_Vashstchuk_Zokhniuk\VolosIndiv\bin\Debug\VolosIndiv.exe.config
+E:\+VolosIndiv_02.06.17_editBy_Vashstchuk_Zokhniuk\VolosIndiv\bin\Debug\VolosIndiv.exe
+E:\+VolosIndiv_02.06.17_editBy_Vashstchuk_Zokhniuk\VolosIndiv\bin\Debug\VolosIndiv.pdb
+E:\+VolosIndiv_02.06.17_editBy_Vashstchuk_Zokhniuk\VolosIndiv\bin\Debug\Accord.dll
+E:\+VolosIndiv_02.06.17_editBy_Vashstchuk_Zokhniuk\VolosIndiv\bin\Debug\Accord.Math.Core.dll
+E:\+VolosIndiv_02.06.17_editBy_Vashstchuk_Zokhniuk\VolosIndiv\bin\Debug\Accord.Math.dll
+E:\+VolosIndiv_02.06.17_editBy_Vashstchuk_Zokhniuk\VolosIndiv\bin\Debug\Accord.Statistics.dll
+E:\+VolosIndiv_02.06.17_editBy_Vashstchuk_Zokhniuk\VolosIndiv\bin\Debug\Accord.xml
+E:\+VolosIndiv_02.06.17_editBy_Vashstchuk_Zokhniuk\VolosIndiv\bin\Debug\Accord.Math.xml
+E:\+VolosIndiv_02.06.17_editBy_Vashstchuk_Zokhniuk\VolosIndiv\bin\Debug\Accord.Math.Core.xml
+E:\+VolosIndiv_02.06.17_editBy_Vashstchuk_Zokhniuk\VolosIndiv\bin\Debug\Accord.Statistics.xml
+E:\+VolosIndiv_02.06.17_editBy_Vashstchuk_Zokhniuk\VolosIndiv\obj\Debug\VolosIndiv.csprojResolveAssemblyReference.cache
+E:\+VolosIndiv_02.06.17_editBy_Vashstchuk_Zokhniuk\VolosIndiv\obj\Debug\Interop.WMPLib.dll
+E:\+VolosIndiv_02.06.17_editBy_Vashstchuk_Zokhniuk\VolosIndiv\obj\Debug\VolosIndiv.csproj.ResolveComReference.cache
+E:\+VolosIndiv_02.06.17_editBy_Vashstchuk_Zokhniuk\VolosIndiv\obj\Debug\VolosIndiv.Form1.resources
+E:\+VolosIndiv_02.06.17_editBy_Vashstchuk_Zokhniuk\VolosIndiv\obj\Debug\VolosIndiv.Properties.Resources.resources
+E:\+VolosIndiv_02.06.17_editBy_Vashstchuk_Zokhniuk\VolosIndiv\obj\Debug\VolosIndiv.csproj.GenerateResource.Cache
+E:\+VolosIndiv_02.06.17_editBy_Vashstchuk_Zokhniuk\VolosIndiv\obj\Debug\VolosIndiv.csproj.CoreCompileInputs.cache
+E:\+VolosIndiv_02.06.17_editBy_Vashstchuk_Zokhniuk\VolosIndiv\obj\Debug\VolosIndiv.exe
+E:\+VolosIndiv_02.06.17_editBy_Vashstchuk_Zokhniuk\VolosIndiv\obj\Debug\VolosIndiv.pdb
+C:\Users\Oleksa\Desktop\+VolosIndiv_02.06.17_editBy_Vashstchuk&Zokhniuk_incl optim&delimiters&partial cleaning\VolosIndiv\bin\Debug\VolosIndiv.exe.config
+C:\Users\Oleksa\Desktop\+VolosIndiv_02.06.17_editBy_Vashstchuk&Zokhniuk_incl optim&delimiters&partial cleaning\VolosIndiv\obj\Debug\Interop.WMPLib.dll
+C:\Users\Oleksa\Desktop\+VolosIndiv_02.06.17_editBy_Vashstchuk&Zokhniuk_incl optim&delimiters&partial cleaning\VolosIndiv\obj\Debug\VolosIndiv.csproj.ResolveComReference.cache
+C:\Users\Oleksa\Desktop\+VolosIndiv_02.06.17_editBy_Vashstchuk&Zokhniuk_incl optim&delimiters&partial cleaning\VolosIndiv\obj\Debug\VolosIndiv.exe
+C:\Users\Oleksa\Desktop\+VolosIndiv_02.06.17_editBy_Vashstchuk&Zokhniuk_incl optim&delimiters&partial cleaning\VolosIndiv\obj\Debug\VolosIndiv.pdb
+C:\Users\Oleksa\Desktop\+VolosIndiv_02.06.17_editBy_Vashstchuk&Zokhniuk_incl optim&delimiters&partial cleaning\VolosIndiv\bin\Debug\Accord.dll.config
+C:\Users\Oleksa\Desktop\+VolosIndiv_02.06.17_editBy_Vashstchuk&Zokhniuk_incl optim&delimiters&partial cleaning\VolosIndiv\bin\Debug\VolosIndiv.exe
+C:\Users\Oleksa\Desktop\+VolosIndiv_02.06.17_editBy_Vashstchuk&Zokhniuk_incl optim&delimiters&partial cleaning\VolosIndiv\bin\Debug\VolosIndiv.pdb
+C:\Users\Oleksa\Desktop\+VolosIndiv_02.06.17_editBy_Vashstchuk&Zokhniuk_incl optim&delimiters&partial cleaning\VolosIndiv\bin\Debug\Accord.dll
+C:\Users\Oleksa\Desktop\+VolosIndiv_02.06.17_editBy_Vashstchuk&Zokhniuk_incl optim&delimiters&partial cleaning\VolosIndiv\bin\Debug\Accord.Math.Core.dll
+C:\Users\Oleksa\Desktop\+VolosIndiv_02.06.17_editBy_Vashstchuk&Zokhniuk_incl optim&delimiters&partial cleaning\VolosIndiv\bin\Debug\Accord.Math.dll
+C:\Users\Oleksa\Desktop\+VolosIndiv_02.06.17_editBy_Vashstchuk&Zokhniuk_incl optim&delimiters&partial cleaning\VolosIndiv\bin\Debug\Accord.Statistics.dll
+C:\Users\Oleksa\Desktop\+VolosIndiv_02.06.17_editBy_Vashstchuk&Zokhniuk_incl optim&delimiters&partial cleaning\VolosIndiv\bin\Debug\Accord.xml
+C:\Users\Oleksa\Desktop\+VolosIndiv_02.06.17_editBy_Vashstchuk&Zokhniuk_incl optim&delimiters&partial cleaning\VolosIndiv\bin\Debug\Accord.Math.xml
+C:\Users\Oleksa\Desktop\+VolosIndiv_02.06.17_editBy_Vashstchuk&Zokhniuk_incl optim&delimiters&partial cleaning\VolosIndiv\bin\Debug\Accord.Math.Core.xml
+C:\Users\Oleksa\Desktop\+VolosIndiv_02.06.17_editBy_Vashstchuk&Zokhniuk_incl optim&delimiters&partial cleaning\VolosIndiv\bin\Debug\Accord.Statistics.xml
+C:\Users\Oleksa\Desktop\+VolosIndiv_02.06.17_editBy_Vashstchuk&Zokhniuk_incl optim&delimiters&partial cleaning\VolosIndiv\obj\Debug\VolosIndiv.csprojResolveAssemblyReference.cache
+C:\Users\Oleksa\Desktop\+VolosIndiv_02.06.17_editBy_Vashstchuk&Zokhniuk_incl optim&delimiters&partial cleaning\VolosIndiv\obj\Debug\VolosIndiv.Form1.resources
+C:\Users\Oleksa\Desktop\+VolosIndiv_02.06.17_editBy_Vashstchuk&Zokhniuk_incl optim&delimiters&partial cleaning\VolosIndiv\obj\Debug\VolosIndiv.Properties.Resources.resources
+C:\Users\Oleksa\Desktop\+VolosIndiv_02.06.17_editBy_Vashstchuk&Zokhniuk_incl optim&delimiters&partial cleaning\VolosIndiv\obj\Debug\VolosIndiv.csproj.GenerateResource.Cache
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog\+VolosIndiv_2021_editBy_Vashstchuk&Zokhniuk&Klymchuk_incl optim&delimiters&partial cleaning\VolosIndiv\bin\Debug\Accord.dll.config
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog\+VolosIndiv_2021_editBy_Vashstchuk&Zokhniuk&Klymchuk_incl optim&delimiters&partial cleaning\VolosIndiv\bin\Debug\VolosIndiv.exe.config
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog\+VolosIndiv_2021_editBy_Vashstchuk&Zokhniuk&Klymchuk_incl optim&delimiters&partial cleaning\VolosIndiv\bin\Debug\VolosIndiv.exe
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog\+VolosIndiv_2021_editBy_Vashstchuk&Zokhniuk&Klymchuk_incl optim&delimiters&partial cleaning\VolosIndiv\bin\Debug\VolosIndiv.pdb
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog\+VolosIndiv_2021_editBy_Vashstchuk&Zokhniuk&Klymchuk_incl optim&delimiters&partial cleaning\VolosIndiv\bin\Debug\Accord.dll
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog\+VolosIndiv_2021_editBy_Vashstchuk&Zokhniuk&Klymchuk_incl optim&delimiters&partial cleaning\VolosIndiv\bin\Debug\Accord.Math.Core.dll
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog\+VolosIndiv_2021_editBy_Vashstchuk&Zokhniuk&Klymchuk_incl optim&delimiters&partial cleaning\VolosIndiv\bin\Debug\Accord.Math.dll
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog\+VolosIndiv_2021_editBy_Vashstchuk&Zokhniuk&Klymchuk_incl optim&delimiters&partial cleaning\VolosIndiv\bin\Debug\Accord.Statistics.dll
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog\+VolosIndiv_2021_editBy_Vashstchuk&Zokhniuk&Klymchuk_incl optim&delimiters&partial cleaning\VolosIndiv\bin\Debug\Accord.xml
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog\+VolosIndiv_2021_editBy_Vashstchuk&Zokhniuk&Klymchuk_incl optim&delimiters&partial cleaning\VolosIndiv\bin\Debug\Accord.Math.xml
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog\+VolosIndiv_2021_editBy_Vashstchuk&Zokhniuk&Klymchuk_incl optim&delimiters&partial cleaning\VolosIndiv\bin\Debug\Accord.Math.Core.xml
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog\+VolosIndiv_2021_editBy_Vashstchuk&Zokhniuk&Klymchuk_incl optim&delimiters&partial cleaning\VolosIndiv\bin\Debug\Accord.Statistics.xml
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog\+VolosIndiv_2021_editBy_Vashstchuk&Zokhniuk&Klymchuk_incl optim&delimiters&partial cleaning\VolosIndiv\obj\Debug\VolosIndiv.csproj.AssemblyReference.cache
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog\+VolosIndiv_2021_editBy_Vashstchuk&Zokhniuk&Klymchuk_incl optim&delimiters&partial cleaning\VolosIndiv\obj\Debug\VolosIndiv.csproj.SuggestedBindingRedirects.cache
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog\+VolosIndiv_2021_editBy_Vashstchuk&Zokhniuk&Klymchuk_incl optim&delimiters&partial cleaning\VolosIndiv\obj\Debug\Interop.WMPLib.dll
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog\+VolosIndiv_2021_editBy_Vashstchuk&Zokhniuk&Klymchuk_incl optim&delimiters&partial cleaning\VolosIndiv\obj\Debug\VolosIndiv.csproj.ResolveComReference.cache
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog\+VolosIndiv_2021_editBy_Vashstchuk&Zokhniuk&Klymchuk_incl optim&delimiters&partial cleaning\VolosIndiv\obj\Debug\VolosIndiv.Form1.resources
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog\+VolosIndiv_2021_editBy_Vashstchuk&Zokhniuk&Klymchuk_incl optim&delimiters&partial cleaning\VolosIndiv\obj\Debug\VolosIndiv.Properties.Resources.resources
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog\+VolosIndiv_2021_editBy_Vashstchuk&Zokhniuk&Klymchuk_incl optim&delimiters&partial cleaning\VolosIndiv\obj\Debug\VolosIndiv.csproj.GenerateResource.cache
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog\+VolosIndiv_2021_editBy_Vashstchuk&Zokhniuk&Klymchuk_incl optim&delimiters&partial cleaning\VolosIndiv\obj\Debug\VolosIndiv.csproj.CoreCompileInputs.cache
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog\+VolosIndiv_2021_editBy_Vashstchuk&Zokhniuk&Klymchuk_incl optim&delimiters&partial cleaning\VolosIndiv\obj\Debug\VolosIndiv.csproj.CopyComplete
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog\+VolosIndiv_2021_editBy_Vashstchuk&Zokhniuk&Klymchuk_incl optim&delimiters&partial cleaning\VolosIndiv\obj\Debug\VolosIndiv.exe
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog\+VolosIndiv_2021_editBy_Vashstchuk&Zokhniuk&Klymchuk_incl optim&delimiters&partial cleaning\VolosIndiv\obj\Debug\VolosIndiv.pdb
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog\prog\VolosIndiv\bin\Debug\Accord.dll.config
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog\prog\VolosIndiv\bin\Debug\VolosIndiv.exe.config
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog\prog\VolosIndiv\bin\Debug\VolosIndiv.exe
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog\prog\VolosIndiv\bin\Debug\VolosIndiv.pdb
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog\prog\VolosIndiv\bin\Debug\Accord.dll
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog\prog\VolosIndiv\bin\Debug\Accord.Math.Core.dll
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog\prog\VolosIndiv\bin\Debug\Accord.Math.dll
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog\prog\VolosIndiv\bin\Debug\Accord.Statistics.dll
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog\prog\VolosIndiv\bin\Debug\Accord.xml
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog\prog\VolosIndiv\bin\Debug\Accord.Math.xml
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog\prog\VolosIndiv\bin\Debug\Accord.Math.Core.xml
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog\prog\VolosIndiv\bin\Debug\Accord.Statistics.xml
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog\prog\VolosIndiv\obj\Debug\VolosIndiv.csproj.AssemblyReference.cache
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog\prog\VolosIndiv\obj\Debug\Interop.WMPLib.dll
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog\prog\VolosIndiv\obj\Debug\VolosIndiv.csproj.ResolveComReference.cache
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog\prog\VolosIndiv\obj\Debug\VolosIndiv.Form1.resources
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog\prog\VolosIndiv\obj\Debug\VolosIndiv.Properties.Resources.resources
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog\prog\VolosIndiv\obj\Debug\VolosIndiv.csproj.GenerateResource.cache
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog\prog\VolosIndiv\obj\Debug\VolosIndiv.csproj.CoreCompileInputs.cache
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog\prog\VolosIndiv\obj\Debug\VolosIndiv.csproj.CopyComplete
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog\prog\VolosIndiv\obj\Debug\VolosIndiv.exe
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog\prog\VolosIndiv\obj\Debug\VolosIndiv.pdb
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog (2)\prog\VolosIndiv\bin\Debug\Accord.dll.config
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog (2)\prog\VolosIndiv\bin\Debug\VolosIndiv.exe.config
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog (2)\prog\VolosIndiv\bin\Debug\VolosIndiv.exe
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog (2)\prog\VolosIndiv\bin\Debug\VolosIndiv.pdb
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog (2)\prog\VolosIndiv\bin\Debug\Accord.dll
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog (2)\prog\VolosIndiv\bin\Debug\Accord.Math.Core.dll
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog (2)\prog\VolosIndiv\bin\Debug\Accord.Math.dll
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog (2)\prog\VolosIndiv\bin\Debug\Accord.Statistics.dll
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog (2)\prog\VolosIndiv\bin\Debug\Accord.xml
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog (2)\prog\VolosIndiv\bin\Debug\Accord.Math.xml
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog (2)\prog\VolosIndiv\bin\Debug\Accord.Math.Core.xml
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog (2)\prog\VolosIndiv\bin\Debug\Accord.Statistics.xml
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog (2)\prog\VolosIndiv\obj\Debug\VolosIndiv.csproj.AssemblyReference.cache
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog (2)\prog\VolosIndiv\obj\Debug\Interop.WMPLib.dll
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog (2)\prog\VolosIndiv\obj\Debug\VolosIndiv.csproj.ResolveComReference.cache
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog (2)\prog\VolosIndiv\obj\Debug\VolosIndiv.Form1.resources
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog (2)\prog\VolosIndiv\obj\Debug\VolosIndiv.Properties.Resources.resources
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog (2)\prog\VolosIndiv\obj\Debug\VolosIndiv.csproj.GenerateResource.cache
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog (2)\prog\VolosIndiv\obj\Debug\VolosIndiv.csproj.CoreCompileInputs.cache
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog (2)\prog\VolosIndiv\obj\Debug\VolosIndiv.csproj.CopyComplete
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog (2)\prog\VolosIndiv\obj\Debug\VolosIndiv.exe
+C:\Users\ASUS2022\Downloads\Telegram Desktop\prog (2)\prog\VolosIndiv\obj\Debug\VolosIndiv.pdb
+C:\Users\DenysKorpan\Desktop\++V(L)binning2023_1Куриця6\+V(L)binning_Куриця6\VolosIndiv\bin\Debug\Accord.dll.config
+C:\Users\DenysKorpan\Desktop\++V(L)binning2023_1Куриця6\+V(L)binning_Куриця6\VolosIndiv\bin\Debug\VolosIndiv.exe.config
+C:\Users\DenysKorpan\Desktop\++V(L)binning2023_1Куриця6\+V(L)binning_Куриця6\VolosIndiv\bin\Debug\VolosIndiv.exe
+C:\Users\DenysKorpan\Desktop\++V(L)binning2023_1Куриця6\+V(L)binning_Куриця6\VolosIndiv\bin\Debug\VolosIndiv.pdb
+C:\Users\DenysKorpan\Desktop\++V(L)binning2023_1Куриця6\+V(L)binning_Куриця6\VolosIndiv\bin\Debug\Accord.dll
+C:\Users\DenysKorpan\Desktop\++V(L)binning2023_1Куриця6\+V(L)binning_Куриця6\VolosIndiv\bin\Debug\Accord.Math.Core.dll
+C:\Users\DenysKorpan\Desktop\++V(L)binning2023_1Куриця6\+V(L)binning_Куриця6\VolosIndiv\bin\Debug\Accord.Math.dll
+C:\Users\DenysKorpan\Desktop\++V(L)binning2023_1Куриця6\+V(L)binning_Куриця6\VolosIndiv\bin\Debug\Accord.Statistics.dll
+C:\Users\DenysKorpan\Desktop\++V(L)binning2023_1Куриця6\+V(L)binning_Куриця6\VolosIndiv\bin\Debug\Accord.xml
+C:\Users\DenysKorpan\Desktop\++V(L)binning2023_1Куриця6\+V(L)binning_Куриця6\VolosIndiv\bin\Debug\Accord.Math.xml
+C:\Users\DenysKorpan\Desktop\++V(L)binning2023_1Куриця6\+V(L)binning_Куриця6\VolosIndiv\bin\Debug\Accord.Math.Core.xml
+C:\Users\DenysKorpan\Desktop\++V(L)binning2023_1Куриця6\+V(L)binning_Куриця6\VolosIndiv\bin\Debug\Accord.Statistics.xml
+C:\Users\DenysKorpan\Desktop\++V(L)binning2023_1Куриця6\+V(L)binning_Куриця6\VolosIndiv\obj\Debug\VolosIndiv.csproj.AssemblyReference.cache
+C:\Users\DenysKorpan\Desktop\++V(L)binning2023_1Куриця6\+V(L)binning_Куриця6\VolosIndiv\obj\Debug\Interop.WMPLib.dll
+C:\Users\DenysKorpan\Desktop\++V(L)binning2023_1Куриця6\+V(L)binning_Куриця6\VolosIndiv\obj\Debug\VolosIndiv.csproj.ResolveComReference.cache
+C:\Users\DenysKorpan\Desktop\++V(L)binning2023_1Куриця6\+V(L)binning_Куриця6\VolosIndiv\obj\Debug\VolosIndiv.Form1.resources
+C:\Users\DenysKorpan\Desktop\++V(L)binning2023_1Куриця6\+V(L)binning_Куриця6\VolosIndiv\obj\Debug\VolosIndiv.Properties.Resources.resources
+C:\Users\DenysKorpan\Desktop\++V(L)binning2023_1Куриця6\+V(L)binning_Куриця6\VolosIndiv\obj\Debug\VolosIndiv.csproj.GenerateResource.cache
+C:\Users\DenysKorpan\Desktop\++V(L)binning2023_1Куриця6\+V(L)binning_Куриця6\VolosIndiv\obj\Debug\VolosIndiv.csproj.CoreCompileInputs.cache
+C:\Users\DenysKorpan\Desktop\++V(L)binning2023_1Куриця6\+V(L)binning_Куриця6\VolosIndiv\obj\Debug\VolosIndiv.csproj.Up2Date
+C:\Users\DenysKorpan\Desktop\++V(L)binning2023_1Куриця6\+V(L)binning_Куриця6\VolosIndiv\obj\Debug\VolosIndiv.exe
+C:\Users\DenysKorpan\Desktop\++V(L)binning2023_1Куриця6\+V(L)binning_Куриця6\VolosIndiv\obj\Debug\VolosIndiv.pdb
