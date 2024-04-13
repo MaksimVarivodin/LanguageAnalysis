@@ -1,0 +1,23 @@
++monkey_text_M5k_L1kk	154794	123525	
+arabic_shrt	4	4	
+arabic_هل كرم المصريون القدامى المرأة أ	2557	1336	
+belorus_shrt	4	4	
+belorus_Г_сторыя хваробы	21073	5804	
+bosnian_Vens_Myesechev_mo_ats	10571	3840	
+chinese_世說新語	2311	1338	
+czech_Burroughs_E_R-Tarzan-20.pdb	38358	8407	
+english0!!!	7300	1830	
+english0_space&paragraph!!!	7300	1830	
+farsi_abusaeed_norm	21762	4535	
+farsi_shrt	12	6	
+greek_Αι δύο διαθήκαι	25799	7056	
+hebrew_Hunger_book1	19323	6785	
+hebrew_shrt	4	4	
+Hindi_historyप्राचीन_भारत_का_इतिहास_पाषाणकाल_से_1200_ईस्वी_तक_डॉ_मोहनलाल_गुप्ता	558	233	
+japaneseお目出たき人 by Saneatsu Mushanokoji	792	772	
+korean_episode-2	1193	932	
+napoletano-calabrese_Il pastor fido in lingua napolitana	37832	7018	
+napoletano_shrt	6	6	
+telugu_Subhalekha	17906	7043	
+thai_Батько й Мати ростять дiтей	210	204	
+vietnamese_Chúa Jesus Là Ai	43991	2436	

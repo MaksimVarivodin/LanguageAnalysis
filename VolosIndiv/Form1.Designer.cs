@@ -34,7 +34,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.fbd = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.button2 = new System.Windows.Forms.Button();
+            this.ClearButton = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
@@ -92,23 +92,21 @@
             // fbd
             // 
             this.fbd.FileName = "openFileDialog1";
-            this.fbd.FileOk += new System.ComponentModel.CancelEventHandler(this.fbd_FileOk);
             // 
             // saveFileDialog1
             // 
-            this.saveFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.saveFileDialog1_FileOk);
             // 
-            // button2
+            // ClearButton
             // 
-            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(879, 107);
-            this.button2.Margin = new System.Windows.Forms.Padding(4);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(180, 36);
-            this.button2.TabIndex = 2;
-            this.button2.Text = "Clear";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.ClearButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ClearButton.Location = new System.Drawing.Point(879, 107);
+            this.ClearButton.Margin = new System.Windows.Forms.Padding(4);
+            this.ClearButton.Name = "ClearButton";
+            this.ClearButton.Size = new System.Drawing.Size(180, 36);
+            this.ClearButton.TabIndex = 2;
+            this.ClearButton.Text = "Clear";
+            this.ClearButton.UseVisualStyleBackColor = true;
+            this.ClearButton.Click += new System.EventHandler(this.ClearButton_Click);
             // 
             // button4
             // 
@@ -120,7 +118,7 @@
             this.button4.TabIndex = 4;
             this.button4.Text = "Save dictionary File";
             this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.button4.Click += new System.EventHandler(this.buttonSaveDictionaryFile_Click);
             // 
             // tabControl1
             // 
@@ -158,7 +156,6 @@
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(851, 32);
             this.progressBar1.TabIndex = 1;
-            this.progressBar1.Click += new System.EventHandler(this.progressBar1_Click);
             // 
             // chart1
             // 
@@ -178,7 +175,6 @@
             this.chart1.Size = new System.Drawing.Size(850, 631);
             this.chart1.TabIndex = 3;
             this.chart1.Text = "chart1";
-            this.chart1.Click += new System.EventHandler(this.chart1_Click);
             // 
             // tabPage3
             // 
@@ -211,7 +207,6 @@
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.Size = new System.Drawing.Size(850, 631);
             this.dataGridView1.TabIndex = 1;
-            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             this.dataGridView1.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.dataGridView1_SortCompare);
             // 
             // NameDG
@@ -347,7 +342,7 @@
             this.radioButton1.TabStop = true;
             this.radioButton1.Text = "З однаковою довжиною";
             this.radioButton1.UseVisualStyleBackColor = true;
-            this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
+            this.radioButton1.CheckedChanged += new System.EventHandler(this.radioEqualLength_CheckedChanged);
             // 
             // radioButton2
             // 
@@ -360,7 +355,7 @@
             this.radioButton2.TabIndex = 11;
             this.radioButton2.Text = "Різні за довжиною";
             this.radioButton2.UseVisualStyleBackColor = true;
-            this.radioButton2.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
+            this.radioButton2.CheckedChanged += new System.EventHandler(this.radioDifferentLength_CheckedChanged);
             // 
             // openStats
             // 
@@ -397,7 +392,7 @@
             this.radioButton3.TabIndex = 14;
             this.radioButton3.Text = "Зростаюча довжина";
             this.radioButton3.UseVisualStyleBackColor = true;
-            this.radioButton3.CheckedChanged += new System.EventHandler(this.radioButton3_CheckedChanged);
+            this.radioButton3.CheckedChanged += new System.EventHandler(this.radioGrowLength_CheckedChanged);
             // 
             // textBox2
             // 
@@ -441,7 +436,7 @@
             this.button6.TabIndex = 18;
             this.button6.Text = "Save binning File";
             this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
+            this.button6.Click += new System.EventHandler(this.buttonSaveBinningFile_Click);
             // 
             // label4
             // 
@@ -501,7 +496,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.button4);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.ClearButton);
             this.Controls.Add(this.button1);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
@@ -524,7 +519,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.OpenFileDialog fbd;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button ClearButton;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage2;

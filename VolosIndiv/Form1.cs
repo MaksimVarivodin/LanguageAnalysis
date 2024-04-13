@@ -4,6 +4,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,40 +17,15 @@ namespace VolosIndiv
 {
 	public partial class Form1 : Form
 	{
-
 		string ss_regex_or = "\\\\|\\||\"|{|}|\\(|\\)|\\[|\\]|=|\\+|_|~|!|@|#|\\$|…|%|\\^|&|\\*|№|:|,|\\.|\\?|;";
         public Form1()
 		{
 			InitializeComponent();   
         }
 
-
-        private void UpdateProgress(int progress)
-        {
-            progressBar1.Value = progress;
-        }
-
-        private int wordCount(string text)
-		{
-            var collection = Regex.Matches(Regex.Replace(text, "[.,!?:;\"']", ""), @"\p{L}+");
-            return collection.Count;
-		}
-
-		private int[] uniqueWordCount(string text)
-		{
-            byte[] bytes = Encoding.UTF8.GetBytes(text);
-            text = Encoding.UTF8.GetString(bytes);
-            var collection = Regex.Matches(Regex.Replace(text, "[.,!?:;\"']", ""), @"\p{L}+");
-            var uniqueMatches = collection.OfType<Match>().Select(m => m.Value).Distinct(StringComparer.CurrentCultureIgnoreCase);
-            var result = new int[] { collection.Count, uniqueMatches.Count() };
-            collection = null;
-            uniqueMatches = null;
-            return result;
-		}
-
-        DataGridView dg = new DataGridView();
-		DataGridView dg1 = new DataGridView();
-		DataGridView dg2 = new DataGridView();
+        readonly DataGridView _dg = new DataGridView();
+        readonly DataGridView _dg1 = new DataGridView();
+        readonly DataGridView _dg2 = new DataGridView();
 
 		double[] x, y;
 		double[] avgX;
@@ -66,17 +42,7 @@ namespace VolosIndiv
 
 		int counter;
 
-        public static List<string> ProcessDirectory(string targetDirectory)
-        {
-            var fileEntries = Directory.GetFiles(targetDirectory).ToList();
-            // Recurse into subdirectories of this directory.
-            var subdirectoryEntries = Directory.GetDirectories(targetDirectory).ToList();
-            foreach (string subdirectory in subdirectoryEntries)
-                fileEntries.AddRange(ProcessDirectory(subdirectory));
-            return fileEntries;
-        }
-
-        private void button1_Click(object sender, EventArgs e)
+        private async void button1_Click(object sender, EventArgs e)
 		{
 			FolderBrowserDialog fbd = new FolderBrowserDialog();
 			DialogResult result = fbd.ShowDialog();
@@ -92,7 +58,7 @@ namespace VolosIndiv
             /// for subfolderstry
             try
 			{
-               fils = ProcessDirectory(fbd.SelectedPath);
+               fils = await ProcessDirectoryAsync(fbd.SelectedPath);
             }
 			catch(Exception ex)
 			{
@@ -126,13 +92,10 @@ namespace VolosIndiv
 			
             xList = new ArrayList(xlist.ToArray());
             yList = new ArrayList(ylist.ToArray());
-            for (int i = 0; i < xlist.Length; i++)
+            for (var i = 0; i < xlist.Length; i++)
             {
                 chart1.Series[0].Points.AddXY(xlist[i], ylist[i]);
-            }
-            for (int i = 0; i < xlist.Length; i++)
-            {
-                addToDg(Path.GetFileNameWithoutExtension(fils[i]), xlist[i], ylist[i]);
+                AddToDataGrid(Path.GetFileNameWithoutExtension(fils[i]), xlist[i], ylist[i]);
             }
 
             dataGridView1.Columns["Count"].ValueType = typeof(Int32);
@@ -145,12 +108,12 @@ namespace VolosIndiv
 			y = yList.ToArray(typeof(double)) as double[];
 
 
-			dg.ColumnCount = 6;
-			dg1.ColumnCount = 6;
-			dg2.ColumnCount = 6;
-			dg.Rows.Clear();
-			dg1.Rows.Clear();
-			dg2.Rows.Clear();
+			_dg.ColumnCount = 6;
+			_dg1.ColumnCount = 6;
+			_dg2.ColumnCount = 6;
+			_dg.Rows.Clear();
+			_dg1.Rows.Clear();
+			_dg2.Rows.Clear();
             double basePow = 0d;
             try { basePow = Convert.ToDouble(textBox2.Text); } 
             catch
@@ -182,7 +145,7 @@ namespace VolosIndiv
 				for (int i = 0; i < M; i++)
 				{
 					//MessageBox.Show($"AVG ITER = {i}; {x.Min() + i * step} - {x.Min() + (i + 1) * step}; Step = {step}");
-					dg.Rows.Add(i + 1, Convert.ToString(x.Min() + i * step) + " - " + Convert.ToString(x.Min() + (i + 1) * step), avgX[i], avgY[i], avgQuadY[i], textCount[i]);
+					_dg.Rows.Add(i + 1, Convert.ToString(x.Min() + i * step) + " - " + Convert.ToString(x.Min() + (i + 1) * step), avgX[i], avgY[i], avgQuadY[i], textCount[i]);
 				}
 
 				int step2 = (int)x.Length / M;
@@ -194,7 +157,7 @@ namespace VolosIndiv
 				{
 					stepN = i;
 					//MessageBox.Show($"AVG3 ITER = {i}; {x.Min() + i * step2} - {x.Min() + (i + 1) * step2}; Step = {step2}");
-					dg2.Rows.Add(Convert.ToString(i + 1), Convert.ToString(Math.Pow(basePow, stepN)) + " - " + Convert.ToString(Math.Pow(basePow, stepN + 1)), avgX[i], avgY[i], avgQuadY[i], textCount3[i]);
+					_dg2.Rows.Add(Convert.ToString(i + 1), Convert.ToString(Math.Pow(basePow, stepN)) + " - " + Convert.ToString(Math.Pow(basePow, stepN + 1)), avgX[i], avgY[i], avgQuadY[i], textCount3[i]);
 				}
 
                 int step1 = (int)x.Length / M;
@@ -204,144 +167,20 @@ namespace VolosIndiv
                 for (int i = 0; i < M; i++)
                 {
                     //MessageBox.Show($"AVG2 ITER = {i}; {x[i * step1]} - {x[(step1 * (i + 1) - 1)]}; Step = {step1}");
-                    dg1.Rows.Add(Convert.ToString(i + 1), Convert.ToString(x[i * step1]) + " - " + Convert.ToString(x[(step1 * (i + 1) - 1)]), avgX[i], avgY[i], avgQuadY[i], textCount2[i]);
+                    _dg1.Rows.Add(Convert.ToString(i + 1), Convert.ToString(x[i * step1]) + " - " + Convert.ToString(x[(step1 * (i + 1) - 1)]), avgX[i], avgY[i], avgQuadY[i], textCount2[i]);
                 }
 
 
-                if (radioButton1.Checked)
-				{
-					foreach (DataGridViewRow row in dg.Rows)
-					{
-						object[] items = new object[row.Cells.Count];
-						for (int i = 0; i < row.Cells.Count; i++)
-						{
-							items[i] = row.Cells[i].Value;
-						}
-						dataGridView2.Rows.Add(items);
-						dataGridView2.Update();
-						// dg.Rows.Remove(row);
-					}
-				}
-				else
-				{
-                    if (radioButton2.Checked)
-                    {
-                        foreach (DataGridViewRow row in dg1.Rows)
-                        {
-                            object[] items = new object[row.Cells.Count];
-                            for (int i = 0; i < row.Cells.Count; i++)
-                            {
-                                items[i] = row.Cells[i].Value;
-                            }
-                            dataGridView2.Rows.Add(items);
-                            dataGridView2.Update();
-                            // dg1.Rows.Remove(row);
-                        }
-                    }
-                    else
-                    {
-                        foreach (DataGridViewRow row in dg2.Rows)
-                        {
-                            object[] items = new object[row.Cells.Count];
-                            for (int i = 0; i < row.Cells.Count; i++)
-                            {
-                                items[i] = row.Cells[i].Value;
-                            }
-                            dataGridView2.Rows.Add(items);
-                            dataGridView2.Update();
-                            // dg1.Rows.Remove(row);
-                        }
-                    }
-				}
-
-
-			}
-		}
-
-		private void button2_Click(object sender, EventArgs e)
-		{
-			dataGridView1.Rows.Clear();
-			dataGridView2.Rows.Clear();
-			chart1.Series[0].Points.Clear();
-			label1.Text = "";
-			// textBox1.Text = "1";
-		}
-
-		private void button3_Click(object sender, EventArgs e)
-		{
-
-
-		}
-
-		private void button4_Click(object sender, EventArgs e)
-		{
-			SaveFileDialog saveFile1 = new SaveFileDialog();
-
-			saveFile1.DefaultExt = "*.txt";
-			saveFile1.Filter = "TXT Files|*.txt";
-			DataGridView dgv = new DataGridView();
-
-			//if (tabControl1.SelectedTab == tabControl1.TabPages["tabPage1"])
-			//	dgv = dataGridView2;
-			//else
-				dgv = dataGridView1;
-
-
-			if (saveFile1.ShowDialog() == System.Windows.Forms.DialogResult.OK &&
-			   saveFile1.FileName.Length > 0)
-			{
-
-				TextWriter sw = new StreamWriter(saveFile1.FileName);
-				for (int i = 0; i < dgv.Rows.Count; i++)
-				{
-					for (int j = 0; j < dgv.Columns.Count; j++)
-					{
-						if (dgv.Rows[i].Cells[j].Value == null) continue;
-						sw.Write(dgv.Rows[i].Cells[j].Value.ToString() + "\t");
-					}
-					sw.WriteLine("");
-				}
-				sw.Close();
-				MessageBox.Show("Дані збережено");
-			}
+                var selectedDataGrid = radioButton1.Checked ? _dg :
+                        radioButton2.Checked ? _dg1 : _dg2;
+                await UpdateDataGrid(selectedDataGrid);
+            }
 		}
 
 		private void Form1_Load(object sender, EventArgs e)
 		{
 			dataGridView1.ColumnCount = 3;                                                                                                                                                                                                                      //if (File.Exists("..//..//Properties//vini_vici_namaste.wav")){ try { new System.Media.SoundPlayer("..//..//Properties//vini_vici_namaste.wav").Play(); } catch (Exception) { } }//
         }
-
-		private void addToDg(string name, double count, double unique)
-		{
-			dataGridView1.Rows.Add(name, Convert.ToString(count), Convert.ToString(unique));
-		}
-
-		private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-		{
-
-		}
-
-		private void dataGridView1_SortCompare(object sender, DataGridViewSortCompareEventArgs e)
-		{
-            if (e.Column.Name == "Count" || e.Column.Name == "Unique")
-            {
-                int a, b;
-                if (!int.TryParse(e.CellValue1.ToString(), out a))
-                    a = 0;
-                if (!int.TryParse(e.CellValue2.ToString(), out b))
-                    b = 0;
-
-                e.SortResult = a.CompareTo(b);
-            }
-            else if (e.Column.Name == "NameDG")
-            {
-                e.SortResult = string.Compare(e.CellValue1.ToString(), e.CellValue2.ToString());
-            }
-
-            e.Handled = true;
-        }
-
-
 
 		private void avg(double[] x, double[] y, int M, out double[] L, out double[] V, out double[] dV, out int[] textCount)
 		{
@@ -522,20 +361,14 @@ namespace VolosIndiv
 			}
 		}
 
-		private void checkBox1_CheckedChanged(object sender, EventArgs e)
+		private async void button3_Click_1(object sender, EventArgs e)
 		{
-
-
-		}
-
-		private void button3_Click_1(object sender, EventArgs e)
-		{
-			dg.ColumnCount = 6;
-			dg1.ColumnCount = 6;
-			dg2.ColumnCount = 6;
-			dg.Rows.Clear();
-			dg1.Rows.Clear();
-			dg2.Rows.Clear();
+			_dg.ColumnCount = 6;
+			_dg1.ColumnCount = 6;
+			_dg2.ColumnCount = 6;
+			_dg.Rows.Clear();
+			_dg1.Rows.Clear();
+			_dg2.Rows.Clear();
 			dataGridView2.Rows.Clear();
 
 			int M = Convert.ToInt32(textBox1.Text);
@@ -573,7 +406,7 @@ namespace VolosIndiv
                 for (int i = 0; i < M; i++)
                 {
                     //MessageBox.Show($"AVG ITER = {i}; {x.Min() + i * step} - {x.Min() + (i + 1) * step}; Step = {step}");
-                    dg.Rows.Add(i + 1, Convert.ToString(x.Min() + i * step) + " - " + Convert.ToString(x.Min() + (i + 1) * step), avgX[i], avgY[i], avgQuadY[i], textCount[i]);
+                    _dg.Rows.Add(i + 1, Convert.ToString(x.Min() + i * step) + " - " + Convert.ToString(x.Min() + (i + 1) * step), avgX[i], avgY[i], avgQuadY[i], textCount[i]);
                 }
 
                 int step2 = (int)x.Length / M;
@@ -585,7 +418,7 @@ namespace VolosIndiv
                 {
                     stepN = i;
                     //MessageBox.Show($"AVG3 ITER = {i}; {x.Min() + i * step2} - {x.Min() + (i + 1) * step2}; Step = {step2}");
-                    dg2.Rows.Add(Convert.ToString(i + 1), Convert.ToString(Math.Pow(basePow, stepN)) + " - " + Convert.ToString(Math.Pow(basePow, stepN + 1)), avgX[i], avgY[i], avgQuadY[i], textCount3[i]);
+                    _dg2.Rows.Add(Convert.ToString(i + 1), Convert.ToString(Math.Pow(basePow, stepN)) + " - " + Convert.ToString(Math.Pow(basePow, stepN + 1)), avgX[i], avgY[i], avgQuadY[i], textCount3[i]);
                 }
 
                 int step1 = (int)x.Length / M;
@@ -595,57 +428,12 @@ namespace VolosIndiv
                 for (int i = 0; i < M; i++)
                 {
                     //MessageBox.Show($"AVG2 ITER = {i}; {x[i * step1]} - {x[(step1 * (i + 1) - 1)]}; Step = {step1}");
-                    dg1.Rows.Add(Convert.ToString(i + 1), Convert.ToString(x[i * step1]) + " - " + Convert.ToString(x[(step1 * (i + 1) - 1)]), avgX[i], avgY[i], avgQuadY[i], textCount2[i]);
+                    _dg1.Rows.Add(Convert.ToString(i + 1), Convert.ToString(x[i * step1]) + " - " + Convert.ToString(x[(step1 * (i + 1) - 1)]), avgX[i], avgY[i], avgQuadY[i], textCount2[i]);
                 }
 
-
-                if (radioButton1.Checked)
-                {
-                    foreach (DataGridViewRow row in dg.Rows)
-                    {
-                        object[] items = new object[row.Cells.Count];
-                        for (int i = 0; i < row.Cells.Count; i++)
-                        {
-                            items[i] = row.Cells[i].Value;
-                        }
-                        dataGridView2.Rows.Add(items);
-                        dataGridView2.Update();
-                        // dg.Rows.Remove(row);
-                    }
-                }
-                else
-                {
-                    if (radioButton2.Checked)
-                    {
-                        foreach (DataGridViewRow row in dg1.Rows)
-                        {
-                            object[] items = new object[row.Cells.Count];
-                            for (int i = 0; i < row.Cells.Count; i++)
-                            {
-                                items[i] = row.Cells[i].Value;
-                            }
-                            dataGridView2.Rows.Add(items);
-                            dataGridView2.Update();
-                            // dg1.Rows.Remove(row);
-                        }
-                    }
-                    else
-                    {
-                        foreach (DataGridViewRow row in dg2.Rows)
-                        {
-                            object[] items = new object[row.Cells.Count];
-                            for (int i = 0; i < row.Cells.Count; i++)
-                            {
-                                items[i] = row.Cells[i].Value;
-                            }
-                            dataGridView2.Rows.Add(items);
-                            dataGridView2.Update();
-                            // dg1.Rows.Remove(row);
-                        }
-                    }
-                }
-
-
+                var selectedDataGrid = radioButton1.Checked ? _dg :
+	                radioButton2.Checked ? _dg1 : _dg2;
+                await UpdateDataGrid(selectedDataGrid);
             }
 
             else
@@ -656,63 +444,9 @@ namespace VolosIndiv
             /////////////////
         }
 
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
-		{
+        
 
-			if (dataGridView2.Rows.Count > 2)
-			{
-				dataGridView2.Rows.Clear();
-				dg.ColumnCount = 6;
-				dg1.ColumnCount = 6;
-				dg2.ColumnCount = 6;
-
-
-				foreach (DataGridViewRow row in dg.Rows)
-				{
-					object[] items = new object[row.Cells.Count];
-					for (int i = 0; i < row.Cells.Count; i++)
-					{
-						items[i] = row.Cells[i].Value;
-					}
-					dataGridView2.Rows.Add(items);
-					dataGridView2.Update();
-					//dg.Rows.Remove(row);
-				}
-
-
-			}
-
-
-		}
-
-		private void radioButton2_CheckedChanged(object sender, EventArgs e)
-		{
-
-			if (dataGridView2.Rows.Count > 2)
-			{
-				dataGridView2.Rows.Clear();
-				dg.ColumnCount = 6;
-				dg1.ColumnCount = 6;
-				dg2.ColumnCount = 6;
-
-
-				foreach (DataGridViewRow row in dg1.Rows)
-				{
-					object[] items = new object[row.Cells.Count];
-					for (int i = 0; i < row.Cells.Count; i++)
-					{
-						items[i] = row.Cells[i].Value;
-					}
-					dataGridView2.Rows.Add(items);
-					dataGridView2.Update();
-					//dg1.Rows.Remove(row);
-				}
-			}
-
-
-		}
-
-		private void button5_Click(object sender, EventArgs e)
+		private async void button5_Click(object sender, EventArgs e)
 		{
 
 			ArrayList xList = new ArrayList();
@@ -754,10 +488,10 @@ namespace VolosIndiv
 			y = yList.ToArray(typeof(double)) as double[];
 
 
-			dg.ColumnCount = 5;
-			dg1.ColumnCount = 5;
-			dg.Rows.Clear();
-			dg1.Rows.Clear();
+			_dg.ColumnCount = 5;
+			_dg1.ColumnCount = 5;
+			_dg.Rows.Clear();
+			_dg1.Rows.Clear();
 
 
 			if (M < counter)
@@ -770,7 +504,7 @@ namespace VolosIndiv
 
 				for (int i = 0; i < M; i++)
 				{
-					dg.Rows.Add(i + 1, Convert.ToString(x.Min() + i * step) + " - " + Convert.ToString(x.Min() + (i + 1) * step), avgX[i], avgY[i], avgQuadY[i]);
+					_dg.Rows.Add(i + 1, Convert.ToString(x.Min() + i * step) + " - " + Convert.ToString(x.Min() + (i + 1) * step), avgX[i], avgY[i], avgQuadY[i]);
 				}
 
 
@@ -780,41 +514,12 @@ namespace VolosIndiv
 
 				for (int i = 0; i < M; i++)
 				{
-					dg1.Rows.Add(Convert.ToString(i + 1), Convert.ToString(x[i * step1]) + " - " + Convert.ToString(x[(step1 * (i + 1) - 1)]), avgX[i], avgY[i], avgQuadY[i]);
+					_dg1.Rows.Add(Convert.ToString(i + 1), Convert.ToString(x[i * step1]) + " - " + Convert.ToString(x[(step1 * (i + 1) - 1)]), avgX[i], avgY[i], avgQuadY[i]);
 				}
 
 
-
-				if (!radioButton1.Checked)
-				{
-					foreach (DataGridViewRow row in dg.Rows)
-					{
-						object[] items = new object[row.Cells.Count];
-						for (int i = 0; i < row.Cells.Count; i++)
-						{
-							items[i] = row.Cells[i].Value;
-						}
-						dataGridView2.Rows.Add(items);
-						dataGridView2.Update();
-						// dg.Rows.Remove(row);
-					}
-				}
-				else
-				{
-					foreach (DataGridViewRow row in dg.Rows)
-					{
-						object[] items = new object[row.Cells.Count];
-						for (int i = 0; i < row.Cells.Count; i++)
-						{
-							items[i] = row.Cells[i].Value;
-						}
-						dataGridView2.Rows.Add(items);
-						dataGridView2.Update();
-						// dg1.Rows.Remove(row);
-					}
-				}
-
-
+				
+				await UpdateDataGrid(_dg);
 			}
 
 			else
@@ -825,67 +530,7 @@ namespace VolosIndiv
 			/////////////////
 
 		}
-
-		private void radioButton3_CheckedChanged(object sender, EventArgs e)
-		{
-			if (dataGridView2.Rows.Count > 2)
-			{
-				dataGridView2.Rows.Clear();
-				dg.ColumnCount = 6;
-				dg1.ColumnCount = 6;
-				dg2.ColumnCount = 6;
-
-
-				foreach (DataGridViewRow row in dg2.Rows)
-				{
-					object[] items = new object[row.Cells.Count];
-					for (int i = 0; i < row.Cells.Count; i++)
-					{
-						items[i] = row.Cells[i].Value;
-					}
-					dataGridView2.Rows.Add(items);
-					dataGridView2.Update();
-					//dg1.Rows.Remove(row);
-				}
-			}
-
-
-		}
-
-        private void button6_Click(object sender, EventArgs e)
-        {
-            SaveFileDialog saveFile1 = new SaveFileDialog();
-
-            saveFile1.DefaultExt = "*.txt";
-            saveFile1.Filter = "TXT Files|*.txt";
-            DataGridView dgv = new DataGridView();
-
-            //if (tabControl1.SelectedTab == tabControl1.TabPages["tabPage1"])
-            dgv = dataGridView2;
-            //else
-            //dgv = dataGridView1;
-
-
-            if (saveFile1.ShowDialog() == System.Windows.Forms.DialogResult.OK &&
-               saveFile1.FileName.Length > 0)
-            {
-
-                TextWriter sw = new StreamWriter(saveFile1.FileName);
-                for (int i = 0; i < dgv.Rows.Count; i++)
-                {
-                    for (int j = 0; j < dgv.Columns.Count; j++)
-                    {
-                        if (j == 1 || dgv.Rows[i].Cells[j].Value == null) continue;
-                        sw.Write(dgv.Rows[i].Cells[j].Value.ToString() + "\t");
-                    }
-                    sw.WriteLine("");
-                }
-                sw.Close();
-                MessageBox.Show("Дані збережено");
-            }
-
-        }
-
+		
         private void button7_Click(object sender, EventArgs e)
         {
             double a = 1.1, b = 3d;
@@ -942,12 +587,7 @@ namespace VolosIndiv
             return regressionresult.CoefficientOfDetermination(avgXLog, avgQuadYLog);
         }
 
-        private void chart1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button8_Click(object sender, EventArgs e)
+        private async void button8_Click(object sender, EventArgs e)
 		{
             FolderBrowserDialog fbd = new FolderBrowserDialog();
             DialogResult result = fbd.ShowDialog();
@@ -962,7 +602,7 @@ namespace VolosIndiv
             int processedFiles = 0;
 			try
 			{
-				fils = ProcessDirectory(fbd.SelectedPath);
+				fils = await ProcessDirectoryAsync(fbd.SelectedPath);
 			}
 			catch(Exception ex)
 			{
@@ -1012,7 +652,7 @@ namespace VolosIndiv
             }
             for (int i = 0; i < xlist.Length; i++)
             {
-                addToDg(Path.GetFileNameWithoutExtension(fils[i]), xlist[i], ylist[i]);
+                AddToDataGrid(Path.GetFileNameWithoutExtension(fils[i]), xlist[i], ylist[i]);
             }
 
             dataGridView1.Columns["Count"].ValueType = typeof(Int32);
@@ -1025,12 +665,12 @@ namespace VolosIndiv
             y = yList.ToArray(typeof(double)) as double[];
 
 
-            dg.ColumnCount = 6;
-            dg1.ColumnCount = 6;
-            dg2.ColumnCount = 6;
-            dg.Rows.Clear();
-            dg1.Rows.Clear();
-            dg2.Rows.Clear();
+            _dg.ColumnCount = 6;
+            _dg1.ColumnCount = 6;
+            _dg2.ColumnCount = 6;
+            _dg.Rows.Clear();
+            _dg1.Rows.Clear();
+            _dg2.Rows.Clear();
             double basePow = 0d;
             try { basePow = Convert.ToDouble(textBox2.Text); }
             catch
@@ -1062,7 +702,7 @@ namespace VolosIndiv
                 for (int i = 0; i < M; i++)
                 {
                     //MessageBox.Show($"AVG ITER = {i}; {x.Min() + i * step} - {x.Min() + (i + 1) * step}; Step = {step}");
-                    dg.Rows.Add(i + 1, Convert.ToString(x.Min() + i * step) + " - " + Convert.ToString(x.Min() + (i + 1) * step), avgX[i], avgY[i], avgQuadY[i], textCount[i]);
+                    _dg.Rows.Add(i + 1, Convert.ToString(x.Min() + i * step) + " - " + Convert.ToString(x.Min() + (i + 1) * step), avgX[i], avgY[i], avgQuadY[i], textCount[i]);
                 }
 
                 int step2 = (int)x.Length / M;
@@ -1074,7 +714,7 @@ namespace VolosIndiv
                 {
                     stepN = i;
                     //MessageBox.Show($"AVG3 ITER = {i}; {x.Min() + i * step2} - {x.Min() + (i + 1) * step2}; Step = {step2}");
-                    dg2.Rows.Add(Convert.ToString(i + 1), Convert.ToString(Math.Pow(basePow, stepN)) + " - " + Convert.ToString(Math.Pow(basePow, stepN + 1)), avgX[i], avgY[i], avgQuadY[i], textCount3[i]);
+                    _dg2.Rows.Add(Convert.ToString(i + 1), Convert.ToString(Math.Pow(basePow, stepN)) + " - " + Convert.ToString(Math.Pow(basePow, stepN + 1)), avgX[i], avgY[i], avgQuadY[i], textCount3[i]);
                 }
 
                 int step1 = (int)x.Length / M;
@@ -1084,76 +724,18 @@ namespace VolosIndiv
                 for (int i = 0; i < M; i++)
                 {
                     //MessageBox.Show($"AVG2 ITER = {i}; {x[i * step1]} - {x[(step1 * (i + 1) - 1)]}; Step = {step1}");
-                    dg1.Rows.Add(Convert.ToString(i + 1), Convert.ToString(x[i * step1]) + " - " + Convert.ToString(x[(step1 * (i + 1) - 1)]), avgX[i], avgY[i], avgQuadY[i], textCount2[i]);
+                    _dg1.Rows.Add(Convert.ToString(i + 1), Convert.ToString(x[i * step1]) + " - " + Convert.ToString(x[(step1 * (i + 1) - 1)]), avgX[i], avgY[i], avgQuadY[i], textCount2[i]);
                 }
 
 
-                if (radioButton1.Checked)
-                {
-                    foreach (DataGridViewRow row in dg.Rows)
-                    {
-                        object[] items = new object[row.Cells.Count];
-                        for (int i = 0; i < row.Cells.Count; i++)
-                        {
-                            items[i] = row.Cells[i].Value;
-                        }
-                        dataGridView2.Rows.Add(items);
-                        dataGridView2.Update();
-                        // dg.Rows.Remove(row);
-                    }
-                }
-                else
-                {
-                    if (radioButton2.Checked)
-                    {
-                        foreach (DataGridViewRow row in dg1.Rows)
-                        {
-                            object[] items = new object[row.Cells.Count];
-                            for (int i = 0; i < row.Cells.Count; i++)
-                            {
-                                items[i] = row.Cells[i].Value;
-                            }
-                            dataGridView2.Rows.Add(items);
-                            dataGridView2.Update();
-                            // dg1.Rows.Remove(row);
-                        }
-                    }
-                    else
-                    {
-                        foreach (DataGridViewRow row in dg2.Rows)
-                        {
-                            object[] items = new object[row.Cells.Count];
-                            for (int i = 0; i < row.Cells.Count; i++)
-                            {
-                                items[i] = row.Cells[i].Value;
-                            }
-                            dataGridView2.Rows.Add(items);
-                            dataGridView2.Update();
-                            // dg1.Rows.Remove(row);
-                        }
-                    }
-                }
-
-
+                var selectedDataGrid = radioButton1.Checked ? _dg :
+	                radioButton2.Checked ? _dg1 : _dg2;
+                await UpdateDataGrid(selectedDataGrid);
             }
         }
 
-        private void fbd_FileOk(object sender, CancelEventArgs e)
-        {
 
-        }
-
-        private void saveFileDialog1_FileOk(object sender, CancelEventArgs e)
-        {
-
-        }
-
-        private void progressBar1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button5_Click_1(object sender, EventArgs e)
+        private async void button5_Click_1(object sender, EventArgs e)
 		{
 
 			ArrayList xList = new ArrayList();
@@ -1197,10 +779,10 @@ namespace VolosIndiv
 			y = yList.ToArray(typeof(double)) as double[];
 
 
-			dg.ColumnCount = 5;
-			dg1.ColumnCount = 5;
-			dg.Rows.Clear();
-			dg1.Rows.Clear();
+			_dg.ColumnCount = 5;
+			_dg1.ColumnCount = 5;
+			_dg.Rows.Clear();
+			_dg1.Rows.Clear();
 
 
 			if (M < counter)
@@ -1213,7 +795,7 @@ namespace VolosIndiv
 
 				for (int i = 0; i < M; i++)
 				{
-					dg.Rows.Add(i + 1, Convert.ToString(x.Min() + i * step) + " - " + Convert.ToString(x.Min() + (i + 1) * step), avgX[i], avgY[i], avgQuadY[i]);
+					_dg.Rows.Add(i + 1, Convert.ToString(x.Min() + i * step) + " - " + Convert.ToString(x.Min() + (i + 1) * step), avgX[i], avgY[i], avgQuadY[i]);
 				}
 
 
@@ -1223,41 +805,10 @@ namespace VolosIndiv
 
 				for (int i = 0; i < M; i++)
 				{
-					dg1.Rows.Add(Convert.ToString(i + 1), Convert.ToString(x[i * step1]) + " - " + Convert.ToString(x[(step1 * (i + 1) - 1)]), avgX[i], avgY[i], avgQuadY[i]);
+					_dg1.Rows.Add(Convert.ToString(i + 1), Convert.ToString(x[i * step1]) + " - " + Convert.ToString(x[(step1 * (i + 1) - 1)]), avgX[i], avgY[i], avgQuadY[i]);
 				}
-
-
-
-				if (!radioButton1.Checked)
-				{
-					foreach (DataGridViewRow row in dg.Rows)
-					{
-						object[] items = new object[row.Cells.Count];
-						for (int i = 0; i < row.Cells.Count; i++)
-						{
-							items[i] = row.Cells[i].Value;
-						}
-						dataGridView2.Rows.Add(items);
-						dataGridView2.Update();
-						// dg.Rows.Remove(row);
-					}
-				}
-				else
-				{
-					foreach (DataGridViewRow row in dg.Rows)
-					{
-						object[] items = new object[row.Cells.Count];
-						for (int i = 0; i < row.Cells.Count; i++)
-						{
-							items[i] = row.Cells[i].Value;
-						}
-						dataGridView2.Rows.Add(items);
-						dataGridView2.Update();
-						// dg1.Rows.Remove(row);
-					}
-				}
-
-
+				
+				await UpdateDataGrid(_dg);
 			}
 
 			else
@@ -1269,7 +820,164 @@ namespace VolosIndiv
 			/////////////////
 		}
 
+		#region UIHandlers Methods
 
+		private async void radioEqualLength_CheckedChanged(object sender, EventArgs e)
+		{
+			await RadioButtonCheckedChanged(_dg);
+		}
+
+		private async void radioDifferentLength_CheckedChanged(object sender, EventArgs e)
+		{
+			await RadioButtonCheckedChanged(_dg1);
+		}
+        
+		private async void radioGrowLength_CheckedChanged(object sender, EventArgs e)
+		{
+			await RadioButtonCheckedChanged(_dg2);
+		}
+		
+		private async void buttonSaveDictionaryFile_Click(object sender, EventArgs e)
+		{
+			await SaveSelectedFile(dataGridView1);
+		}
+
+		private async void buttonSaveBinningFile_Click(object sender, EventArgs e)
+		{
+			await SaveSelectedFile(dataGridView2);
+		}
+		
+		private void ClearButton_Click(object sender, EventArgs e)
+		{
+			dataGridView1.Rows.Clear();
+			dataGridView2.Rows.Clear();
+			chart1.Series[0].Points.Clear();
+			label1.Text = string.Empty;
+		}
+
+		private void dataGridView1_SortCompare(object sender, DataGridViewSortCompareEventArgs e)
+		{
+			switch (e.Column.Name)
+			{
+				case "Count":
+				case "Unique":
+				{
+					if (!int.TryParse(e.CellValue1.ToString(), out var a))
+						a = 0;
+					if (!int.TryParse(e.CellValue2.ToString(), out var b))
+						b = 0;
+
+					e.SortResult = a.CompareTo(b);
+					break;
+				}
+				case "NameDG":
+					e.SortResult = String.CompareOrdinal(e.CellValue1.ToString(), e.CellValue2.ToString());
+					break;
+			}
+			e.Handled = true;
+		}
+		#endregion
+
+		#region Private helper methods
+		
+		private void AddToDataGrid(string name, double count, double unique)
+		{
+			dataGridView1.Rows.Add(name, count.ToString(CultureInfo.InvariantCulture), unique.ToString(CultureInfo.InvariantCulture));
+		}
+		
+		private async Task RadioButtonCheckedChanged(DataGridView dataGrid)
+		{
+			if (dataGridView2.Rows.Count <= 2)
+				return;
+			dataGridView2.Rows.Clear();
+			_dg.ColumnCount = 6;
+			_dg1.ColumnCount = 6;
+			_dg2.ColumnCount = 6;
+
+			await UpdateDataGrid(_dg);
+		}
+
+		private async Task SaveSelectedFile(DataGridView dataGridView)
+		{
+			var saveFile = new SaveFileDialog();
+
+			saveFile.DefaultExt = "*.txt";
+			saveFile.Filter = "TXT Files|*.txt";
+			
+			if (saveFile.ShowDialog() != DialogResult.OK || saveFile.FileName.Length <= 0)
+				return;
+			
+			try
+			{
+				using (var sw = new StreamWriter(saveFile.FileName))
+				{
+					for (var i = 0; i < dataGridView.Rows.Count; i++)
+					{
+						for (var j = 0; j < dataGridView.Columns.Count; j++)
+						{
+							if (dataGridView.Rows[i].Cells[j].Value != null)
+							{
+								await sw.WriteAsync(dataGridView.Rows[i].Cells[j].Value.ToString() + "\t");
+							}
+						}
+						await sw.WriteLineAsync("");
+					}
+				}
+				MessageBox.Show("Дані збережено");
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show($"Помилка при збереженні файлу: {ex.Message}");
+			}
+		}
+		
+		private async Task UpdateDataGrid(DataGridView dataGrid)
+		{
+			foreach (DataGridViewRow row in dataGrid.Rows)
+			{
+				var items = new object[row.Cells.Count];
+				for (var i = 0; i < row.Cells.Count; i++)
+				{
+					items[i] = row.Cells[i].Value;
+				}
+				await AddRowAsync(dataGridView2, items);
+			}
+		}
+		private async Task AddRowAsync(DataGridView dataGridView, object[] items)
+		{
+			await Task.Run(() =>
+			{
+				dataGridView.Invoke(new Action(() =>
+				{
+					dataGridView.Rows.Add(items);
+					dataGridView.Update();
+				}));
+			});
+		}
+		
+		private static async Task<List<string>> ProcessDirectoryAsync(string targetDirectory)
+		{
+			var fileEntries = new List<string>();
+
+			var filesInTargetDirectory = await Task.Run(() => Directory.GetFiles(targetDirectory));
+			fileEntries.AddRange(filesInTargetDirectory);
+
+			var subdirectoryEntries = await Task.Run(() => Directory.GetDirectories(targetDirectory));
+			var subdirectoryTasks = subdirectoryEntries.Select(ProcessDirectoryAsync).ToList();
+	        
+			await Task.WhenAll(subdirectoryTasks);
+
+			foreach (var subdirectoryTask in subdirectoryTasks)
+			{
+				var filesInSubdirectory = await subdirectoryTask;
+				fileEntries.AddRange(filesInSubdirectory);
+			}
+
+			return fileEntries;
+		}
+		
+		#endregion
+		
 	}
 }
 
