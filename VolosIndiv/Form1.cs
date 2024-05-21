@@ -479,7 +479,7 @@ namespace VolosIndiv
 		        var uniqueSymbols = new HashSet<char>();
 		        foreach (var character in localText)
 		        {
-			        if (char.IsWhiteSpace(character)) continue;
+			        if (char.IsWhiteSpace(character) || (character == ' ' || character == '\t' || character == '\u00a0')) continue;
 			        length++;
 			        uniqueSymbols.Add(radioButtonCaseSensitive.Checked ? character : char.ToLower(character));
 		        }
