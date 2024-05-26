@@ -39,11 +39,6 @@ namespace VolosIndiv
         const string StolenRegexp_ss_or = "\\\\|\\||\"|{|}|\\(|\\)|\\[|\\]|=|\\+|_|~|!|@|#|\\$|…|%|\\^|&|\\*|№|:|,|\\.|\\?|;"; // same
         const string Endsigns = ",.?!;";
         
-        ParallelOptions parallelOptions = new ParallelOptions
-        {
-	        MaxDegreeOfParallelism = 100
-        };
-
 		double[] x, y;
 		double[] avgX;
 		double[] avgY;
@@ -435,22 +430,18 @@ namespace VolosIndiv
 			}
 			var xlist = new double[files.Count];
 			var ylist = new double[files.Count];
-			Parallel.For(1, 2, parallelOptions, nn =>
+			Parallel.ForEach(files, new ParallelOptions { MaxDegreeOfParallelism = 10 }, (file, state, index) =>
 			{
-				for (var i = 0; i < files.Count; i++)
+				var (rawText, unsignedText) = ProcessText(file);
+				if (!byWords)
 				{
-					
-					var (rawText, unsignedText) = ProcessText(files[i]);
-					if (!byWords)
-					{
-						xlist[i] = GetAllSymbolsCount(rawText);
-						ylist[i] = GetUniqueSymbolsCount(rawText);
-					}
-					else
-					{
-						xlist[i] = GetAllWordsCount(unsignedText);
-						ylist[i] = GetDictionaryCount(unsignedText);
-					}
+					xlist[index] = GetAllSymbolsCount(rawText);
+					ylist[index] = GetUniqueSymbolsCount(rawText);
+				}
+				else
+				{
+					xlist[index] = GetAllWordsCount(unsignedText);
+					ylist[index] = GetDictionaryCount(unsignedText);
 				}
 			});
 			var xList = new ArrayList(xlist.ToArray());
