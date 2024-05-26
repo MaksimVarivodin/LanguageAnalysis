@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
@@ -10,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows.Forms;
 
 
@@ -31,6 +33,16 @@ namespace VolosIndiv
         readonly DataGridView _dg = new DataGridView();
         readonly DataGridView _dg1 = new DataGridView();
         readonly DataGridView _dg2 = new DataGridView();
+        
+        // dont ask why ss, i have no fucking clue, i stole it while trying to repair the app written previously
+        const string StolenRegexp_ss = "\\|\"{}()[]=+_~!@#$…%^&*№:";
+        const string StolenRegexp_ss_or = "\\\\|\\||\"|{|}|\\(|\\)|\\[|\\]|=|\\+|_|~|!|@|#|\\$|…|%|\\^|&|\\*|№|:|,|\\.|\\?|;"; // same
+        const string Endsigns = ",.?!;";
+        
+        ParallelOptions parallelOptions = new ParallelOptions
+        {
+	        MaxDegreeOfParallelism = 100
+        };
 
 		double[] x, y;
 		double[] avgX;
@@ -400,6 +412,9 @@ namespace VolosIndiv
 		
 		private async Task OpenFolder(bool byWords)
 		{
+			label5.Text = "";
+			Stopwatch stopwatch = new Stopwatch();
+			stopwatch.Start();
 			var folderBrowserDialog = new FolderBrowserDialog();
 			folderBrowserDialog.ShowDialog();
 			label1.Text = "";
@@ -420,13 +435,24 @@ namespace VolosIndiv
 			}
 			var xlist = new double[files.Count];
 			var ylist = new double[files.Count];
-			for (var i = 0; i < files.Count; i++)
+			Parallel.For(1, 2, parallelOptions, nn =>
 			{
-				if (byWords)
-					await CountWordsAsync(files, xlist, ylist, i);
-				else
-					await CountSymbolsAsync(files, xlist, ylist, i);
-			}
+				for (var i = 0; i < files.Count; i++)
+				{
+					
+					var (rawText, unsignedText) = ProcessText(files[i]);
+					if (!byWords)
+					{
+						xlist[i] = GetAllSymbolsCount(rawText);
+						ylist[i] = GetUniqueSymbolsCount(rawText);
+					}
+					else
+					{
+						xlist[i] = GetAllWordsCount(unsignedText);
+						ylist[i] = GetDictionaryCount(unsignedText);
+					}
+				}
+			});
 			var xList = new ArrayList(xlist.ToArray());
 			var yList = new ArrayList(ylist.ToArray());
 			for (var i = 0; i < xlist.Length; i++)
@@ -439,6 +465,14 @@ namespace VolosIndiv
 			label1.Text = $"Кількість текстів = {counter}";
 
 			await SomeMagic(xList, yList);
+			stopwatch.Stop();
+			TimeSpan ts = stopwatch.Elapsed;
+
+			// Format and display the elapsed time
+			string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+				ts.Hours, ts.Minutes, ts.Seconds,
+				ts.Milliseconds / 10);
+			label5.Text += $"Time taken: {elapsedTime}";
 		}
 		
 		private async Task CountWordsAsync(List<string> files, double[] xlist, double[] ylist, int iterationNum)
@@ -476,12 +510,31 @@ namespace VolosIndiv
 		        }
 
 		        var length = 0;
-		        var uniqueSymbols = new HashSet<char>();
-		        foreach (var character in localText)
+		        var uniqueSymbols = new HashSet<string>();
+		        /*foreach (var character in localText)
 		        {
-			        if (char.IsWhiteSpace(character) || (character == ' ' || character == '\t' || character == '\u00a0')) continue;
-			        length++;
-			        uniqueSymbols.Add(radioButtonCaseSensitive.Checked ? character : char.ToLower(character));
+			        if (character != ' ')
+			        {
+				        length++;
+				        //uniqueSymbols.Add(char.ToLower(character));
+				        //uniqueSymbols.Add(char.ToLower(character));
+				        //uniqueSymbols.Add(radioButtonCaseSensitive.Checked ? character : char.ToLower(character));
+			        }
+		        }*/
+		        for (int i = 0; i < localText.Length; i++)
+		        {
+			       
+			        if (i - 1 < localText.Length)
+			        { 
+				        length++;
+				        var ch = localText[i];
+
+				        // we do NOT care about processing spaces
+				        if (ch != ' ')
+				        {
+					        uniqueSymbols.Add(ch.ToString().ToLower());
+				        }
+			        }
 		        }
 
 		        xlist[iterationNum] = length;
@@ -493,6 +546,194 @@ namespace VolosIndiv
 		        MessageBox.Show($"Error: {ex.Message}");
 	        }
         }
+        
+        private (string, string) ProcessText(string filename)
+		{
+		    string rawText;
+		    bool ignore_spaces = false, ignore_nlines = false, ignore_ends = false;
+
+		    using (var sr = new StreamReader(filename))
+		    {
+		        rawText = PreprocessWithRegex(sr.ReadToEnd());
+		    }
+
+		    var unsignedTextBuilder = new StringBuilder();
+		    var textAsRawBuilder = new StringBuilder();
+			var addedToRaw = false;
+
+		    for (int i = 0; i < rawText.Length; i++)
+		    {
+		        var symbol = rawText[i];
+		        if (!char.IsControl(symbol) || symbol == '\r' || symbol == '\n' || symbol == '\t')
+		        {
+		            if (char.IsLetterOrDigit(symbol))
+		            {
+						addedToRaw = true;
+
+
+		                textAsRawBuilder.Append(symbol);
+		                unsignedTextBuilder.Append(symbol);
+		                ignore_spaces = ignore_ends = ignore_nlines = false;
+		            }
+		            else if (!ignore_spaces && (symbol == ' ' || symbol == '\t' || symbol == '\u00a0'))
+		            {
+		                addedToRaw = true;
+
+		                textAsRawBuilder.Append(' ');
+		                unsignedTextBuilder.Append(' ');
+		                ignore_spaces = true;
+		                ignore_ends = false;
+		            }
+		            else if (symbol == '\n' && !ignore_nlines)
+		            {
+		                addedToRaw = true;
+
+		                textAsRawBuilder.Append(' ');
+		                unsignedTextBuilder.Append(' ');
+		                ignore_spaces = true;
+		                ignore_nlines = true;
+		                ignore_ends = false;
+		            }
+		            else if (StolenRegexp_ss.Contains(symbol))
+		            {
+		                addedToRaw = true;
+		                textAsRawBuilder.Append(symbol);
+		            }
+		            else if (symbol == '-')
+		            {
+		                if (i != 0 && i != rawText.Length - 1)
+		                {
+		                    if (char.IsLetter(rawText[i - 1]) && char.IsLetter(rawText[i + 1]))
+		                    {
+		                        addedToRaw = true;
+		                        textAsRawBuilder.Append(symbol);
+		                        unsignedTextBuilder.Append(symbol);
+		                    }
+		                }
+		            }
+		            else if (symbol == '`' || symbol == '\'' || symbol == '’' || symbol == 'ʼ')
+		            {
+		                addedToRaw = true;
+		                textAsRawBuilder.Append('\'');
+		                if (i != 0 && i != rawText.Length - 1)
+		                {
+		                    if (char.IsLetter(rawText[i - 1]) && char.IsLetter(rawText[i + 1]))
+							{
+		                        unsignedTextBuilder.Append('\'');
+		                    }
+		                }
+		            }
+		            else if (Endsigns.Contains(symbol) && !ignore_ends)
+		            {
+						textAsRawBuilder.Append(symbol);
+		                addedToRaw = true;
+		                ignore_ends = true;
+		            }
+		            if (!addedToRaw && symbol != '\r' && symbol != '\n' && symbol != ' ')
+		            {
+		                textAsRawBuilder.Append(symbol);
+		            }
+					addedToRaw = false;
+		        }
+		    }
+
+			var textAsRaw = textAsRawBuilder.ToString();
+			var unsignedText = unsignedTextBuilder.ToString();
+
+			return (textAsRaw, unsignedText);
+		}
+        
+		private string PreprocessWithRegex(string text)
+		{
+			Regex reg_exp = new Regex("(" + StolenRegexp_ss_or + ")--");
+			text = reg_exp.Replace(text, "--");
+
+			reg_exp = new Regex("--(" + StolenRegexp_ss_or + ")");
+			text = reg_exp.Replace(text, "--");
+
+			reg_exp = new Regex(@"(?<=(\w))--(?=(\w))");
+			text = reg_exp.Replace(text, " ");
+
+			return text;
+		}
+		
+		private int GetAllSymbolsCount(string text)
+		{
+			// do NOT count spaces
+			return text.Where(symbol => symbol != ' ').Count(); // text.Length;
+		}
+
+		private int GetUniqueSymbolsCount(string text)
+		{
+			var uniqueSymbols = new HashSet<string>();
+
+			for (int i = 0; i < text.Length; i++)
+			{
+				if (i - 1 < text.Length)
+				{ 
+					var ch = text[i];
+
+					// we do NOT care about processing spaces
+					if (ch != ' ')
+					{
+						uniqueSymbols.Add(ch.ToString().ToLower());
+					}
+				}
+			}
+
+			return uniqueSymbols.Count;
+		}
+		
+		private int GetAllWordsCount(string text)
+		{
+			var parsedWords = text
+				.Split(new char[] { ' ' }, StringSplitOptions.None)
+				.ToList();
+
+			var lastWord = parsedWords.Last();
+
+			if (lastWord == string.Empty)
+			{
+				parsedWords.Remove(lastWord);
+			}
+
+			return parsedWords.Count;
+		}
+
+		private int GetDictionaryCount(string text)
+		{
+			var words = text
+				.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+				.ToArray();
+
+			var uniqueWords = new HashSet<string>();
+
+			for (int j = 0; j < words.Length; j++)
+			{
+				var ngramBuilder = new StringBuilder();
+				var word = words[j];
+
+				if (word.Length > 1 && Endsigns.Contains(word[word.Length - 1]))
+					word = word.Remove(word.Length - 1);
+
+				if (ngramBuilder.Length == 0)
+				{
+					ngramBuilder.Append(word);
+				}
+				else if (!Endsigns.Contains(ngramBuilder[ngramBuilder.Length - 1]))
+				{
+					ngramBuilder.Append($" {word}");
+				}
+				else
+				{
+					throw new Exception("err parsing");
+				}
+
+				uniqueWords.Add(ngramBuilder.ToString().ToLower());
+			}
+
+			return uniqueWords.Count;
+		}
 
         private async Task SomeMagic(ArrayList xList, ArrayList yList)
         {
