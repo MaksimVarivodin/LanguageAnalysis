@@ -880,23 +880,31 @@ namespace VolosIndiv
 		
 		private static async Task<List<string>> ProcessDirectoryAsync(string targetDirectory)
 		{
-			var fileEntries = new List<string>();
-
-			var filesInTargetDirectory = await Task.Run(() => Directory.GetFiles(targetDirectory));
-			fileEntries.AddRange(filesInTargetDirectory);
-
-			var subdirectoryEntries = await Task.Run(() => Directory.GetDirectories(targetDirectory));
-			var subdirectoryTasks = subdirectoryEntries.Select(ProcessDirectoryAsync).ToList();
-	        
-			await Task.WhenAll(subdirectoryTasks);
-
-			foreach (var subdirectoryTask in subdirectoryTasks)
+			try
 			{
-				var filesInSubdirectory = await subdirectoryTask;
-				fileEntries.AddRange(filesInSubdirectory);
-			}
+				var fileEntries = new List<string>();
 
-			return fileEntries;
+				var filesInTargetDirectory = await Task.Run(() => Directory.GetFiles(targetDirectory));
+				fileEntries.AddRange(filesInTargetDirectory);
+
+				var subdirectoryEntries = await Task.Run(() => Directory.GetDirectories(targetDirectory));
+				var subdirectoryTasks = subdirectoryEntries.Select(ProcessDirectoryAsync).ToList();
+
+				await Task.WhenAll(subdirectoryTasks);
+
+				foreach (var subdirectoryTask in subdirectoryTasks)
+				{
+					var filesInSubdirectory = await subdirectoryTask;
+					fileEntries.AddRange(filesInSubdirectory);
+				}
+
+				return fileEntries;
+			}
+			catch (Exception e)
+			{
+				MessageBox.Show("Error loading directory");
+				throw;
+			}
 		}
 		
 		private double GetLogLinearRegression(double basePow)
