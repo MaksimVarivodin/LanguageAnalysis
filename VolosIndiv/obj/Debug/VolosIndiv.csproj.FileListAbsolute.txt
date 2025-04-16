@@ -248,6 +248,94 @@ C:\Users\DenysKorpan\Desktop\++V(L)binning2023_1Куриця6\+V(L)binning_Ку�
 C:\Users\DenysKorpan\Desktop\++V(L)binning2023_1Куриця6\+V(L)binning_Куриця6\VolosIndiv\obj\Debug\VolosIndiv.Properties.Resources.resources
 C:\Users\DenysKorpan\Desktop\++V(L)binning2023_1Куриця6\+V(L)binning_Куриця6\VolosIndiv\obj\Debug\VolosIndiv.csproj.GenerateResource.cache
 C:\Users\DenysKorpan\Desktop\++V(L)binning2023_1Куриця6\+V(L)binning_Куриця6\VolosIndiv\obj\Debug\VolosIndiv.csproj.CoreCompileInputs.cache
-C:\Users\DenysKorpan\Desktop\++V(L)binning2023_1Куриця6\+V(L)binning_Куриця6\VolosIndiv\obj\Debug\VolosIndiv.csproj.Up2Date
 C:\Users\DenysKorpan\Desktop\++V(L)binning2023_1Куриця6\+V(L)binning_Куриця6\VolosIndiv\obj\Debug\VolosIndiv.exe
 C:\Users\DenysKorpan\Desktop\++V(L)binning2023_1Куриця6\+V(L)binning_Куриця6\VolosIndiv\obj\Debug\VolosIndiv.pdb
+C:\Users\DenysKorpan\Desktop\++V(L)binning2023_1Куриця6\+V(L)binning_Куриця6\VolosIndiv\obj\Debug\VolosIndiv.csproj.CopyComplete
+C:\Users\mykhailo\Desktop\+V(L)binning_Куриця6Корпан2\+V(L)binning_èπα¿µ∩6\VolosIndiv\bin\Debug\Accord.dll.config
+C:\Users\mykhailo\Desktop\+V(L)binning_Куриця6Корпан2\+V(L)binning_èπα¿µ∩6\VolosIndiv\bin\Debug\VolosIndiv.exe.config
+C:\Users\mykhailo\Desktop\+V(L)binning_Куриця6Корпан2\+V(L)binning_èπα¿µ∩6\VolosIndiv\bin\Debug\VolosIndiv.exe
+C:\Users\mykhailo\Desktop\+V(L)binning_Куриця6Корпан2\+V(L)binning_èπα¿µ∩6\VolosIndiv\bin\Debug\VolosIndiv.pdb
+C:\Users\mykhailo\Desktop\+V(L)binning_Куриця6Корпан2\+V(L)binning_èπα¿µ∩6\VolosIndiv\bin\Debug\Accord.dll
+C:\Users\mykhailo\Desktop\+V(L)binning_Куриця6Корпан2\+V(L)binning_èπα¿µ∩6\VolosIndiv\bin\Debug\Accord.Math.Core.dll
+C:\Users\mykhailo\Desktop\+V(L)binning_Куриця6Корпан2\+V(L)binning_èπα¿µ∩6\VolosIndiv\bin\Debug\Accord.Math.dll
+C:\Users\mykhailo\Desktop\+V(L)binning_Куриця6Корпан2\+V(L)binning_èπα¿µ∩6\VolosIndiv\bin\Debug\Accord.Statistics.dll
+C:\Users\mykhailo\Desktop\+V(L)binning_Куриця6Корпан2\+V(L)binning_èπα¿µ∩6\VolosIndiv\bin\Debug\Accord.xml
+C:\Users\mykhailo\Desktop\+V(L)binning_Куриця6Корпан2\+V(L)binning_èπα¿µ∩6\VolosIndiv\bin\Debug\Accord.Math.xml
+C:\Users\mykhailo\Desktop\+V(L)binning_Куриця6Корпан2\+V(L)binning_èπα¿µ∩6\VolosIndiv\bin\Debug\Accord.Math.Core.xml
+C:\Users\mykhailo\Desktop\+V(L)binning_Куриця6Корпан2\+V(L)binning_èπα¿µ∩6\VolosIndiv\bin\Debug\Accord.Statistics.xml
+C:\Users\mykhailo\Desktop\+V(L)binning_Куриця6Корпан2\+V(L)binning_èπα¿µ∩6\VolosIndiv\obj\Debug\VolosIndiv.csproj.AssemblyReference.cache
+C:\Users\mykhailo\Desktop\+V(L)binning_Куриця6Корпан2\+V(L)binning_èπα¿µ∩6\VolosIndiv\obj\Debug\Interop.WMPLib.dll
+C:\Users\mykhailo\Desktop\+V(L)binning_Куриця6Корпан2\+V(L)binning_èπα¿µ∩6\VolosIndiv\obj\Debug\VolosIndiv.csproj.ResolveComReference.cache
+C:\Users\mykhailo\Desktop\+V(L)binning_Куриця6Корпан2\+V(L)binning_èπα¿µ∩6\VolosIndiv\obj\Debug\VolosIndiv.Form1.resources
+C:\Users\mykhailo\Desktop\+V(L)binning_Куриця6Корпан2\+V(L)binning_èπα¿µ∩6\VolosIndiv\obj\Debug\VolosIndiv.Properties.Resources.resources
+C:\Users\mykhailo\Desktop\+V(L)binning_Куриця6Корпан2\+V(L)binning_èπα¿µ∩6\VolosIndiv\obj\Debug\VolosIndiv.csproj.GenerateResource.cache
+C:\Users\mykhailo\Desktop\+V(L)binning_Куриця6Корпан2\+V(L)binning_èπα¿µ∩6\VolosIndiv\obj\Debug\VolosIndiv.csproj.CoreCompileInputs.cache
+C:\Users\mykhailo\Desktop\+V(L)binning_Куриця6Корпан2\+V(L)binning_èπα¿µ∩6\VolosIndiv\obj\Debug\VolosIndiv.csproj.Up2Date
+C:\Users\mykhailo\Desktop\+V(L)binning_Куриця6Корпан2\+V(L)binning_èπα¿µ∩6\VolosIndiv\obj\Debug\VolosIndiv.exe
+C:\Users\mykhailo\Desktop\+V(L)binning_Куриця6Корпан2\+V(L)binning_èπα¿µ∩6\VolosIndiv\obj\Debug\VolosIndiv.pdb
+C:\Users\mykhailo\Desktop\New folder\+V(L)binning_Kovalskyi\VolosIndiv\bin\Debug\Accord.dll.config
+C:\Users\mykhailo\Desktop\New folder\+V(L)binning_Kovalskyi\VolosIndiv\bin\Debug\VolosIndiv.exe.config
+C:\Users\mykhailo\Desktop\New folder\+V(L)binning_Kovalskyi\VolosIndiv\bin\Debug\VolosIndiv.exe
+C:\Users\mykhailo\Desktop\New folder\+V(L)binning_Kovalskyi\VolosIndiv\bin\Debug\VolosIndiv.pdb
+C:\Users\mykhailo\Desktop\New folder\+V(L)binning_Kovalskyi\VolosIndiv\bin\Debug\Accord.dll
+C:\Users\mykhailo\Desktop\New folder\+V(L)binning_Kovalskyi\VolosIndiv\bin\Debug\Accord.Math.Core.dll
+C:\Users\mykhailo\Desktop\New folder\+V(L)binning_Kovalskyi\VolosIndiv\bin\Debug\Accord.Math.dll
+C:\Users\mykhailo\Desktop\New folder\+V(L)binning_Kovalskyi\VolosIndiv\bin\Debug\Accord.Statistics.dll
+C:\Users\mykhailo\Desktop\New folder\+V(L)binning_Kovalskyi\VolosIndiv\bin\Debug\Accord.xml
+C:\Users\mykhailo\Desktop\New folder\+V(L)binning_Kovalskyi\VolosIndiv\bin\Debug\Accord.Math.xml
+C:\Users\mykhailo\Desktop\New folder\+V(L)binning_Kovalskyi\VolosIndiv\bin\Debug\Accord.Math.Core.xml
+C:\Users\mykhailo\Desktop\New folder\+V(L)binning_Kovalskyi\VolosIndiv\bin\Debug\Accord.Statistics.xml
+C:\Users\mykhailo\Desktop\New folder\+V(L)binning_Kovalskyi\VolosIndiv\obj\Debug\VolosIndiv.csproj.AssemblyReference.cache
+C:\Users\mykhailo\Desktop\New folder\+V(L)binning_Kovalskyi\VolosIndiv\obj\Debug\Interop.WMPLib.dll
+C:\Users\mykhailo\Desktop\New folder\+V(L)binning_Kovalskyi\VolosIndiv\obj\Debug\VolosIndiv.csproj.ResolveComReference.cache
+C:\Users\mykhailo\Desktop\New folder\+V(L)binning_Kovalskyi\VolosIndiv\obj\Debug\VolosIndiv.Form1.resources
+C:\Users\mykhailo\Desktop\New folder\+V(L)binning_Kovalskyi\VolosIndiv\obj\Debug\VolosIndiv.Properties.Resources.resources
+C:\Users\mykhailo\Desktop\New folder\+V(L)binning_Kovalskyi\VolosIndiv\obj\Debug\VolosIndiv.csproj.GenerateResource.cache
+C:\Users\mykhailo\Desktop\New folder\+V(L)binning_Kovalskyi\VolosIndiv\obj\Debug\VolosIndiv.csproj.CoreCompileInputs.cache
+C:\Users\mykhailo\Desktop\New folder\+V(L)binning_Kovalskyi\VolosIndiv\obj\Debug\VolosIndiv.csproj.Up2Date
+C:\Users\mykhailo\Desktop\New folder\+V(L)binning_Kovalskyi\VolosIndiv\obj\Debug\VolosIndiv.exe
+C:\Users\mykhailo\Desktop\New folder\+V(L)binning_Kovalskyi\VolosIndiv\obj\Debug\VolosIndiv.pdb
+C:\Users\Maksym\Downloads\Telegram Desktop\++V(L)binning2024Ковальський3\++V(L)binning2024Ковальський3\VolosIndiv\bin\Debug\Accord.dll.config
+C:\Users\Maksym\Downloads\Telegram Desktop\++V(L)binning2024Ковальський3\++V(L)binning2024Ковальський3\VolosIndiv\bin\Debug\VolosIndiv.exe.config
+C:\Users\Maksym\Downloads\Telegram Desktop\++V(L)binning2024Ковальський3\++V(L)binning2024Ковальський3\VolosIndiv\bin\Debug\VolosIndiv.exe
+C:\Users\Maksym\Downloads\Telegram Desktop\++V(L)binning2024Ковальський3\++V(L)binning2024Ковальський3\VolosIndiv\bin\Debug\VolosIndiv.pdb
+C:\Users\Maksym\Downloads\Telegram Desktop\++V(L)binning2024Ковальський3\++V(L)binning2024Ковальський3\VolosIndiv\bin\Debug\Accord.dll
+C:\Users\Maksym\Downloads\Telegram Desktop\++V(L)binning2024Ковальський3\++V(L)binning2024Ковальський3\VolosIndiv\bin\Debug\Accord.Math.Core.dll
+C:\Users\Maksym\Downloads\Telegram Desktop\++V(L)binning2024Ковальський3\++V(L)binning2024Ковальський3\VolosIndiv\bin\Debug\Accord.Math.dll
+C:\Users\Maksym\Downloads\Telegram Desktop\++V(L)binning2024Ковальський3\++V(L)binning2024Ковальський3\VolosIndiv\bin\Debug\Accord.Statistics.dll
+C:\Users\Maksym\Downloads\Telegram Desktop\++V(L)binning2024Ковальський3\++V(L)binning2024Ковальський3\VolosIndiv\bin\Debug\Accord.xml
+C:\Users\Maksym\Downloads\Telegram Desktop\++V(L)binning2024Ковальський3\++V(L)binning2024Ковальський3\VolosIndiv\bin\Debug\Accord.Math.xml
+C:\Users\Maksym\Downloads\Telegram Desktop\++V(L)binning2024Ковальський3\++V(L)binning2024Ковальський3\VolosIndiv\bin\Debug\Accord.Math.Core.xml
+C:\Users\Maksym\Downloads\Telegram Desktop\++V(L)binning2024Ковальський3\++V(L)binning2024Ковальський3\VolosIndiv\bin\Debug\Accord.Statistics.xml
+C:\Users\Maksym\Downloads\Telegram Desktop\++V(L)binning2024Ковальський3\++V(L)binning2024Ковальський3\VolosIndiv\obj\Debug\VolosIndiv.csproj.AssemblyReference.cache
+C:\Users\Maksym\Downloads\Telegram Desktop\++V(L)binning2024Ковальський3\++V(L)binning2024Ковальський3\VolosIndiv\obj\Debug\Interop.WMPLib.dll
+C:\Users\Maksym\Downloads\Telegram Desktop\++V(L)binning2024Ковальський3\++V(L)binning2024Ковальський3\VolosIndiv\obj\Debug\VolosIndiv.csproj.ResolveComReference.cache
+C:\Users\Maksym\Downloads\Telegram Desktop\++V(L)binning2024Ковальський3\++V(L)binning2024Ковальський3\VolosIndiv\obj\Debug\VolosIndiv.Form1.resources
+C:\Users\Maksym\Downloads\Telegram Desktop\++V(L)binning2024Ковальський3\++V(L)binning2024Ковальський3\VolosIndiv\obj\Debug\VolosIndiv.Properties.Resources.resources
+C:\Users\Maksym\Downloads\Telegram Desktop\++V(L)binning2024Ковальський3\++V(L)binning2024Ковальський3\VolosIndiv\obj\Debug\VolosIndiv.csproj.GenerateResource.cache
+C:\Users\Maksym\Downloads\Telegram Desktop\++V(L)binning2024Ковальський3\++V(L)binning2024Ковальський3\VolosIndiv\obj\Debug\VolosIndiv.csproj.CoreCompileInputs.cache
+C:\Users\Maksym\Downloads\Telegram Desktop\++V(L)binning2024Ковальський3\++V(L)binning2024Ковальський3\VolosIndiv\obj\Debug\VolosIndiv.csproj.Up2Date
+C:\Users\Maksym\Downloads\Telegram Desktop\++V(L)binning2024Ковальський3\++V(L)binning2024Ковальський3\VolosIndiv\obj\Debug\VolosIndiv.exe
+C:\Users\Maksym\Downloads\Telegram Desktop\++V(L)binning2024Ковальський3\++V(L)binning2024Ковальський3\VolosIndiv\obj\Debug\VolosIndiv.pdb
+C:\Users\Maksym\Projects\ОПМ\++V(L)binning2024Ковальський3\VolosIndiv\bin\Debug\Accord.dll.config
+C:\Users\Maksym\Projects\ОПМ\++V(L)binning2024Ковальський3\VolosIndiv\bin\Debug\VolosIndiv.exe.config
+C:\Users\Maksym\Projects\ОПМ\++V(L)binning2024Ковальський3\VolosIndiv\bin\Debug\VolosIndiv.exe
+C:\Users\Maksym\Projects\ОПМ\++V(L)binning2024Ковальський3\VolosIndiv\bin\Debug\VolosIndiv.pdb
+C:\Users\Maksym\Projects\ОПМ\++V(L)binning2024Ковальський3\VolosIndiv\bin\Debug\Accord.dll
+C:\Users\Maksym\Projects\ОПМ\++V(L)binning2024Ковальський3\VolosIndiv\bin\Debug\Accord.Math.Core.dll
+C:\Users\Maksym\Projects\ОПМ\++V(L)binning2024Ковальський3\VolosIndiv\bin\Debug\Accord.Math.dll
+C:\Users\Maksym\Projects\ОПМ\++V(L)binning2024Ковальський3\VolosIndiv\bin\Debug\Accord.Statistics.dll
+C:\Users\Maksym\Projects\ОПМ\++V(L)binning2024Ковальський3\VolosIndiv\bin\Debug\Accord.xml
+C:\Users\Maksym\Projects\ОПМ\++V(L)binning2024Ковальський3\VolosIndiv\bin\Debug\Accord.Math.xml
+C:\Users\Maksym\Projects\ОПМ\++V(L)binning2024Ковальський3\VolosIndiv\bin\Debug\Accord.Math.Core.xml
+C:\Users\Maksym\Projects\ОПМ\++V(L)binning2024Ковальський3\VolosIndiv\bin\Debug\Accord.Statistics.xml
+C:\Users\Maksym\Projects\ОПМ\++V(L)binning2024Ковальський3\VolosIndiv\obj\Debug\VolosIndiv.csproj.AssemblyReference.cache
+C:\Users\Maksym\Projects\ОПМ\++V(L)binning2024Ковальський3\VolosIndiv\obj\Debug\Interop.WMPLib.dll
+C:\Users\Maksym\Projects\ОПМ\++V(L)binning2024Ковальський3\VolosIndiv\obj\Debug\VolosIndiv.csproj.ResolveComReference.cache
+C:\Users\Maksym\Projects\ОПМ\++V(L)binning2024Ковальський3\VolosIndiv\obj\Debug\VolosIndiv.Form1.resources
+C:\Users\Maksym\Projects\ОПМ\++V(L)binning2024Ковальський3\VolosIndiv\obj\Debug\VolosIndiv.Properties.Resources.resources
+C:\Users\Maksym\Projects\ОПМ\++V(L)binning2024Ковальський3\VolosIndiv\obj\Debug\VolosIndiv.csproj.GenerateResource.cache
+C:\Users\Maksym\Projects\ОПМ\++V(L)binning2024Ковальський3\VolosIndiv\obj\Debug\VolosIndiv.csproj.CoreCompileInputs.cache
+C:\Users\Maksym\Projects\ОПМ\++V(L)binning2024Ковальський3\VolosIndiv\obj\Debug\VolosIndiv.csproj.Up2Date
+C:\Users\Maksym\Projects\ОПМ\++V(L)binning2024Ковальський3\VolosIndiv\obj\Debug\VolosIndiv.exe
+C:\Users\Maksym\Projects\ОПМ\++V(L)binning2024Ковальський3\VolosIndiv\obj\Debug\VolosIndiv.pdb
