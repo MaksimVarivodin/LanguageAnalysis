@@ -33,7 +33,7 @@
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.countByWordsButton = new System.Windows.Forms.Button();
             this.fbd = new System.Windows.Forms.OpenFileDialog();
-            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.saveFiles = new System.Windows.Forms.SaveFileDialog();
             this.clearButton = new System.Windows.Forms.Button();
             this.textsAnalyzedLabel = new System.Windows.Forms.Label();
             this.updateButton = new System.Windows.Forms.Button();
@@ -42,31 +42,32 @@
             this.growingLengthRadio = new System.Windows.Forms.RadioButton();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.button7 = new System.Windows.Forms.Button();
+            this.expBinningSearchButton = new System.Windows.Forms.Button();
             this.countBySymbolsButton = new System.Windows.Forms.Button();
-            this.label5 = new System.Windows.Forms.Label();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.label6 = new System.Windows.Forms.Label();
+            this.elapsedTimeLabel = new System.Windows.Forms.Label();
+            this.ignoreRegexCheckbox = new System.Windows.Forms.CheckBox();
+            this.includingSpaces = new System.Windows.Forms.CheckBox();
+            this.folderLabel = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.binQuantityUpDown = new System.Windows.Forms.NumericUpDown();
             this.powAUpDown = new System.Windows.Forms.NumericUpDown();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.binningGridView = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RightBorder = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dictionaryGridView = new System.Windows.Forms.DataGridView();
             this.NameDG = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Count = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Unique = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.parsingResultsChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
@@ -84,11 +85,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.powAUpDown)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.binningGridView)).BeginInit();
             this.tabPage3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dictionaryGridView)).BeginInit();
             this.tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.parsingResultsChart)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -103,18 +104,13 @@
             this.countByWordsButton.Name = "countByWordsButton";
             this.countByWordsButton.Size = new System.Drawing.Size(194, 30);
             this.countByWordsButton.TabIndex = 0;
-            this.countByWordsButton.Text = "Послівно";
+            this.countByWordsButton.Text = "Слова";
             this.countByWordsButton.UseVisualStyleBackColor = true;
-            this.countByWordsButton.Click += new System.EventHandler(this.button1_Click);
+            this.countByWordsButton.Click += new System.EventHandler(this.countByWordsClick);
             // 
             // fbd
             // 
             this.fbd.AddExtension = false;
-            this.fbd.FileOk += new System.ComponentModel.CancelEventHandler(this.fbd_FileOk);
-            // 
-            // saveFileDialog1
-            // 
-            this.saveFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.saveFileDialog1_FileOk);
             // 
             // clearButton
             // 
@@ -126,7 +122,7 @@
             this.clearButton.TabIndex = 2;
             this.clearButton.Text = "Очистити";
             this.clearButton.UseVisualStyleBackColor = true;
-            this.clearButton.Click += new System.EventHandler(this.ClearButton_Click);
+            this.clearButton.Click += new System.EventHandler(this.clearButtonClick);
             // 
             // textsAnalyzedLabel
             // 
@@ -150,7 +146,7 @@
             this.updateButton.TabIndex = 9;
             this.updateButton.Text = "Оновити";
             this.updateButton.UseVisualStyleBackColor = true;
-            this.updateButton.Click += new System.EventHandler(this.button3_Click_1);
+            this.updateButton.Click += new System.EventHandler(this.updateButtonClick);
             // 
             // equalLengthRadio
             // 
@@ -203,7 +199,6 @@
             this.label2.Size = new System.Drawing.Size(136, 18);
             this.label2.TabIndex = 16;
             this.label2.Text = "Основа степеня А";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // label3
             // 
@@ -212,22 +207,21 @@
             this.label3.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label3.Location = new System.Drawing.Point(9, 320);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(192, 18);
+            this.label3.Size = new System.Drawing.Size(128, 18);
             this.label3.TabIndex = 17;
-            this.label3.Text = "Кількість корзин(бінів)";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
+            this.label3.Text = "Кількість бінів";
             // 
-            // button7
+            // expBinningSearchButton
             // 
-            this.button7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.button7.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button7.Location = new System.Drawing.Point(9, 455);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(216, 75);
-            this.button7.TabIndex = 20;
-            this.button7.Text = "Основа експоненційного бінування";
-            this.button7.UseVisualStyleBackColor = true;
-            this.button7.Click += new System.EventHandler(this.button7_Click);
+            this.expBinningSearchButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.expBinningSearchButton.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.expBinningSearchButton.Location = new System.Drawing.Point(9, 455);
+            this.expBinningSearchButton.Name = "expBinningSearchButton";
+            this.expBinningSearchButton.Size = new System.Drawing.Size(216, 75);
+            this.expBinningSearchButton.TabIndex = 20;
+            this.expBinningSearchButton.Text = "Основа експоненційного бінування";
+            this.expBinningSearchButton.UseVisualStyleBackColor = true;
+            this.expBinningSearchButton.Click += new System.EventHandler(this.expBinningSearchButtonClick);
             // 
             // countBySymbolsButton
             // 
@@ -238,64 +232,59 @@
             this.countBySymbolsButton.Name = "countBySymbolsButton";
             this.countBySymbolsButton.Size = new System.Drawing.Size(194, 30);
             this.countBySymbolsButton.TabIndex = 21;
-            this.countBySymbolsButton.Text = "Посимвольно";
+            this.countBySymbolsButton.Text = "Символи";
             this.countBySymbolsButton.UseVisualStyleBackColor = true;
-            this.countBySymbolsButton.Click += new System.EventHandler(this.countByWordsClick);
+            this.countBySymbolsButton.Click += new System.EventHandler(this.countBySymbolsClick);
             // 
-            // label5
+            // elapsedTimeLabel
             // 
-            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.elapsedTimeLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label5.Location = new System.Drawing.Point(512, 26);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(120, 18);
-            this.label5.TabIndex = 23;
-            this.label5.Text = "Час виконання:";
+            this.elapsedTimeLabel.AutoSize = true;
+            this.elapsedTimeLabel.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.elapsedTimeLabel.Location = new System.Drawing.Point(512, 26);
+            this.elapsedTimeLabel.Name = "elapsedTimeLabel";
+            this.elapsedTimeLabel.Size = new System.Drawing.Size(120, 18);
+            this.elapsedTimeLabel.TabIndex = 23;
+            this.elapsedTimeLabel.Text = "Час виконання:";
             // 
-            // checkBox1
+            // ignoreRegexCheckbox
             // 
-            this.checkBox1.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Checked = true;
-            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox1.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.checkBox1.Location = new System.Drawing.Point(9, 16);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(171, 22);
-            this.checkBox1.TabIndex = 24;
-            this.checkBox1.Text = "Ігнорувати регістр";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.ignoreRegexCheckbox.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.ignoreRegexCheckbox.AutoSize = true;
+            this.ignoreRegexCheckbox.Checked = true;
+            this.ignoreRegexCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ignoreRegexCheckbox.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ignoreRegexCheckbox.Location = new System.Drawing.Point(9, 16);
+            this.ignoreRegexCheckbox.Name = "ignoreRegexCheckbox";
+            this.ignoreRegexCheckbox.Size = new System.Drawing.Size(171, 22);
+            this.ignoreRegexCheckbox.TabIndex = 24;
+            this.ignoreRegexCheckbox.Text = "Ігнорувати регістр";
+            this.ignoreRegexCheckbox.UseVisualStyleBackColor = true;
             // 
-            // checkBox2
+            // includingSpaces
             // 
-            this.checkBox2.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.checkBox2.Location = new System.Drawing.Point(9, 46);
-            this.checkBox2.Margin = new System.Windows.Forms.Padding(2);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(179, 22);
-            this.checkBox2.TabIndex = 26;
-            this.checkBox2.Text = "Враховувати пробіли";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
+            this.includingSpaces.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.includingSpaces.AutoSize = true;
+            this.includingSpaces.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.includingSpaces.Location = new System.Drawing.Point(9, 46);
+            this.includingSpaces.Margin = new System.Windows.Forms.Padding(2);
+            this.includingSpaces.Name = "includingSpaces";
+            this.includingSpaces.Size = new System.Drawing.Size(179, 22);
+            this.includingSpaces.TabIndex = 26;
+            this.includingSpaces.Text = "Враховувати пробіли";
+            this.includingSpaces.UseVisualStyleBackColor = true;
             // 
-            // label6
+            // folderLabel
             // 
-            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label6.Location = new System.Drawing.Point(512, 55);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(56, 18);
-            this.label6.TabIndex = 27;
-            this.label6.Text = "Папка:";
+            this.folderLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.folderLabel.AutoSize = true;
+            this.folderLabel.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.folderLabel.Location = new System.Drawing.Point(512, 55);
+            this.folderLabel.Name = "folderLabel";
+            this.folderLabel.Size = new System.Drawing.Size(56, 18);
+            this.folderLabel.TabIndex = 27;
+            this.folderLabel.Text = "Папка:";
             // 
             // groupBox1
             // 
@@ -304,9 +293,9 @@
             this.groupBox1.Controls.Add(this.binQuantityUpDown);
             this.groupBox1.Controls.Add(this.powAUpDown);
             this.groupBox1.Controls.Add(this.groupBox2);
-            this.groupBox1.Controls.Add(this.checkBox1);
-            this.groupBox1.Controls.Add(this.checkBox2);
-            this.groupBox1.Controls.Add(this.button7);
+            this.groupBox1.Controls.Add(this.ignoreRegexCheckbox);
+            this.groupBox1.Controls.Add(this.includingSpaces);
+            this.groupBox1.Controls.Add(this.expBinningSearchButton);
             this.groupBox1.Controls.Add(this.clearButton);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.updateButton);
@@ -380,44 +369,50 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.dataGridView2);
+            this.tabPage1.Controls.Add(this.binningGridView);
             this.tabPage1.Location = new System.Drawing.Point(4, 27);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(650, 542);
+            this.tabPage1.Size = new System.Drawing.Size(650, 513);
             this.tabPage1.TabIndex = 3;
             this.tabPage1.Text = "Бінування";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // dataGridView2
+            // binningGridView
             // 
-            this.dataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.binningGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.binningGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.binningGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
             this.Column2,
+            this.RightBorder,
             this.Column3,
             this.Column4,
             this.Column5,
             this.Column6});
-            this.dataGridView2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView2.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.RowHeadersVisible = false;
-            this.dataGridView2.RowHeadersWidth = 51;
-            this.dataGridView2.Size = new System.Drawing.Size(650, 542);
-            this.dataGridView2.TabIndex = 0;
+            this.binningGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.binningGridView.Location = new System.Drawing.Point(0, 0);
+            this.binningGridView.Name = "binningGridView";
+            this.binningGridView.RowHeadersVisible = false;
+            this.binningGridView.RowHeadersWidth = 51;
+            this.binningGridView.Size = new System.Drawing.Size(650, 513);
+            this.binningGridView.TabIndex = 0;
             // 
             // Column1
             // 
-            this.Column1.HeaderText = "Інтервал";
+            this.Column1.HeaderText = "Бін #";
             this.Column1.MinimumWidth = 6;
             this.Column1.Name = "Column1";
             // 
             // Column2
             // 
-            this.Column2.HeaderText = "Межі";
+            this.Column2.HeaderText = "Ліва Межа";
             this.Column2.MinimumWidth = 6;
             this.Column2.Name = "Column2";
+            // 
+            // RightBorder
+            // 
+            this.RightBorder.HeaderText = "Права Межа";
+            this.RightBorder.Name = "RightBorder";
             // 
             // Column3
             // 
@@ -445,34 +440,34 @@
             // 
             // tabPage3
             // 
-            this.tabPage3.Controls.Add(this.dataGridView1);
+            this.tabPage3.Controls.Add(this.dictionaryGridView);
             this.tabPage3.Location = new System.Drawing.Point(4, 27);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(650, 542);
+            this.tabPage3.Size = new System.Drawing.Size(650, 513);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Словник";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // dataGridView1
+            // dictionaryGridView
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dictionaryGridView.AllowUserToAddRows = false;
+            this.dictionaryGridView.AllowUserToDeleteRows = false;
+            this.dictionaryGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dictionaryGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.dictionaryGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dictionaryGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.NameDG,
             this.Count,
             this.Unique});
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(3, 3);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.RowHeadersWidth = 51;
-            this.dataGridView1.Size = new System.Drawing.Size(644, 536);
-            this.dataGridView1.TabIndex = 1;
-            this.dataGridView1.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.dataGridView1_SortCompare);
+            this.dictionaryGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dictionaryGridView.Location = new System.Drawing.Point(3, 3);
+            this.dictionaryGridView.Name = "dictionaryGridView";
+            this.dictionaryGridView.ReadOnly = true;
+            this.dictionaryGridView.RowHeadersWidth = 51;
+            this.dictionaryGridView.Size = new System.Drawing.Size(644, 507);
+            this.dictionaryGridView.TabIndex = 1;
+            this.dictionaryGridView.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.dataGridView1_SortCompare);
             // 
             // NameDG
             // 
@@ -497,7 +492,7 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.chart1);
+            this.tabPage2.Controls.Add(this.parsingResultsChart);
             this.tabPage2.Location = new System.Drawing.Point(4, 27);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -505,31 +500,42 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Графік";
             this.tabPage2.UseVisualStyleBackColor = true;
-            this.tabPage2.Click += new System.EventHandler(this.tabPage2_Click);
             // 
-            // chart1
+            // parsingResultsChart
             // 
+            this.parsingResultsChart.AccessibleRole = System.Windows.Forms.AccessibleRole.Chart;
+            this.parsingResultsChart.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.TopRight;
             chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
-            this.chart1.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.chart1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.parsingResultsChart.ChartAreas.Add(chartArea1);
+            this.parsingResultsChart.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.parsingResultsChart.Dock = System.Windows.Forms.DockStyle.Fill;
+            legend1.Alignment = System.Drawing.StringAlignment.Center;
+            legend1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
+            legend1.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold);
+            legend1.IsTextAutoFit = false;
             legend1.Name = "Legend1";
-            this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(3, 3);
-            this.chart1.Name = "chart1";
+            legend1.Title = "Парсинг";
+            legend1.TitleFont = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold);
+            this.parsingResultsChart.Legends.Add(legend1);
+            this.parsingResultsChart.Location = new System.Drawing.Point(3, 3);
+            this.parsingResultsChart.Name = "parsingResultsChart";
+            series1.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.Left;
             series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+            series1.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold);
             series1.Legend = "Legend1";
-            series1.Name = "Series1";
+            series1.Name = "Не обрано джерело";
             series1.YValuesPerPoint = 2;
-            this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(644, 507);
-            this.chart1.TabIndex = 5;
-            this.chart1.Text = "chart1";
-            this.chart1.Click += new System.EventHandler(this.chart1_Click);
+            this.parsingResultsChart.Series.Add(series1);
+            this.parsingResultsChart.Size = new System.Drawing.Size(644, 507);
+            this.parsingResultsChart.TabIndex = 5;
+            this.parsingResultsChart.Text = "chart1";
             // 
             // progressBar1
             // 
+            this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.progressBar1.Location = new System.Drawing.Point(5, 26);
             this.progressBar1.Margin = new System.Windows.Forms.Padding(2);
             this.progressBar1.Name = "progressBar1";
@@ -550,15 +556,14 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(658, 544);
             this.tabControl1.TabIndex = 5;
-            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
             // groupBox5
             // 
             this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox5.Controls.Add(this.label6);
+            this.groupBox5.Controls.Add(this.folderLabel);
             this.groupBox5.Controls.Add(this.progressBar1);
-            this.groupBox5.Controls.Add(this.label5);
+            this.groupBox5.Controls.Add(this.elapsedTimeLabel);
             this.groupBox5.Controls.Add(this.textsAnalyzedLabel);
             this.groupBox5.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.groupBox5.Location = new System.Drawing.Point(16, 577);
@@ -596,7 +601,7 @@
             this.словникToolStripMenuItem,
             this.файлБінуванняToolStripMenuItem});
             this.відкритиПапкуToolStripMenuItem.Name = "відкритиПапкуToolStripMenuItem";
-            this.відкритиПапкуToolStripMenuItem.Size = new System.Drawing.Size(180, 24);
+            this.відкритиПапкуToolStripMenuItem.Size = new System.Drawing.Size(150, 24);
             this.відкритиПапкуToolStripMenuItem.Text = "Відкрити";
             // 
             // папкуToolStripMenuItem
@@ -626,7 +631,7 @@
             this.словникToolStripMenuItem1,
             this.файлБінуванняToolStripMenuItem1});
             this.зберегтиToolStripMenuItem.Name = "зберегтиToolStripMenuItem";
-            this.зберегтиToolStripMenuItem.Size = new System.Drawing.Size(180, 24);
+            this.зберегтиToolStripMenuItem.Size = new System.Drawing.Size(150, 24);
             this.зберегтиToolStripMenuItem.Text = "Зберегти";
             // 
             // словникToolStripMenuItem1
@@ -656,18 +661,17 @@
             this.MinimumSize = new System.Drawing.Size(937, 712);
             this.Name = "Form1";
             this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.binQuantityUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.powAUpDown)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.binningGridView)).EndInit();
             this.tabPage3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dictionaryGridView)).EndInit();
             this.tabPage2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.parsingResultsChart)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
@@ -678,13 +682,13 @@
 
         }
 
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label elapsedTimeLabel;
 
         #endregion
 
         private System.Windows.Forms.Button countByWordsButton;
         private System.Windows.Forms.OpenFileDialog fbd;
-        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.SaveFileDialog saveFiles;
         private System.Windows.Forms.Button clearButton;
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.Label textsAnalyzedLabel;
@@ -694,29 +698,23 @@
         private System.Windows.Forms.RadioButton growingLengthRadio;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button expBinningSearchButton;
         private System.Windows.Forms.Button countBySymbolsButton;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.CheckBox ignoreRegexCheckbox;
+        private System.Windows.Forms.CheckBox includingSpaces;
+        private System.Windows.Forms.Label folderLabel;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.DataGridView dataGridView2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
+        private System.Windows.Forms.DataGridView binningGridView;
         private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dictionaryGridView;
         private System.Windows.Forms.DataGridViewTextBoxColumn NameDG;
         private System.Windows.Forms.DataGridViewTextBoxColumn Count;
         private System.Windows.Forms.DataGridViewTextBoxColumn Unique;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.ProgressBar progressBar1;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart parsingResultsChart;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.NumericUpDown powAUpDown;
         private System.Windows.Forms.NumericUpDown binQuantityUpDown;
@@ -730,6 +728,13 @@
         private System.Windows.Forms.ToolStripMenuItem зберегтиToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem словникToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem файлБінуванняToolStripMenuItem1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn RightBorder;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
     }
 }
 

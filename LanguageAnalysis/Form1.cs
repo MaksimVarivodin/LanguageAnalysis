@@ -29,6 +29,8 @@ namespace VolosIndiv
             InitializeComponent();
         }
 
+
+
         readonly DataGridView _dg = new DataGridView();
         readonly DataGridView _dg1 = new DataGridView();
         readonly DataGridView _dg2 = new DataGridView();
@@ -50,37 +52,54 @@ namespace VolosIndiv
         double maxPow = 0;
         int maxSteps = 0;
 
-        int counter;
+        int parsedTexts;
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            dataGridView1.ColumnCount = 3;                                                                                                                                                                                                                      //if (File.Exists("..//..//Properties//vini_vici_namaste.wav")){ try { new System.Media.SoundPlayer("..//..//Properties//vini_vici_namaste.wav").Play(); } catch (Exception) { } }//
-        }
+
+
 
         #region UIHandlers Methods
 
-        private async void button1_Click(object sender, EventArgs e)
+
+
+        /// <summary>
+        /// Clears and resets the form's data and UI elements related to text analysis.
+        /// </summary>
+        /// <param name="chartName">The name to set for the chart series.</param>
+        /// <param name="countColumnName">The header text for the "Count" column in the dictionary grid view.</param>
+        /// <param name="uniqueColumnName">The header text for the "Unique" column in the dictionary grid view.</param>
+        private void clearFormData(string chartName, string countColumnName, string uniqueColumnName)
         {
-            dataGridView1.Rows.Clear();
-            dataGridView2.Rows.Clear();
-            chart1.Series[0].Points.Clear();
-            textsAnalyzedLabel.Text = string.Empty;
-            label5.Text = string.Empty;
-            await OpenFolder(selectedFolderPath, true);
+            // Clear arrays
+            dictionaryGridView.Rows.Clear();
+            dictionaryGridView.Columns["Count"].HeaderText = countColumnName;
+            dictionaryGridView.Columns["Unique"].HeaderText = uniqueColumnName;
+            binningGridView.Rows.Clear();
+            parsingResultsChart.Series[0].Points.Clear();
+            // Clear labels
+            textsAnalyzedLabel.Text = "Текстів: ";
+            elapsedTimeLabel.Text = "Час виконання: ";
+            // Set names
+            parsingResultsChart.Series[0].Name = chartName;
+        }
+
+        private async void countBySymbolsClick(object sender, EventArgs e)
+        {
+            clearFormData("Символи", "Кількість символів", "Кількість унікальних символів");
+
+            await OpenFolder(selectedFolderPath, false);
         }
 
         private async void countByWordsClick(object sender, EventArgs e)
         {
-            dataGridView1.Rows.Clear();
-            dataGridView2.Rows.Clear();
-            chart1.Series[0].Points.Clear();
-            textsAnalyzedLabel.Text = string.Empty;
-            label5.Text = string.Empty;
-            await OpenFolder(selectedFolderPath, false);
+            clearFormData("Слова", "Кількість слів", "Кількість унікальних слів");
+
+            await OpenFolder(selectedFolderPath, true);
         }
 
+       
 
-        private void button7_Click(object sender, EventArgs e)
+
+        private void expBinningSearchButtonClick(object sender, EventArgs e)
         {
             double a = 1.1, b = 3d;
             double eps = 0.00002; //точність від лукавого
@@ -117,22 +136,19 @@ namespace VolosIndiv
 
         private void saveDictionaryMenuItemClick(object sender, EventArgs e)
         {
-            SaveSelectedFile(dataGridView1); // Save data from `dataGridView1`
+            SaveSelectedFile(dictionaryGridView); // Save data from `dataGridView1`
         }
 
         private void saveBinningFileMenuItemClick(object sender, EventArgs e)
         {
-            SaveSelectedFile(dataGridView2); // Save data from `dataGridView2`
+            SaveSelectedFile(binningGridView); // Save data from `dataGridView2`
         }
 
 
-        private void ClearButton_Click(object sender, EventArgs e)
+        private void clearButtonClick(object sender, EventArgs e)
         {
-            dataGridView1.Rows.Clear();
-            dataGridView2.Rows.Clear();
-            chart1.Series[0].Points.Clear();
-            textsAnalyzedLabel.Text = string.Empty;
-            label5.Text = string.Empty;
+            clearData();
+            clearFormData("Джерело не обрано(Очищено)", "Джерело не обрано", "Джерело не обрано");
         }
 
         private void dataGridView1_SortCompare(object sender, DataGridViewSortCompareEventArgs e)
@@ -157,15 +173,10 @@ namespace VolosIndiv
             e.Handled = true;
         }
 
-        private async void button3_Click_1(object sender, EventArgs e)
+        private async void updateButtonClick(object sender, EventArgs e)
         {
-            _dg.ColumnCount = 6;
-            _dg1.ColumnCount = 6;
-            _dg2.ColumnCount = 6;
-            _dg.Rows.Clear();
-            _dg1.Rows.Clear();
-            _dg2.Rows.Clear();
-            dataGridView2.Rows.Clear();
+            //clearBinningData();
+            binningGridView.Rows.Clear();
 
             int M = ((int)binQuantityUpDown.Value);
             double basePow = 0d;
@@ -175,13 +186,13 @@ namespace VolosIndiv
                 MessageBox.Show("Введіть основу степеня!");
             }
 
-            if (dataGridView1.RowCount == 0 && !fbd.CheckFileExists)
-                counter = File.ReadLines(fbd.FileName).Count();
+            if (dictionaryGridView.RowCount == 0 && !fbd.CheckFileExists)
+                parsedTexts = File.ReadLines(fbd.FileName).Count();
             else
                 return;
-            textsAnalyzedLabel.Text = Convert.ToString("Count = " + counter);
+            textsAnalyzedLabel.Text = Convert.ToString("Кількість текстів: " + parsedTexts);
 
-            if (M < counter)
+            if (M < parsedTexts)
             {
 
                 for (int i = 0; i < 100; i++)
@@ -204,10 +215,10 @@ namespace VolosIndiv
                 for (int i = 0; i < M; i++)
                 {
                     //MessageBox.Show($"AVG ITER = {i}; {x.Min() + i * step} - {x.Min() + (i + 1) * step}; Step = {step}");
-                    _dg.Rows.Add(i + 1, Convert.ToString(x.Min() + i * step) + " - " + Convert.ToString(x.Min() + (i + 1) * step), avgX[i], avgY[i], avgQuadY[i], textCount[i]);
+                    _dg.Rows.Add(i + 1, Convert.ToString(x.Min() + i * step), Convert.ToString(x.Min() + (i + 1) * step), avgX[i], avgY[i], avgQuadY[i], textCount[i]);
                 }
 
-                int step2 = (int)x.Length / M;
+
 
                 AverageMethod(x, y, maxSteps, basePow, AverageType.ThirdAverage, out avgX, out avgY, out avgQuadY, out textCount3);
                 int stepN = 0;
@@ -215,8 +226,8 @@ namespace VolosIndiv
                 for (int i = 0; i < maxSteps; i++)
                 {
                     stepN = i;
-                    //MessageBox.Show($"AVG3 ITER = {i}; {x.Min() + i * step2} - {x.Min() + (i + 1) * step2}; Step = {step2}");
-                    _dg2.Rows.Add(Convert.ToString(i + 1), Convert.ToString(Math.Pow(basePow, stepN)) + " - " + Convert.ToString(Math.Pow(basePow, stepN + 1)), avgX[i], avgY[i], avgQuadY[i], textCount3[i]);
+
+                    _dg2.Rows.Add(i + 1, Convert.ToString(Math.Pow(basePow, stepN)), Convert.ToString(Math.Pow(basePow, stepN + 1)), avgX[i], avgY[i], avgQuadY[i], textCount3[i]);
                 }
 
                 int step1 = (int)x.Length / M;
@@ -226,7 +237,7 @@ namespace VolosIndiv
                 for (int i = 0; i < M; i++)
                 {
                     //MessageBox.Show($"AVG2 ITER = {i}; {x[i * step1]} - {x[(step1 * (i + 1) - 1)]}; Step = {step1}");
-                    _dg1.Rows.Add(Convert.ToString(i + 1), Convert.ToString(x[i * step1]) + " - " + Convert.ToString(x[(step1 * (i + 1) - 1)]), avgX[i], avgY[i], avgQuadY[i], textCount2[i]);
+                    _dg1.Rows.Add(i + 1, Convert.ToString(x[i * step1]), Convert.ToString(x[(step1 * (i + 1) - 1)]), avgX[i], avgY[i], avgQuadY[i], textCount2[i]);
                 }
 
                 var selectedDataGrid = equalLengthRadio.Checked ? _dg :
@@ -247,8 +258,8 @@ namespace VolosIndiv
             if (fbd.ShowDialog() != DialogResult.OK || fbd.FileName.Length <= 0)
                 return;
 
-            chart1.Series[0].Points.Clear();
-            var dgv = dataGridView1;
+            parsingResultsChart.Series[0].Points.Clear();
+            var dgv = dictionaryGridView;
             progressBar1.Maximum = 100;
             progressBar1.Value = 0;
             try
@@ -272,7 +283,7 @@ namespace VolosIndiv
                 }
                 for (int i = 0; i < xArray.Length; i++)
                 {
-                    chart1.Series[0].Points.AddXY(xArray[i], yArray[i]);
+                    parsingResultsChart.Series[0].Points.AddXY(xArray[i], yArray[i]);
                 }
 
 
@@ -282,8 +293,8 @@ namespace VolosIndiv
                 MessageBox.Show("The process done");
             }
 
-            counter = File.ReadLines(fbd.FileName).Count();
-            textsAnalyzedLabel.Text = Convert.ToString("Count = " + counter);
+            parsedTexts = File.ReadLines(fbd.FileName).Count();
+            textsAnalyzedLabel.Text = Convert.ToString("Count = " + parsedTexts);
 
             //textBox1.Text = "2";
 
@@ -295,6 +306,30 @@ namespace VolosIndiv
 
         #region Private helper methods
 
+
+        private void clearBinningData()
+        {
+            _dg.ColumnCount = 7;
+            _dg1.ColumnCount = 7;
+            _dg2.ColumnCount = 7;
+            _dg.Rows.Clear();
+            _dg1.Rows.Clear();
+            _dg2.Rows.Clear();
+        }
+        private void clearData()
+        {
+            clearBinningData();
+            selectedFolderPath = string.Empty;
+            x = null;
+            y = null;
+            avgX = null;
+            avgY = null;
+            avgQuadY = null;
+            textCount = null;
+            textCount2 = null;
+            textCount3 = null;
+        }
+        
         private void AverageMethod(double[] x, double[] y, int maxStep, double basePow, AverageType type, out double[] L, out double[] V, out double[] dV,
             out int[] textCount)
         {
@@ -388,28 +423,6 @@ namespace VolosIndiv
             });
         }
 
-        private void BubbleSort(double[] array1, double[] array2)
-        {
-            int n = array1.Length;
-            for (int i = 0; i < n - 1; i++)
-            {
-                // Проходим по массиву, уменьшая диапазон с каждым шагом
-                for (int j = 0; j < n - i - 1; j++)
-                {
-                    // Если текущий элемент больше следующего, меняем их местами
-                    if (array1[j] > array1[j + 1])
-                    {
-                        double temp = array1[j];
-                        array1[j] = array1[j + 1];
-                        array1[j + 1] = temp;
-                        temp = array2[j];
-                        array2[j] = array2[j + 1];
-                        array2[j + 1] = temp;
-                    }
-                }
-            }
-        }
-
         private async Task OpenFolder(string folderPath, bool byWords)
         {
             if (string.IsNullOrEmpty(folderPath))
@@ -418,13 +431,13 @@ namespace VolosIndiv
                 return;
             }
 
-            label5.Text = "";
+            elapsedTimeLabel.Text = string.Empty;
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            textsAnalyzedLabel.Text = "";
-            counter = 0;
-
+            textsAnalyzedLabel.Text = string.Empty;
+            parsedTexts = 0;
+            // opening folder
             try
             {
                 int textFileCount = await CountTextFilesAsync(folderPath);
@@ -439,6 +452,7 @@ namespace VolosIndiv
             var files = new List<string>();
             var processedFiles = 0;
 
+            // processing files
             try
             {
                 files = await ProcessDirectoryAsync(folderPath);
@@ -454,19 +468,21 @@ namespace VolosIndiv
             var xlist = new double[files.Count];
             var ylist = new double[files.Count];
 
+            // calculations for tables
             await Task.WhenAll(files.Select((file, index) => Task.Run(() =>
             {
-                var (rawText, unsignedText) = ProcessText(file);
+                var (rawText, unsignedText) = TextParser.ExtractTexts(file);
 
                 if (!byWords)
+
                 {
-                    xlist[index] = GetAllSymbolsCount(rawText);
-                    ylist[index] = GetUniqueSymbolsCount(rawText);
+                    xlist[index] = TextParser.GetAllSymbolsCount(rawText, includingSpaces.Checked);
+                    ylist[index] = TextParser.GetUniqueSymbolsCount(rawText, !includingSpaces.Checked, ignoreRegexCheckbox.Checked);
                 }
                 else
                 {
-                    xlist[index] = GetAllWordsCount(unsignedText);
-                    ylist[index] = GetDictionaryCount(unsignedText); 
+                    xlist[index] = TextParser.GetAllWordsCount(unsignedText);
+                    ylist[index] = TextParser.GetDictionaryCount(unsignedText, ignoreRegexCheckbox.Checked);
                 }
 
                 // Update progress bar and processed files count
@@ -478,29 +494,26 @@ namespace VolosIndiv
             })));
 
 
-            BubbleSort(xlist, ylist);
-
-
             var xList = new ArrayList(xlist.ToArray());
             var yList = new ArrayList(ylist.ToArray());
 
 
-            
+            // adding data to the grid
             for (var i = 0; i < xList.Count; i++)
             {
-                chart1.Series[0].Points.AddXY(xList[i], yList[i]);
+                parsingResultsChart.Series[0].Points.AddXY(xList[i], yList[i]);
                 AddToDataGrid(Path.GetFileNameWithoutExtension(files[i]), xlist[i], ylist[i]);
             }
 
-            dataGridView1.Columns["Count"].ValueType = typeof(Int32);
+            dictionaryGridView.Columns["Count"].ValueType = typeof(Int32);
 
-            await SomeMagic(xList, yList);
+            await BinningScript(xList, yList);
 
             stopwatch.Stop();
 
             string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}:{3:00}",
                 stopwatch.Elapsed.TotalHours, stopwatch.Elapsed.TotalMinutes, stopwatch.Elapsed.TotalSeconds, stopwatch.Elapsed.TotalMilliseconds);
-            label5.Text = $"Час виконання: {elapsedTime}";
+            this.elapsedTimeLabel.Text = $"Час виконання: {elapsedTime}";
             Invoke((Action)(() =>
             {
                 progressBar1.Value = 0;
@@ -522,7 +535,7 @@ namespace VolosIndiv
                 rawText = PreprocessWithRegex(sr.ReadToEnd());
             }
 
-            if (checkBox1.Checked)
+            if (ignoreRegexCheckbox.Checked)
             {
                 rawText = rawText.ToLower();
             }
@@ -626,7 +639,7 @@ namespace VolosIndiv
         }
         private int GetAllSymbolsCount(string text)
         {
-            return text.Count(symbol => !checkBox2.Checked ? symbol != ' ' : true);
+            return text.Count(symbol => !includingSpaces.Checked ? symbol != ' ' : true);
         }
 
         private int GetUniqueSymbolsCount(string text)
@@ -635,11 +648,11 @@ namespace VolosIndiv
 
             foreach (var ch in text)
             {
-                if (!checkBox2.Checked && ch == ' ')
+                if (!includingSpaces.Checked && ch == ' ')
                 {
                     continue;
                 }
-                uniqueSymbols.Add(checkBox1.Checked ? char.ToLower(ch) : ch);
+                uniqueSymbols.Add(ignoreRegexCheckbox.Checked ? char.ToLower(ch) : ch);
             }
 
             return uniqueSymbols.Count;
@@ -669,7 +682,7 @@ namespace VolosIndiv
             {
                 var cleanedWord = rawWord.Trim(punctuation.ToArray());
 
-                if (checkBox1.Checked)
+                if (ignoreRegexCheckbox.Checked)
                 {
                     cleanedWord = cleanedWord.ToLower();
                 }
@@ -688,18 +701,14 @@ namespace VolosIndiv
 
 
 
-        private async Task SomeMagic(ArrayList xList, ArrayList yList)
+        private async Task BinningScript(ArrayList xList, ArrayList yList)
         {
+            clearBinningData();
             var binCount = ((int)binQuantityUpDown.Value);
             x = xList.ToArray(typeof(double)) as double[];
             y = yList.ToArray(typeof(double)) as double[];
 
-            _dg.ColumnCount = 6;
-            _dg1.ColumnCount = 6;
-            _dg2.ColumnCount = 6;
-            _dg.Rows.Clear();
-            _dg1.Rows.Clear();
-            _dg2.Rows.Clear();
+            
 
             double basePow = ((double)powAUpDown.Value);
 
@@ -718,15 +727,17 @@ namespace VolosIndiv
 
                 double step = (x.Max() - x.Min()) / (double)binCount;
 
+                
+
                 AverageMethod(x, y, binCount, 0, AverageType.FirstAverage, out avgX, out avgY, out avgQuadY, out textCount);
 
                 for (int i = 0; i < binCount; i++)
                 {
                     //MessageBox.Show($"AVG ITER = {i}; {x.Min() + i * step} - {x.Min() + (i + 1) * step}; Step = {step}");
-                    _dg.Rows.Add(i + 1, Convert.ToString(x.Min() + i * step) + " - " + Convert.ToString(x.Min() + (i + 1) * step), avgX[i], avgY[i], avgQuadY[i], textCount[i]);
+                    _dg.Rows.Add(i + 1, Convert.ToString(x.Min() + i * step), Convert.ToString(x.Min() + (i + 1) * step), avgX[i], avgY[i], avgQuadY[i], textCount[i]);
                 }
 
-                int step2 = (int)x.Length / binCount;
+
 
                 AverageMethod(x, y, maxSteps, basePow, AverageType.ThirdAverage, out avgX, out avgY, out avgQuadY, out textCount3);
                 int stepN = 0;
@@ -734,8 +745,8 @@ namespace VolosIndiv
                 for (int i = 0; i < maxSteps; i++)
                 {
                     stepN = i;
-                    //MessageBox.Show($"AVG3 ITER = {i}; {x.Min() + i * step2} - {x.Min() + (i + 1) * step2}; Step = {step2}");
-                    _dg2.Rows.Add(Convert.ToString(i + 1), Convert.ToString(Math.Pow(basePow, stepN)) + " - " + Convert.ToString(Math.Pow(basePow, stepN + 1)), avgX[i], avgY[i], avgQuadY[i], textCount3[i]);
+
+                    _dg2.Rows.Add(Convert.ToString(i + 1), Convert.ToString(Math.Pow(basePow, stepN)), Convert.ToString(Math.Pow(basePow, stepN + 1)), avgX[i], avgY[i], avgQuadY[i], textCount3[i]);
                 }
 
                 int step1 = (int)x.Length / binCount;
@@ -745,7 +756,7 @@ namespace VolosIndiv
                 for (int i = 0; i < binCount; i++)
                 {
                     //MessageBox.Show($"AVG2 ITER = {i}; {x[i * step1]} - {x[(step1 * (i + 1) - 1)]}; Step = {step1}");
-                    _dg1.Rows.Add(Convert.ToString(i + 1), Convert.ToString(x[i * step1]) + " - " + Convert.ToString(x[(step1 * (i + 1) - 1)]), avgX[i], avgY[i], avgQuadY[i], textCount2[i]);
+                    _dg1.Rows.Add(Convert.ToString(i + 1), Convert.ToString(x[i * step1]), Convert.ToString(x[(step1 * (i + 1) - 1)]), avgX[i], avgY[i], avgQuadY[i], textCount2[i]);
                 }
 
 
@@ -757,17 +768,15 @@ namespace VolosIndiv
 
         private void AddToDataGrid(string name, double count, double unique)
         {
-            dataGridView1.Rows.Add(name, count.ToString(CultureInfo.InvariantCulture), unique.ToString(CultureInfo.InvariantCulture));
+            dictionaryGridView.Rows.Add(name, count.ToString(CultureInfo.InvariantCulture), unique.ToString(CultureInfo.InvariantCulture));
         }
 
         private async Task RadioButtonCheckedChanged(DataGridView dataGrid)
         {
-            if (dataGridView2.Rows.Count <= 2)
+            if (binningGridView.Rows.Count <= 2)
                 return;
-            dataGridView2.Rows.Clear();
-            _dg.ColumnCount = 6;
-            _dg1.ColumnCount = 6;
-            _dg2.ColumnCount = 6;
+            binningGridView.Rows.Clear();
+            clearBinningData();
 
             await UpdateDataGrid(_dg);
         }
@@ -826,7 +835,7 @@ namespace VolosIndiv
                 {
                     items[i] = row.Cells[i].Value;
                 }
-                await AddRowAsync(dataGridView2, items);
+                await AddRowAsync(binningGridView, items);
             }
         }
         private async Task AddRowAsync(DataGridView dataGridView, object[] items)
@@ -872,14 +881,17 @@ namespace VolosIndiv
 
         private void openFolderMenuItemClick(object sender, EventArgs e)
         {
+
             using (var folderBrowserDialog = new FolderBrowserDialog())
             {
+                folderBrowserDialog.Description = "Виберіть папку з текстами";
+                folderBrowserDialog.SelectedPath = System.Environment.CurrentDirectory;
                 if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
                 {
                     selectedFolderPath = folderBrowserDialog.SelectedPath;
                     string folderName = Path.GetFileName(selectedFolderPath.TrimEnd(Path.DirectorySeparatorChar));
 
-                    label6.Text = "Папка: " + folderBrowserDialog.SelectedPath;
+                    folderLabel.Text = "Папка: " + folderBrowserDialog.SelectedPath;
 
                     countByWordsButton.Enabled = true;
                     countBySymbolsButton.Enabled = true;
@@ -889,13 +901,13 @@ namespace VolosIndiv
 
         private void openBinningFileMenuItemClick(object sender, EventArgs e)
         {
-            var dgv = dataGridView2;
+            var dgv = binningGridView;
             progressBar1.Maximum = 100;
             progressBar1.Value = 0;
             //for files in current folder
             try
             {
-                dgv.ColumnCount = 6;
+                dgv.ColumnCount = 7;
                 dgv.Rows.Clear();
                 if (fbd.ShowDialog() == DialogResult.OK && fbd.FileName.Length > 0)
                 {
@@ -919,81 +931,13 @@ namespace VolosIndiv
                 MessageBox.Show("The process done");
             }
 
-            counter = File.ReadLines(fbd.FileName).Count();
-            textsAnalyzedLabel.Text = Convert.ToString("Текстів: " + counter);
+            parsedTexts = File.ReadLines(fbd.FileName).Count();
+            textsAnalyzedLabel.Text = Convert.ToString("Текстів: " + parsedTexts);
             int M = Convert.ToInt32(binQuantityUpDown.Text);
 
         }
 
-        private void fbd_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
-        {
 
-        }
-
-
-        private void saveFileDialog1_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-
-        }
-
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void checkBox2_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label6_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void chart1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-
-        private void tabPage2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
 
         private double GetLogLinearRegression(double basePow)
         {
