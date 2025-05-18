@@ -269,17 +269,27 @@ namespace VolosIndiv
 
                 string[] lines = File.ReadAllLines(fbd.FileName, Encoding.UTF8);
                 progressBar1.Maximum = lines.Length;
-                int[] xArray = new int[lines.Length];
-                int[] yArray = new int[lines.Length];
+                double[] xArray = new double[lines.Length];
+                double[] yArray = new double[lines.Length];
                 int index = 0;
                 foreach (string line in lines)
                 {
                     string[] res = Regex.Split(line, "\t");
+                    if (res.Length < 3) continue;
+
                     dgv.Rows.Add(res);
-                    xArray[index] = int.Parse(res[1]);
-                    yArray[index] = int.Parse(res[2]);
-                    progressBar1.Value++;
-                    index++;
+
+                    try
+                    {
+                        xArray[index] = double.Parse(res[1], CultureInfo.InvariantCulture);
+                        yArray[index] = double.Parse(res[2], CultureInfo.InvariantCulture);
+                        progressBar1.Value++;
+                        index++;
+                    }
+                    catch (FormatException)
+                    {
+                        MessageBox.Show($"Помилка формату числа у рядку: {line}");
+                    }
                 }
                 for (int i = 0; i < xArray.Length; i++)
                 {
