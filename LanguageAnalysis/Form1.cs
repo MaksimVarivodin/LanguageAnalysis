@@ -413,7 +413,14 @@ namespace VolosIndiv
                     avgQuadV = 0;
                 }
                 textCount[i] = count;
-                dV[i] = Math.Sqrt(avgQuadV - Math.Pow(avgResV, 2));
+                if (count > 1)
+                {
+                    dV[i] = Math.Sqrt(count * (avgQuadV - Math.Pow(avgResV, 2)) / (count - 1));
+                }
+                else
+                {
+                    dV[i] = 0; // Not enough data points for standard deviation
+                }
                 L[i] = avgResL;
                 V[i] = avgResV;
             }
