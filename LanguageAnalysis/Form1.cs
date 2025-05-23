@@ -167,7 +167,12 @@ namespace VolosIndiv
                         break;
                     }
                 case "NameDG":
-                    e.SortResult = String.CompareOrdinal(e.CellValue1.ToString(), e.CellValue2.ToString());
+                    e.SortResult = String.Compare(
+                        e.CellValue1.ToString(),
+                        e.CellValue2.ToString(),
+                        CultureInfo.CurrentCulture,
+                        CompareOptions.IgnoreCase
+                    );
                     break;
             }
             e.Handled = true;
