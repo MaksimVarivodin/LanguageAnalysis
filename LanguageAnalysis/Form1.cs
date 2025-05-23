@@ -240,7 +240,7 @@ namespace VolosIndiv
                 avgY = new double[M];
                 avgQuadY = new double[M];
                 textCount2 = new int[M];
-
+                Array.Sort(x, y);
                 int totalAssigned = 0;
 
                 for (int i = 0; i < M; i++)
