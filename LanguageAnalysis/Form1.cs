@@ -173,85 +173,135 @@ namespace VolosIndiv
             e.Handled = true;
         }
 
-        private async void updateButtonClick(object sender, EventArgs e)
+        private void updateButtonClick(object sender, EventArgs e)
         {
-            //clearBinningData();
             binningGridView.Rows.Clear();
 
-            int M = ((int)binQuantityUpDown.Value);
+            int M = (int)binQuantityUpDown.Value;
             double basePow = 0d;
-            try { basePow = ((double)powAUpDown.Value); }
+            try
+            {
+                basePow = (double)powAUpDown.Value;
+            }
             catch
             {
                 MessageBox.Show("Введіть основу степеня!");
+                return;
             }
 
-            if (dictionaryGridView.RowCount == 0 && !fbd.CheckFileExists)
-                parsedTexts = File.ReadLines(fbd.FileName).Count();
-            else
-                return;
-            textsAnalyzedLabel.Text = Convert.ToString("Кількість текстів: " + parsedTexts);
-
-            if (M < parsedTexts)
+            if (dictionaryGridView.Rows.Count > 0)
             {
+                var xList = new List<double>();
+                var yList = new List<double>();
 
-                for (int i = 0; i < 100; i++)
+                foreach (DataGridViewRow row in dictionaryGridView.Rows)
                 {
-                    maxPow = Math.Pow(basePow, i);
-                    if (maxPow > x.Max())
+                    if (row.Cells[1].Value != null && row.Cells[2].Value != null &&
+                        double.TryParse(row.Cells[1].Value.ToString(), out var xVal) &&
+                        double.TryParse(row.Cells[2].Value.ToString(), out var yVal))
                     {
-                        maxSteps = i;
-                        //MessageBox.Show($"EXCEEDED! Steps = {maxSteps}");
-                        break;
+                        xList.Add(xVal);
+                        yList.Add(yVal);
                     }
                 }
-                //STEPS TO ADD on GRID?
 
-
-                double step = (x.Max() - x.Min()) / (double)M;
-
-                AverageMethod(x, y, M, 0, AverageType.FirstAverage, out avgX, out avgY, out avgQuadY, out textCount);
-
-                for (int i = 0; i < M; i++)
-                {
-                    //MessageBox.Show($"AVG ITER = {i}; {x.Min() + i * step} - {x.Min() + (i + 1) * step}; Step = {step}");
-                    _dg.Rows.Add(i + 1, Convert.ToString(x.Min() + i * step), Convert.ToString(x.Min() + (i + 1) * step), avgX[i], avgY[i], avgQuadY[i], textCount[i]);
-                }
-
-
-
-                AverageMethod(x, y, maxSteps, basePow, AverageType.ThirdAverage, out avgX, out avgY, out avgQuadY, out textCount3);
-                int stepN = 0;
-
-                for (int i = 0; i < maxSteps; i++)
-                {
-                    stepN = i;
-
-                    _dg2.Rows.Add(i + 1, Convert.ToString(Math.Pow(basePow, stepN)), Convert.ToString(Math.Pow(basePow, stepN + 1)), avgX[i], avgY[i], avgQuadY[i], textCount3[i]);
-                }
-
-                int step1 = (int)x.Length / M;
-
-                AverageMethod(x, y, M, 0, AverageType.SecondAverage, out avgX, out avgY, out avgQuadY, out textCount2);
-
-                for (int i = 0; i < M; i++)
-                {
-                    //MessageBox.Show($"AVG2 ITER = {i}; {x[i * step1]} - {x[(step1 * (i + 1) - 1)]}; Step = {step1}");
-                    _dg1.Rows.Add(i + 1, Convert.ToString(x[i * step1]), Convert.ToString(x[(step1 * (i + 1) - 1)]), avgX[i], avgY[i], avgQuadY[i], textCount2[i]);
-                }
-
-                var selectedDataGrid = equalLengthRadio.Checked ? _dg :
-                    differentLengthRadio.Checked ? _dg1 : _dg2;
-                await UpdateDataGrid(selectedDataGrid);
+                x = xList.ToArray();
+                y = yList.ToArray();
+                parsedTexts = x.Length;
+                textsAnalyzedLabel.Text = $"Кількість текстів: {parsedTexts}";
             }
-
             else
             {
-                MessageBox.Show("Папка не містить файлів формату .txt");
+                MessageBox.Show("Словник не завантажено.");
+                return;
             }
 
-            /////////////////
+            if (M >= parsedTexts)
+            {
+                MessageBox.Show("Кількість бінів має бути меншою за кількість рядків у словнику.");
+                return;
+            }
+
+            if (equalLengthRadio.Checked)
+            {
+                double step = (x.Max() - x.Min()) / (double)M;
+                AverageMethod(x, y, M, 0, AverageType.FirstAverage, out avgX, out avgY, out avgQuadY, out textCount);
+                for (int i = 0; i < M; i++)
+                {
+                    binningGridView.Rows.Add(i + 1, x.Min() + i * step, x.Min() + (i + 1) * step, avgX[i], avgY[i], avgQuadY[i], textCount[i]);
+                }
+            }
+            else if (differentLengthRadio.Checked)
+            {
+                int step = x.Length / M;  // Цілий розмір перших бінів
+                int remainder = x.Length % M;  // Залишок
+
+                avgX = new double[M];
+                avgY = new double[M];
+                avgQuadY = new double[M];
+                textCount2 = new int[M];
+
+                int totalAssigned = 0;
+
+                for (int i = 0; i < M; i++)
+                {
+                    int currentBinSize = (i == M - 1) ? remainder + step : step; // Додаємо залишок в останній бін
+
+                    int start = totalAssigned;
+                    int end = start + currentBinSize;
+
+                    double sumX = 0, sumY = 0, sumY2 = 0;
+                    int count = 0;
+
+                    for (int j = start; j < end; j++)
+                    {
+                        sumX += x[j];
+                        sumY += y[j];
+                        sumY2 += y[j] * y[j];
+                        count++;
+                    }
+
+                    double avg_x = count > 0 ? sumX / count : 0;
+                    double avg_y = count > 0 ? sumY / count : 0;
+                    double std_y = (count > 1) ? Math.Sqrt((sumY2 - count * avg_y * avg_y) / (count - 1)) : 0;
+
+                    avgX[i] = avg_x;
+                    avgY[i] = avg_y;
+                    avgQuadY[i] = std_y;
+                    textCount2[i] = count;
+
+                    binningGridView.Rows.Add(i + 1, x[start], x[end - 1], avg_x, avg_y, std_y, count);
+
+                    totalAssigned = end;
+                }
+
+            }
+            else if (growingLengthRadio.Checked)
+            {
+                int actualSteps = 0;
+                for (int i = 0; i < M; i++)
+                {
+                    double right = Math.Pow(basePow, i + 1);
+                    if (right > x.Max())
+                    {
+                        actualSteps = i + 1;
+                        break;
+                    }
+                    actualSteps = i + 1;
+                }
+
+                AverageMethod(x, y, actualSteps, basePow, AverageType.ThirdAverage, out avgX, out avgY, out avgQuadY, out textCount3);
+
+                for (int i = 0; i < actualSteps; i++)
+                {
+                    double left = Math.Pow(basePow, i);
+                    double right = Math.Pow(basePow, i + 1);
+                    binningGridView.Rows.Add(i + 1, left, right, avgX[i], avgY[i], avgQuadY[i], textCount3[i]);
+                }
+            }
         }
+
+
 
         private async void openDictionaryMenuItemClick(object sender, EventArgs e)
         {
@@ -819,17 +869,15 @@ namespace VolosIndiv
                     // Iterate through DataGridView rows and columns
                     for (int i = 0; i < dataGridView.Rows.Count; i++)
                     {
+                        var cellValues = new List<string>();
                         for (int j = 0; j < dataGridView.Columns.Count; j++)
                         {
-                            // Check if the cell value is not null
                             if (dataGridView.Rows[i].Cells[j].Value != null)
                             {
-                                // Write the cell value followed by a tab character
-                                sw.Write(dataGridView.Rows[i].Cells[j].Value.ToString() + "\t");
+                                cellValues.Add(dataGridView.Rows[i].Cells[j].Value.ToString());
                             }
                         }
-                        // Write a newline after each row
-                        sw.WriteLine();
+                        sw.WriteLine(string.Join("\t", cellValues));
                     }
                 }
                 // Inform the user that the data was saved successfully
@@ -845,7 +893,12 @@ namespace VolosIndiv
 
         private async Task UpdateDataGrid(DataGridView dataGrid)
         {
-            foreach (DataGridViewRow row in dataGrid.Rows)
+            var rows = dataGrid.Rows.Cast<DataGridViewRow>()
+            .Where(r => r.Cells[0].Value != null)
+            .OrderBy(r => r.Cells[0].Value.ToString()) // Сортування за першим стовпцем
+            .ToList();
+
+            foreach (var row in rows)
             {
                 var items = new object[row.Cells.Count];
                 for (var i = 0; i < row.Cells.Count; i++)
