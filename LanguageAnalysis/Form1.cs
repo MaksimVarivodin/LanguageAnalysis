@@ -1,16 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.IO;
 using System.Text.RegularExpressions;
-using System.Windows.Forms;
 using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 
 
@@ -69,17 +70,22 @@ namespace VolosIndiv
         /// <param name="uniqueColumnName">The header text for the "Unique" column in the dictionary grid view.</param>
         private void clearFormData(string chartName, string countColumnName, string uniqueColumnName)
         {
-            // Clear arrays
+            parsingResultsChart.ChartAreas[0].AxisX.IsLogarithmic = false;
+
             dictionaryGridView.Rows.Clear();
-            dictionaryGridView.Columns["Count"].HeaderText = countColumnName;
-            dictionaryGridView.Columns["Unique"].HeaderText = uniqueColumnName;
             binningGridView.Rows.Clear();
             parsingResultsChart.Series[0].Points.Clear();
-            // Clear labels
-            textsAnalyzedLabel.Text = "Текстів: ";
-            elapsedTimeLabel.Text = "Час виконання: ";
-            // Set names
-            parsingResultsChart.Series[0].Name = chartName;
+            textsAnalyzedLabel.Text = string.Empty;
+
+            x = null;
+            y = null;
+            avgX = null;
+            avgY = null;
+            avgQuadY = null;
+            textCount = null;
+            textCount2 = null;
+            textCount3 = null;
+            parsedTexts = 0;
         }
 
         private async void countBySymbolsClick(object sender, EventArgs e)
@@ -283,87 +289,113 @@ namespace VolosIndiv
             }
             else if (growingLengthRadio.Checked)
             {
-                int actualSteps = 0;
-                for (int i = 0; i < M; i++)
-                {
-                    double right = Math.Pow(basePow, i + 1);
-                    if (right > x.Max())
-                    {
-                        actualSteps = i + 1;
-                        break;
-                    }
-                    actualSteps = i + 1;
-                }
+                Array.Sort(x, y);
 
-                AverageMethod(x, y, actualSteps, basePow, AverageType.ThirdAverage, out avgX, out avgY, out avgQuadY, out textCount3);
+                double maxValue = x.Max();
+                int actualSteps = 0;
+
+                // Визначаємо кількість бінів залежно від основи A та максимуму
+                while (Math.Pow(basePow, actualSteps + 1) <= maxValue)
+                {
+                    actualSteps++;
+                }
+                actualSteps++; // включаємо останній бін, що охоплює maxValue
+
+                // Обчислення
+                AverageMethod(x, y, actualSteps, basePow, AverageType.ThirdAverage,
+                    out avgX, out avgY, out avgQuadY, out textCount3);
+
+                // Збираємо всі рядки для таблиці
+                var rows = new List<(int binIndex, double left, double right, double avgX, double avgY, double stdY, int count)>();
 
                 for (int i = 0; i < actualSteps; i++)
                 {
                     double left = Math.Pow(basePow, i);
                     double right = Math.Pow(basePow, i + 1);
-                    binningGridView.Rows.Add(i + 1, left, right, avgX[i], avgY[i], avgQuadY[i], textCount3[i]);
+
+                    rows.Add((
+                        i + 1,
+                        Math.Round(left, 5),
+                        Math.Round(right, 5),
+                        avgX[i],
+                        avgY[i],
+                        avgQuadY[i],
+                        textCount3[i]
+                    ));
+                }
+
+                // Очищаємо таблицю перед оновленням
+                binningGridView.Rows.Clear();
+
+                // Додаємо у правильному порядку
+                foreach (var row in rows.OrderBy(r => r.binIndex))
+                {
+                    binningGridView.Rows.Add(row.binIndex, row.left, row.right, row.avgX, row.avgY, row.stdY, row.count);
                 }
             }
-        }
+            }
 
 
 
         private async void openDictionaryMenuItemClick(object sender, EventArgs e)
         {
-            if (fbd.ShowDialog() != DialogResult.OK || fbd.FileName.Length <= 0)
-                return;
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "Text files (*.txt)|*.txt";
+            dialog.Title = "Виберіть файл зі словником";
 
-            parsingResultsChart.Series[0].Points.Clear();
-            var dgv = dictionaryGridView;
-            progressBar1.Maximum = 100;
-            progressBar1.Value = 0;
-            try
+            if (dialog.ShowDialog() == DialogResult.OK)
             {
-                dgv.ColumnCount = 3;
-                dgv.Rows.Clear();
-
-                string[] lines = File.ReadAllLines(fbd.FileName, Encoding.UTF8);
-                progressBar1.Maximum = lines.Length;
-                double[] xArray = new double[lines.Length];
-                double[] yArray = new double[lines.Length];
-                int index = 0;
-                foreach (string line in lines)
+                try
                 {
-                    string[] res = Regex.Split(line, "\t");
-                    if (res.Length < 3) continue;
+                    var lines = File.ReadAllLines(dialog.FileName);
+                    dictionaryGridView.Rows.Clear();
+                    x = new double[lines.Length];
+                    y = new double[lines.Length];
 
-                    dgv.Rows.Add(res);
+                    for (int i = 0; i < lines.Length; i++)
+                    {
+                        var parts = lines[i].Split('\t');
+                        if (parts.Length >= 3 &&
+                            double.TryParse(parts[1], out var valX) &&
+                            double.TryParse(parts[2], out var valY))
+                        {
+                            dictionaryGridView.Rows.Add(parts[0], valX, valY);
+                            x[i] = valX;
+                            y[i] = valY;
+                        }
+                    }
 
-                    try
+                    parsedTexts = x.Length;
+                    textsAnalyzedLabel.Text = $"Кількість текстів: {parsedTexts}";
+
+                    // Оновлюємо графік
+                    var xArray = x;
+                    var yArray = y;
+
+                    parsingResultsChart.Series[0].Points.Clear();
+
+                    // 🟢 Додаємо налаштування графіка
+                    parsingResultsChart.Series[0].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+                    parsingResultsChart.Series[0].MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
+                    parsingResultsChart.Series[0].MarkerSize = 6;
+
+                    parsingResultsChart.ChartAreas[0].AxisX.IsLogarithmic = true;
+                    parsingResultsChart.ChartAreas[0].AxisX.Title = "Кількість слів (лог)";
+                    parsingResultsChart.ChartAreas[0].AxisY.Title = "Частка унікальних слів";
+
+                    for (int i = 0; i < xArray.Length; i++)
                     {
-                        xArray[index] = double.Parse(res[1], CultureInfo.InvariantCulture);
-                        yArray[index] = double.Parse(res[2], CultureInfo.InvariantCulture);
-                        progressBar1.Value++;
-                        index++;
+                        parsingResultsChart.Series[0].Points.AddXY(xArray[i], yArray[i]);
                     }
-                    catch (FormatException)
-                    {
-                        MessageBox.Show($"Помилка формату числа у рядку: {line}");
-                    }
+
+                    // Одразу запускаємо обрахунок бінування
+                    updateButton.PerformClick();
                 }
-                for (int i = 0; i < xArray.Length; i++)
+                catch (Exception ex)
                 {
-                    parsingResultsChart.Series[0].Points.AddXY(xArray[i], yArray[i]);
+                    MessageBox.Show("Помилка при відкритті файлу: " + ex.Message);
                 }
-
-
             }
-            catch (Exception)
-            {
-                MessageBox.Show("The process done");
-            }
-
-            parsedTexts = File.ReadLines(fbd.FileName).Count();
-            textsAnalyzedLabel.Text = Convert.ToString("Count = " + parsedTexts);
-
-            //textBox1.Text = "2";
-
-            int M = Convert.ToInt32(binQuantityUpDown.Text);
 
         }
 
