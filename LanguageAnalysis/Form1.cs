@@ -70,7 +70,7 @@ namespace VolosIndiv
         /// <param name="uniqueColumnName">The header text for the "Unique" column in the dictionary grid view.</param>
         private void clearFormData(string chartName, string countColumnName, string uniqueColumnName)
         {
-            parsingResultsChart.ChartAreas[0].AxisX.IsLogarithmic = false;
+            //parsingResultsChart.ChartAreas[0].AxisX.IsLogarithmic = false;
 
             dictionaryGridView.Rows.Clear();
             binningGridView.Rows.Clear();
@@ -368,19 +368,18 @@ namespace VolosIndiv
                     parsedTexts = x.Length;
                     textsAnalyzedLabel.Text = $"Кількість текстів: {parsedTexts}";
 
-                    // Оновлюємо графік
+                    // Побудова графіка
                     var xArray = x;
                     var yArray = y;
 
                     parsingResultsChart.Series[0].Points.Clear();
 
-                    // 🟢 Додаємо налаштування графіка
+                    // Налаштування графіка (лінійна вісь)
                     parsingResultsChart.Series[0].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
                     parsingResultsChart.Series[0].MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
                     parsingResultsChart.Series[0].MarkerSize = 6;
 
-                    parsingResultsChart.ChartAreas[0].AxisX.IsLogarithmic = true;
-                    parsingResultsChart.ChartAreas[0].AxisX.Title = "Кількість слів (лог)";
+                    parsingResultsChart.ChartAreas[0].AxisX.Title = "Кількість слів";
                     parsingResultsChart.ChartAreas[0].AxisY.Title = "Частка унікальних слів";
 
                     for (int i = 0; i < xArray.Length; i++)
@@ -388,7 +387,7 @@ namespace VolosIndiv
                         parsingResultsChart.Series[0].Points.AddXY(xArray[i], yArray[i]);
                     }
 
-                    // Одразу запускаємо обрахунок бінування
+                    // Оновити бінування після завантаження
                     updateButton.PerformClick();
                 }
                 catch (Exception ex)
