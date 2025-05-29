@@ -16,6 +16,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using FolderWork;
 using TableExport;
+using Parsing;
 
 
 namespace VolosIndiv
@@ -72,45 +73,160 @@ namespace VolosIndiv
 
         #region UIHandlers Methods
 
-
+        /// <summary>
+        /// Handles the change event for the ignore regex checkbox.
+        /// Sets the ignore_case property in NgrammProcessor.
+        /// </summary>
+        private void IgnoreRegexChanged(object sender, EventArgs e)
+        {
+            NgrammProcessor.ignore_case = ignoreRegexCheckbox.Checked;
+        }
 
         /// <summary>
-        /// Clears and resets the form's data and UI elements related to text analysis.
+        /// Handles the change event for the include spaces checkbox.
+        /// Sets the ProcessSpaces property in NgrammProcessor.
         /// </summary>
-        /// <param name="chartName">The name to set for the chart series.</param>
-        /// <param name="countColumnName">The header text for the "Count" column in the dictionary grid view.</param>
-        /// <param name="uniqueColumnName">The header text for the "Unique" column in the dictionary grid view.</param>
-        private void clearFormData(string chartName, string countColumnName, string uniqueColumnName)
+        private void IncludeSpacesChanged(object sender, EventArgs e)
         {
-            //parsingResultsChart.ChartAreas[0].AxisX.IsLogarithmic = false;
-
-            dictionaryGridView.Rows.Clear();
-            binningGridView.Rows.Clear();
-            parsingResultsChart.Series[0].Points.Clear();
-            textsAnalyzedLabel.Text = string.Empty;
-            parsingResultsChart.Legends[0].Title = chartName;
-            parsingResultsChart.Series[0].Name = countColumnName;
-            dictionaryGridView.Columns["Count"].HeaderText = countColumnName;
-            dictionaryGridView.Columns["Unique"].HeaderText = uniqueColumnName;
-            x = null;
-            y = null;
-            avgX = null;
-            avgY = null;
-            avgQuadY = null;
-            textCount = null;
-            textCount2 = null;
-            textCount3 = null;
-            parsedTexts = 0;
+            NgrammProcessor.ProcessSpaces = includingSpaces.Checked;
         }
+
+        /// <summary>
+        /// Handles the CheckedChanged event for the equal length radio button.
+        /// Updates the binning grid using the _dg DataGridView.
+        /// </summary>
+        private async void radioEqualLength_CheckedChanged(object sender, EventArgs e)
+        {
+            await RadioButtonCheckedChanged(_dg);
+        }
+
+        /// <summary>
+        /// Handles the CheckedChanged event for the different length radio button.
+        /// Updates the binning grid using the _dg1 DataGridView.
+        /// </summary>
+        private async void radioDifferentLength_CheckedChanged(object sender, EventArgs e)
+        {
+            await RadioButtonCheckedChanged(_dg1);
+        }
+
+        /// <summary>
+        /// Handles the CheckedChanged event for the growing length radio button.
+        /// Updates the binning grid using the _dg2 DataGridView.
+        /// </summary>
+        private async void radioGrowLength_CheckedChanged(object sender, EventArgs e)
+        {
+            await RadioButtonCheckedChanged(_dg2);
+        }
+
+        /// <summary>
+        /// Handles the click event for saving the dictionary grid view to a file.
+        /// </summary>
+        private void saveDictionaryMenuItemClick(object sender, EventArgs e)
+        {
+            TableExporter.SaveSelectedFile(dictionaryGridView); // Save data from `dataGridView1`
+        }
+
+        /// <summary>
+        /// Handles the click event for saving the binning grid view to a file.
+        /// </summary>
+        private void saveBinningFileMenuItemClick(object sender, EventArgs e)
+        {
+            TableExporter.SaveSelectedFile(binningGridView); // Save data from `dataGridView2`
+        }
+
+        /// <summary>
+        /// Exports the dictionary grid view to a CSV file.
+        /// </summary>
+        private void ExportDictionaryCSV(object sender, EventArgs e)
+        {
+            TableExport.TableExporter.SaveToCSV(dictionaryGridView);
+        }
+
+        /// <summary>
+        /// Exports the binning grid view to a CSV file.
+        /// </summary>
+        private void ExportBinningFileCSV(object sender, EventArgs e)
+        {
+            TableExport.TableExporter.SaveToCSV(binningGridView);
+        }
+
+        /// <summary>
+        /// Exports the dictionary grid view to an Excel (XLSX) file.
+        /// </summary>
+        private void ExportDictionaryXLSX(object sender, EventArgs e)
+        {
+            TableExport.TableExporter.SaveToExcel(dictionaryGridView);
+        }
+
+        /// <summary>
+        /// Exports the binning grid view to an Excel (XLSX) file.
+        /// </summary>
+        private void ExportBinningXLSX(object sender, EventArgs e)
+        {
+            TableExport.TableExporter.SaveToExcel(binningGridView);
+        }
+
+        /// <summary>
+        /// Handles the click event for counting by symbols.
+        /// Clears form data and processes the selected folder by symbols.
+        /// </summary>
+        private async void countBySymbolsClick(object sender, EventArgs e)
+        {
+            clearFormData("Символи", "Кількість символів", "Кількість унікальних символів");
+
+            await OpenFolder(selectedFolderPath, false);
+        }
+
+        /// <summary>
+        /// Handles the click event for counting by words.
+        /// Clears form data and processes the selected folder by words.
+        /// </summary>
+        private async void countByWordsClick(object sender, EventArgs e)
+        {
+            clearFormData("Слова", "Кількість слів", "Кількість унікальних слів");
+
+            await OpenFolder(selectedFolderPath, true);
+        }
+
+        /// <summary>
+        /// Handles the click event for the clear button.
+        /// Clears all data and resets the form.
+        /// </summary>
+        private void clearButtonClick(object sender, EventArgs e)
+        {
+            ClearData();
+
+            clearFormData("Джерело не обрано(Очищено)", "Джерело не обрано", "Джерело не обрано");
+        }
+
+        /// <summary>
+        /// Executes the given action on the UI thread if required.
+        /// </summary>
+        private void RunOnUiContext(Action action)
+        {
+            if (InvokeRequired)
+                Invoke(action);
+
+            else
+                action();
+
+        }
+
+        /// <summary>
+        /// Handles progress updates from a progress reporter and updates the progress bar.
+        /// </summary>
         private void Reporter_ProgressChanged(object sender, int e)
         {
-
             RunOnUiContext(() =>
             {
                 if (e > progressBar1.Maximum || e < progressBar1.Minimum) return;
                 progressBar1.Value = e;
             });
         }
+
+        /// <summary>
+        /// Handles the click event for saving the chart as a PNG image.
+        /// </summary>
         private void SaveChartClick(object sender, EventArgs e)
         {
             using (SaveFileDialog saveDialog = new SaveFileDialog())
@@ -126,40 +242,10 @@ namespace VolosIndiv
             }
         }
 
-        private void ExportDictionaryCSV(object sender, EventArgs e)
-        {
-            TableExport.TableExporter.ExportToCSV(dictionaryGridView);
-        }
-        private void ExportBinningFileCSV(object sender, EventArgs e)
-        {
-            TableExport.TableExporter.ExportToCSV(binningGridView);
-        }
-        private void ExportDictionaryXLSX(object sender, EventArgs e)
-        {
-            TableExport.TableExporter.ExportToExcel(dictionaryGridView);
-        }
-        private void ExportBinningXLSX(object sender, EventArgs e)
-        {
-            TableExport.TableExporter.ExportToExcel(binningGridView);
-        }
-
-        private async void countBySymbolsClick(object sender, EventArgs e)
-        {
-            clearFormData("Символи", "Кількість символів", "Кількість унікальних символів");
-
-            await OpenFolder(selectedFolderPath, false);
-        }
-
-        private async void countByWordsClick(object sender, EventArgs e)
-        {
-            clearFormData("Слова", "Кількість слів", "Кількість унікальних слів");
-
-            await OpenFolder(selectedFolderPath, true);
-        }
-
-
-
-
+        /// <summary>
+        /// Handles the click event for the experimental binning search button.
+        /// Finds the best base for log-linear regression.
+        /// </summary>
         private void expBinningSearchButtonClick(object sender, EventArgs e)
         {
             double a = 1.1, b = 3d;
@@ -180,99 +266,33 @@ namespace VolosIndiv
             powAUpDown.Value = ((decimal)b);
         }
 
-        private async void radioEqualLength_CheckedChanged(object sender, EventArgs e)
+        /// <summary>
+        /// Handles the click event for opening a folder.
+        /// Opens a folder browser dialog and sets the selected folder path.
+        /// </summary>
+        private void OpenFolderMenuItemClick(object sender, EventArgs e)
         {
-            await RadioButtonCheckedChanged(_dg);
+            using (var folderBrowserDialog = new FolderBrowserDialog())
+            {
+                folderBrowserDialog.Description = "Виберіть папку з текстами";
+                folderBrowserDialog.SelectedPath = System.Environment.CurrentDirectory;
+                if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+                {
+                    selectedFolderPath = folderBrowserDialog.SelectedPath;
+                    string folderName = Path.GetFileName(selectedFolderPath.TrimEnd(Path.DirectorySeparatorChar));
+
+                    folderLabel.Text = "Папка: " + folderBrowserDialog.SelectedPath;
+
+                    countByWordsButton.Enabled = true;
+                    countBySymbolsButton.Enabled = true;
+                }
+            }
         }
 
-        private async void radioDifferentLength_CheckedChanged(object sender, EventArgs e)
-        {
-            await RadioButtonCheckedChanged(_dg1);
-        }
-
-        private async void radioGrowLength_CheckedChanged(object sender, EventArgs e)
-        {
-            await RadioButtonCheckedChanged(_dg2);
-        }
-
-        private void saveDictionaryMenuItemClick(object sender, EventArgs e)
-        {
-            SaveSelectedFile(dictionaryGridView); // Save data from `dataGridView1`
-        }
-
-        private void saveBinningFileMenuItemClick(object sender, EventArgs e)
-        {
-            SaveSelectedFile(binningGridView); // Save data from `dataGridView2`
-        }
-
-
-        private void clearButtonClick(object sender, EventArgs e)
-        {
-            ClearData();
-            clearFormData("Джерело не обрано(Очищено)", "Джерело не обрано", "Джерело не обрано");
-        }
-        private double doubleParseFromStringInvariant(string data)
-        {
-            if (data.Length <= 0)
-                return 0d;
-            if (double.TryParse(data, NumberStyles.Float, CultureInfo.InvariantCulture, out var x1))
-                return x1;
-            return 0d;
-        }
-        private double doubleParseFromStringCurrent(string data)
-        {
-            if (data.Length <= 0)
-                return 0d;
-            if (double.TryParse(data, NumberStyles.Float, CultureInfo.CurrentCulture, out var x1))
-                return x1;
-            return 0d;
-        }
-        private double doubleParseFromString(string data)
-        {
-            var result = doubleParseFromStringCurrent(data);
-            if (result != 0d)
-                return result;
-            result = doubleParseFromStringInvariant(data);
-            if (result != 0d)
-                return result;
-            return 0d;
-        }
-        private (double, double) doubleParseFromStrings(string data)
-        {
-
-            if (data.Length <= 0)
-                return (0d, 0d);
-            var parts = data.Split('\t');
-            if (parts.Length != 3)
-                return (0d, 0d);
-            if (double.TryParse(parts[1], NumberStyles.Float, CultureInfo.CurrentCulture, out var x2) &&
-                double.TryParse(parts[2], NumberStyles.Float, CultureInfo.CurrentCulture, out var y2))
-                return (x2, y2);
-            else if (double.TryParse(parts[1], NumberStyles.Float, CultureInfo.InvariantCulture, out var x1) &&
-                double.TryParse(parts[2], NumberStyles.Float, CultureInfo.InvariantCulture, out var y1))
-                return (x1, y1);
-
-
-            return (0d, 0d);
-        }
-        public static int CompareDouble(double a, double b, double epsilon = 1e-9)
-        {
-            // Проверка особых случаев
-            if (double.IsNaN(a) || double.IsNaN(b))
-                throw new ArgumentException("Cannot compare NaN values");
-
-            // Бесконечности
-            if (double.IsPositiveInfinity(a) && double.IsPositiveInfinity(b)) return 0;
-            if (double.IsNegativeInfinity(a) && double.IsNegativeInfinity(b)) return 0;
-
-            // Основное сравнение с погрешностью
-            double diff = a - b;
-
-            if (Math.Abs(diff) < epsilon)
-                return 0;  // a ≈ b
-
-            return diff > 0 ? 1 : -1; // a > b : a < b
-        }
+        /// <summary>
+        /// Handles the SortCompare event for the dictionary grid view.
+        /// Provides custom sorting logic for specific columns.
+        /// </summary>
         private void dictionaryGridView_SortCompare(object sender, DataGridViewSortCompareEventArgs e)
         {
             switch (e.Column.Name)
@@ -289,9 +309,9 @@ namespace VolosIndiv
                     }
                 case "Unique":
                     {
-                        var a = doubleParseFromString(e.CellValue1.ToString());
-                        var b = doubleParseFromString(e.CellValue2.ToString());
-                        e.SortResult = CompareDouble(a, b, 1e-12);
+                        var a = DoubleParsers.doubleParseFromString(e.CellValue1.ToString());
+                        var b = DoubleParsers.doubleParseFromString(e.CellValue2.ToString());
+                        e.SortResult = DoubleParsers.CompareDouble(a, b, 1e-12);
                         break;
                     }
                 case "NameDG":
@@ -306,48 +326,164 @@ namespace VolosIndiv
             e.Handled = true;
         }
 
+        /// <summary>
+        /// Clears and resets the form's data and UI elements related to text analysis.
+        /// </summary>
+        /// <param name="chartName">The name to set for the chart series.</param>
+        /// <param name="countColumnName">The header text for the "Count" column in the dictionary grid view.</param>
+        /// <param name="uniqueColumnName">The header text for the "Unique" column in the dictionary grid view.</param>
+        private void clearFormData(string chartName, string countColumnName, string uniqueColumnName)
+        {
+            //parsingResultsChart.ChartAreas[0].AxisX.IsLogarithmic = false;
 
+            dictionaryGridView.Rows.Clear();
+            binningGridView.Rows.Clear();
+            parsingResultsChart.Series[0].Points.Clear();
+
+            textsAnalyzedLabel.Text = string.Empty;
+
+            parsingResultsChart.Legends[0].Title = chartName;
+            parsingResultsChart.Series[0].Name = countColumnName;
+            dictionaryGridView.Columns["Count"].HeaderText = countColumnName;
+            dictionaryGridView.Columns["Unique"].HeaderText = uniqueColumnName;
+
+            x = null;
+            y = null;
+            avgX = null;
+            avgY = null;
+            avgQuadY = null;
+            textCount = null;
+            textCount2 = null;
+            textCount3 = null;
+            parsedTexts = 0;
+
+        }
+
+        /// <summary>
+        /// Handles the click event for opening a dictionary file.
+        /// Loads the dictionary data into the grid view and updates the chart.
+        /// </summary>
+        private async void openDictionaryMenuItemClick(object sender, EventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "Text files (*.txt)|*.txt";
+            dialog.Title = "Виберіть файл зі словником";
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    var lines = File.ReadAllLines(dialog.FileName);
+                    dictionaryGridView.Rows.Clear();
+                    x = new double[lines.Length];
+                    y = new double[lines.Length];
+
+                    for (int i = 0; i < lines.Length; i++)
+                    {
+
+                        var parts = lines[i].Split('\t');
+
+
+                        if (parts.Length >= 3)
+                        {
+                            var (valX, valY) = DoubleParsers.doubleParseFromStrings(lines[i]);
+                            dictionaryGridView.Rows.Add(parts[0], valX, valY);
+                            x[i] = valX;
+                            y[i] = valY;
+                        }
+                    }
+
+                    parsedTexts = x.Length;
+                    textsAnalyzedLabel.Text = $"Кількість текстів: {parsedTexts}";
+
+                    // Побудова графіка
+                    var xArray = x;
+                    var yArray = y;
+
+                    parsingResultsChart.Series[0].Points.Clear();
+
+
+
+                    parsingResultsChart.ChartAreas[0].AxisX.Title = "Кількість слів";
+                    parsingResultsChart.ChartAreas[0].AxisY.Title = "Частка унікальних слів";
+
+                    for (int i = 0; i < xArray.Length; i++)
+                    {
+                        parsingResultsChart.Series[0].Points.AddXY(xArray[i], yArray[i]);
+                    }
+
+                    // Оновити бінування після завантаження
+                    updateButton.PerformClick();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Помилка при відкритті файлу: " + ex.Message);
+                }
+            }
+
+        }
+
+        /// <summary>
+        /// Handles the click event for opening a binning file.
+        /// Loads the binning data into the grid view.
+        /// </summary>
+        private void OpenBinningFileMenuItemClick(object sender, EventArgs e)
+        {
+            var dgv = binningGridView;
+            progressBar1.Maximum = 100;
+            progressBar1.Value = 0;
+            //for files in current folder
+            try
+            {
+                dgv.ColumnCount = 7;
+                dgv.Rows.Clear();
+                if (fbd.ShowDialog() == DialogResult.OK && fbd.FileName.Length > 0)
+                {
+                    string[] lines = File.ReadAllLines(fbd.FileName, Encoding.UTF8);
+                    progressBar1.Maximum = lines.Length;
+
+                    foreach (string line in lines)
+                    {
+                        string[] res = Regex.Split(line, "\t");
+                        dgv.Rows.Add(res);
+                        progressBar1.Value++;
+
+                    }
+
+
+                }
+
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("The process done");
+            }
+
+            parsedTexts = File.ReadLines(fbd.FileName).Count();
+            textsAnalyzedLabel.Text = Convert.ToString("Текстів: " + parsedTexts);
+            int M = Convert.ToInt32(binQuantityUpDown.Text);
+
+        }
+
+        /// <summary>
+        /// Handles the click event for updating the binning grid.
+        /// Recalculates binning based on the selected method and updates the grid.
+        /// </summary>
         private async void updateButtonClick(object sender, EventArgs e)
         {
             binningGridView.Rows.Clear();
 
             int M = (int)binQuantityUpDown.Value;
-            double basePow = 0d;
-            try
-            {
-                basePow = (double)powAUpDown.Value;
-            }
-            catch
+
+
+            if (!double.TryParse(powAUpDown.Value.ToString(), out var basePow))
             {
                 MessageBox.Show("Введіть основу степеня!");
                 return;
             }
 
-            if (dictionaryGridView.Rows.Count > 0)
-            {
-                var xList = new List<double>();
-                var yList = new List<double>();
+            var (x, y) = LoadDataFromGrid(dictionaryGridView);
 
-                foreach (DataGridViewRow row in dictionaryGridView.Rows)
-                {
-                    if (row.Cells[1].Value != null && row.Cells[2].Value != null)
-                    {
-
-                        xList.Add(doubleParseFromString(row.Cells[1].Value.ToString()));
-                        yList.Add(doubleParseFromString(row.Cells[2].Value.ToString()));
-                    }
-                }
-
-                x = xList.ToArray();
-                y = yList.ToArray();
-                parsedTexts = x.Length;
-                textsAnalyzedLabel.Text = $"Кількість текстів: {parsedTexts}";
-            }
-            else
-            {
-                MessageBox.Show("Словник не завантажено.");
-                return;
-            }
 
             if (M >= parsedTexts)
             {
@@ -457,71 +593,21 @@ namespace VolosIndiv
             }
         }
 
-
-
-        private async void openDictionaryMenuItemClick(object sender, EventArgs e)
-        {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Filter = "Text files (*.txt)|*.txt";
-            dialog.Title = "Виберіть файл зі словником";
-
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                try
-                {
-                    var lines = File.ReadAllLines(dialog.FileName);
-                    dictionaryGridView.Rows.Clear();
-                    x = new double[lines.Length];
-                    y = new double[lines.Length];
-
-                    for (int i = 0; i < lines.Length; i++)
-                    {
-
-                        var parts = lines[i].Split('\t');
-
-
-                        if (parts.Length >= 3)
-                        {
-                            var (valX, valY) = doubleParseFromStrings(lines[i]);
-                            dictionaryGridView.Rows.Add(parts[0], valX, valY);
-                            x[i] = valX;
-                            y[i] = valY;
-                        }
-                    }
-
-                    parsedTexts = x.Length;
-                    textsAnalyzedLabel.Text = $"Кількість текстів: {parsedTexts}";
-
-                    // Побудова графіка
-                    var xArray = x;
-                    var yArray = y;
-
-                    parsingResultsChart.Series[0].Points.Clear();
-
-
-
-                    parsingResultsChart.ChartAreas[0].AxisX.Title = "Кількість слів";
-                    parsingResultsChart.ChartAreas[0].AxisY.Title = "Частка унікальних слів";
-
-                    for (int i = 0; i < xArray.Length; i++)
-                    {
-                        parsingResultsChart.Series[0].Points.AddXY(xArray[i], yArray[i]);
-                    }
-
-                    // Оновити бінування після завантаження
-                    updateButton.PerformClick();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Помилка при відкритті файлу: " + ex.Message);
-                }
-            }
-
-        }
-
         #endregion
 
         #region Private helper methods
+
+        /// <summary>
+        /// Adds a row to the dictionary grid view with the specified values.
+        /// </summary>
+        private void AddToDataGrid(string name, double count, double unique)
+        {
+            dictionaryGridView.Rows.Add(name, count.ToString(CultureInfo.InvariantCulture), unique.ToString(CultureInfo.InvariantCulture));
+        }
+
+        /// <summary>
+        /// Initializes resources required for Asian language parsing.
+        /// </summary>
         private void InitializeAsianParsingResources()
         {
 
@@ -531,6 +617,23 @@ namespace VolosIndiv
             NgrammProcessor.InitializeJapaneseProcessing(JapaneseParsingResourceFolder);
         }
 
+        /// <summary>
+        /// Handles the logic for when a radio button is checked, updating the binning grid.
+        /// </summary>
+        /// <param name="dataGrid">The DataGridView to use for updating.</param>
+        private async Task RadioButtonCheckedChanged(DataGridView dataGrid)
+        {
+            if (binningGridView.Rows.Count <= 2)
+                return;
+            binningGridView.Rows.Clear();
+            ClearBinningData();
+
+            await UpdateDataGrid(_dg);
+        }
+
+        /// <summary>
+        /// Clears all binning data from the internal DataGridViews.
+        /// </summary>
         private void ClearBinningData()
         {
             _dg.ColumnCount = 7;
@@ -540,6 +643,27 @@ namespace VolosIndiv
             _dg1.Rows.Clear();
             _dg2.Rows.Clear();
         }
+
+        /// <summary>
+        /// Adds a row to the specified DataGridView asynchronously.
+        /// </summary>
+        /// <param name="dataGridView">The DataGridView to add the row to.</param>
+        /// <param name="items">The items to add as a row.</param>
+        private async Task AddRowAsync(DataGridView dataGridView, object[] items)
+        {
+            await Task.Run(() =>
+            {
+                dataGridView.Invoke(new Action(() =>
+                {
+                    dataGridView.Rows.Add(items);
+                    dataGridView.Update();
+                }));
+            });
+        }
+
+        /// <summary>
+        /// Clears all data and resets the form state.
+        /// </summary>
         private void ClearData()
         {
             ClearBinningData();
@@ -554,6 +678,155 @@ namespace VolosIndiv
             textCount3 = null;
         }
 
+        /// <summary>
+        /// Updates the binning grid with sorted data from the specified DataGridView.
+        /// </summary>
+        /// <param name="dataGrid">The DataGridView to read data from.</param>
+        private async Task UpdateDataGrid(DataGridView dataGrid)
+        {
+            var rows = dataGrid.Rows.Cast<DataGridViewRow>()
+            .Where(r => r.Cells[0].Value != null)
+            .OrderBy(r => r.Cells[0].Value.ToString()) // Сортування за першим стовпцем
+            .ToList();
+
+            foreach (var row in rows)
+            {
+                var items = new object[row.Cells.Count];
+                for (var i = 0; i < row.Cells.Count; i++)
+                {
+                    items[i] = row.Cells[i].Value;
+                }
+                await AddRowAsync(binningGridView, items);
+            }
+        }
+
+        /// <summary>
+        /// Loads X and Y data arrays from the specified DataGridView.
+        /// </summary>
+        /// <param name="gv">The DataGridView to load data from.</param>
+        /// <returns>Tuple of X and Y double arrays.</returns>
+        private (double[], double[]) LoadDataFromGrid(DataGridView gv)
+        {
+            if (gv.Rows.Count > 0)
+            {
+                var xList = new List<double>();
+                var yList = new List<double>();
+
+                foreach (DataGridViewRow row in gv.Rows)
+                {
+                    if (row.Cells[1].Value != null && row.Cells[2].Value != null)
+                    {
+
+                        xList.Add(DoubleParsers.doubleParseFromString(row.Cells[1].Value.ToString()));
+                        yList.Add(DoubleParsers.doubleParseFromString(row.Cells[2].Value.ToString()));
+                    }
+                }
+
+                x = xList.ToArray();
+                y = yList.ToArray();
+                parsedTexts = x.Length;
+                textsAnalyzedLabel.Text = $"Кількість текстів: {parsedTexts}";
+                return (x, y);
+            }
+            else
+            {
+                MessageBox.Show("Словник не завантажено.");
+                return (null, null);
+            }
+        }
+
+        /// <summary>
+        /// Recursively processes a directory and returns a list of all file paths.
+        /// </summary>
+        /// <param name="targetDirectory">The directory to process.</param>
+        /// <returns>List of file paths.</returns>
+        private static async Task<List<string>> ProcessDirectoryAsync(string targetDirectory)
+        {
+            try
+            {
+                if (!FolderChecker.IsValidFolder(targetDirectory))
+                    throw new Exception("Invalid folder path or folder does not exist. ");
+                var fileEntries = new List<string>();
+
+                var filesInTargetDirectory = await Task.Run(() => Directory.GetFiles(targetDirectory));
+                fileEntries.AddRange(filesInTargetDirectory);
+
+                var subdirectoryEntries = await Task.Run(() => Directory.GetDirectories(targetDirectory));
+                var subdirectoryTasks = subdirectoryEntries.Select(ProcessDirectoryAsync).ToList();
+
+                await Task.WhenAll(subdirectoryTasks);
+
+                foreach (var subdirectoryTask in subdirectoryTasks)
+                {
+                    var filesInSubdirectory = await subdirectoryTask;
+                    fileEntries.AddRange(filesInSubdirectory);
+                }
+
+                return fileEntries;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message + "Error loading directory");
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Calculates the coefficient of determination for log-linear regression with the specified base.
+        /// </summary>
+        /// <param name="basePow">The base for the logarithm.</param>
+        /// <returns>Coefficient of determination (R^2).</returns>
+        private double GetLogLinearRegression(double basePow)
+        {
+            var steps = 0;
+            double res = 0;
+            if (x != null)
+            {
+                while (res < x.Max())
+                {
+                    steps++;
+                    res = Math.Pow(basePow, steps);
+                }
+                AverageMethod(x, y, steps, basePow, AverageType.ThirdAverage, out avgX, out avgY, out avgQuadY, out textCount3);
+
+                var avgQuadYList = avgQuadY.ToList();
+                var avgXList = avgX.ToList();
+
+                for (var i = 0; i < avgQuadYList.Count;)
+                {
+                    if (avgQuadYList[i] == 0)
+                    {
+                        avgQuadYList.RemoveAt(i);
+                        avgXList.RemoveAt(i);
+                    }
+                    else
+                    {
+                        i++;
+                    }
+                }
+
+                var avgQuadYLog = (from quads in avgQuadYList select Math.Log10(quads)).ToArray();
+                var avgXLog = (from xs in avgXList select Math.Log10(xs)).ToArray();
+
+                var sr = new Accord.Statistics.Models.Regression.Linear.OrdinaryLeastSquares();
+                var regressionResult = sr.Learn(avgXLog, avgQuadYLog);
+                return regressionResult.CoefficientOfDetermination(avgXLog, avgQuadYLog);
+            }
+            return 2.0;
+        }
+
+        /// <summary>
+        /// Calculates averages and standard deviations for binning data.
+        /// </summary>
+        /// <param name="x">X data array.</param>
+        /// <param name="y">Y data array.</param>
+        /// <param name="maxStep">Number of bins or steps.</param>
+        /// <param name="basePow">Base for logarithmic binning.</param>
+        /// <param name="type">Type of averaging to use.</param>
+        /// <param name="L">Output: average X values per bin.</param>
+        /// <param name="V">Output: average Y values per bin.</param>
+        /// <param name="dV">Output: standard deviation of Y per bin.</param>
+        /// <param name="textCount">Output: number of items per bin.</param>
         private void AverageMethod(double[] x, double[] y, int maxStep, double basePow, AverageType type, out double[] L, out double[] V, out double[] dV,
             out int[] textCount)
         {
@@ -640,20 +913,11 @@ namespace VolosIndiv
             }
         }
 
-        private async Task<int> CountTextFilesAsync(string folderPath)
-        {
-            return await Task.Run(() =>
-            {
-                if (string.IsNullOrEmpty(folderPath) || !Directory.Exists(folderPath))
-                {
-                    throw new DirectoryNotFoundException("The specified folder does not exist.");
-                }
-
-                var textFiles = Directory.EnumerateFiles(folderPath, "*.txt", SearchOption.AllDirectories);
-                return textFiles.Count();
-            });
-        }
-
+        /// <summary>
+        /// Processes the selected folder and updates the UI with analysis results.
+        /// </summary>
+        /// <param name="folderPath">The path to the folder to process.</param>
+        /// <param name="byWords">If true, process by words; otherwise, by symbols.</param>
         private async Task OpenFolder(string folderPath, bool byWords)
         {
             if (string.IsNullOrEmpty(folderPath))
@@ -743,7 +1007,11 @@ namespace VolosIndiv
             this.elapsedTimeLabel.Text = $"Час виконання: {elapsedTime}";
         }
 
-
+        /// <summary>
+        /// Performs binning on the provided X and Y lists and updates the binning DataGridViews.
+        /// </summary>
+        /// <param name="xList">List of X values.</param>
+        /// <param name="yList">List of Y values.</param>
         private async Task BinningScript(ArrayList xList, ArrayList yList)
         {
             ClearBinningData();
@@ -806,245 +1074,6 @@ namespace VolosIndiv
                 var selectedDataGrid = equalLengthRadio.Checked ? _dg :
                     differentLengthRadio.Checked ? _dg1 : _dg2;
                 await UpdateDataGrid(selectedDataGrid);
-            }
-        }
-
-        private void AddToDataGrid(string name, double count, double unique)
-        {
-            dictionaryGridView.Rows.Add(name, count.ToString(CultureInfo.InvariantCulture), unique.ToString(CultureInfo.InvariantCulture));
-        }
-
-        private async Task RadioButtonCheckedChanged(DataGridView dataGrid)
-        {
-            if (binningGridView.Rows.Count <= 2)
-                return;
-            binningGridView.Rows.Clear();
-            ClearBinningData();
-
-            await UpdateDataGrid(_dg);
-        }
-
-        private void SaveSelectedFile(DataGridView dataGridView)
-        {
-            // Initialize SaveFileDialog
-            SaveFileDialog saveFile = new SaveFileDialog
-            {
-                DefaultExt = "*.txt",
-                Filter = "TXT Files|*.txt"
-            };
-
-            // Show the dialog and check if the user selected a file
-            if (saveFile.ShowDialog() != DialogResult.OK || saveFile.FileName.Length <= 0)
-                return;
-
-            try
-            {
-                // Create a StreamWriter to write to the selected file
-                using (var sw = new StreamWriter(saveFile.FileName))
-                {
-                    // Iterate through DataGridView rows and columns
-                    for (int i = 0; i < dataGridView.Rows.Count; i++)
-                    {
-                        var cellValues = new List<string>();
-                        for (int j = 0; j < dataGridView.Columns.Count; j++)
-                        {
-                            if (dataGridView.Rows[i].Cells[j].Value != null)
-                            {
-                                cellValues.Add(dataGridView.Rows[i].Cells[j].Value.ToString());
-                            }
-                        }
-                        sw.WriteLine(string.Join("\t", cellValues));
-                    }
-                }
-                // Inform the user that the data was saved successfully
-                MessageBox.Show("Дані збережено");
-            }
-            catch (Exception ex)
-            {
-                // Show an error message if something went wrong
-                MessageBox.Show($"Помилка при збереженні файлу: {ex.Message}");
-            }
-        }
-
-
-        private async Task UpdateDataGrid(DataGridView dataGrid)
-        {
-            var rows = dataGrid.Rows.Cast<DataGridViewRow>()
-            .Where(r => r.Cells[0].Value != null)
-            .OrderBy(r => r.Cells[0].Value.ToString()) // Сортування за першим стовпцем
-            .ToList();
-
-            foreach (var row in rows)
-            {
-                var items = new object[row.Cells.Count];
-                for (var i = 0; i < row.Cells.Count; i++)
-                {
-                    items[i] = row.Cells[i].Value;
-                }
-                await AddRowAsync(binningGridView, items);
-            }
-        }
-        private async Task AddRowAsync(DataGridView dataGridView, object[] items)
-        {
-            await Task.Run(() =>
-            {
-                dataGridView.Invoke(new Action(() =>
-                {
-                    dataGridView.Rows.Add(items);
-                    dataGridView.Update();
-                }));
-            });
-        }
-
-        private static async Task<List<string>> ProcessDirectoryAsync(string targetDirectory)
-        {
-            try
-            {
-                if (!FolderChecker.IsValidFolder(targetDirectory))
-                    throw new Exception("Invalid folder path or folder does not exist. ");
-                var fileEntries = new List<string>();
-
-                var filesInTargetDirectory = await Task.Run(() => Directory.GetFiles(targetDirectory));
-                fileEntries.AddRange(filesInTargetDirectory);
-
-                var subdirectoryEntries = await Task.Run(() => Directory.GetDirectories(targetDirectory));
-                var subdirectoryTasks = subdirectoryEntries.Select(ProcessDirectoryAsync).ToList();
-
-                await Task.WhenAll(subdirectoryTasks);
-
-                foreach (var subdirectoryTask in subdirectoryTasks)
-                {
-                    var filesInSubdirectory = await subdirectoryTask;
-                    fileEntries.AddRange(filesInSubdirectory);
-                }
-
-                return fileEntries;
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message + "Error loading directory");
-                throw;
-            }
-        }
-
-        private void OpenFolderMenuItemClick(object sender, EventArgs e)
-        {
-
-            using (var folderBrowserDialog = new FolderBrowserDialog())
-            {
-                folderBrowserDialog.Description = "Виберіть папку з текстами";
-                folderBrowserDialog.SelectedPath = System.Environment.CurrentDirectory;
-                if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
-                {
-                    selectedFolderPath = folderBrowserDialog.SelectedPath;
-                    string folderName = Path.GetFileName(selectedFolderPath.TrimEnd(Path.DirectorySeparatorChar));
-
-                    folderLabel.Text = "Папка: " + folderBrowserDialog.SelectedPath;
-
-                    countByWordsButton.Enabled = true;
-                    countBySymbolsButton.Enabled = true;
-                }
-            }
-        }
-
-        private void OpenBinningFileMenuItemClick(object sender, EventArgs e)
-        {
-            var dgv = binningGridView;
-            progressBar1.Maximum = 100;
-            progressBar1.Value = 0;
-            //for files in current folder
-            try
-            {
-                dgv.ColumnCount = 7;
-                dgv.Rows.Clear();
-                if (fbd.ShowDialog() == DialogResult.OK && fbd.FileName.Length > 0)
-                {
-                    string[] lines = File.ReadAllLines(fbd.FileName, Encoding.UTF8);
-                    progressBar1.Maximum = lines.Length;
-
-                    foreach (string line in lines)
-                    {
-                        string[] res = Regex.Split(line, "\t");
-                        dgv.Rows.Add(res);
-                        progressBar1.Value++;
-
-                    }
-
-
-                }
-
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("The process done");
-            }
-
-            parsedTexts = File.ReadLines(fbd.FileName).Count();
-            textsAnalyzedLabel.Text = Convert.ToString("Текстів: " + parsedTexts);
-            int M = Convert.ToInt32(binQuantityUpDown.Text);
-
-        }
-
-        private void IgnoreRegexChanged(object sender, EventArgs e)
-        {
-            NgrammProcessor.ignore_case = ignoreRegexCheckbox.Checked;
-        }
-
-        private void IncludeSpacesChanged(object sender, EventArgs e)
-        {
-            NgrammProcessor.ProcessSpaces = includingSpaces.Checked;
-        }
-
-        private double GetLogLinearRegression(double basePow)
-        {
-            var steps = 0;
-            double res = 0;
-            if (x != null)
-            {
-                while (res < x.Max())
-                {
-                    steps++;
-                    res = Math.Pow(basePow, steps);
-                }
-                AverageMethod(x, y, steps, basePow, AverageType.ThirdAverage, out avgX, out avgY, out avgQuadY, out textCount3);
-
-                var avgQuadYList = avgQuadY.ToList();
-                var avgXList = avgX.ToList();
-
-                for (var i = 0; i < avgQuadYList.Count;)
-                {
-                    if (avgQuadYList[i] == 0)
-                    {
-                        avgQuadYList.RemoveAt(i);
-                        avgXList.RemoveAt(i);
-                    }
-                    else
-                    {
-                        i++;
-                    }
-                }
-
-                var avgQuadYLog = (from quads in avgQuadYList select Math.Log10(quads)).ToArray();
-                var avgXLog = (from xs in avgXList select Math.Log10(xs)).ToArray();
-
-                var sr = new Accord.Statistics.Models.Regression.Linear.OrdinaryLeastSquares();
-                var regressionResult = sr.Learn(avgXLog, avgQuadYLog);
-                return regressionResult.CoefficientOfDetermination(avgXLog, avgQuadYLog);
-            }
-            return 2.0;
-        }
-
-
-
-        private void RunOnUiContext(Action action)
-        {
-            if (InvokeRequired)
-            {
-                Invoke(action);
-            }
-            else
-            {
-                action();
             }
         }
 

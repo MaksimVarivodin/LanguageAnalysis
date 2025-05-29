@@ -9,9 +9,17 @@ using OfficeOpenXml;
 
 namespace TableExport
 {
+    /// <summary>
+    /// Provides methods to export the contents of a DataGridView to various file formats.
+    /// </summary>
     public static class TableExporter
     {
-        public static void ExportToCSV(DataGridView dgv)
+        /// <summary>
+        /// Exports the contents of a DataGridView to a CSV file.
+        /// Only visible columns are exported. Prompts the user to select the file location.
+        /// </summary>
+        /// <param name="dgv">The DataGridView to export.</param>
+        public static void SaveToCSV(DataGridView dgv)
         {
             using (SaveFileDialog saveDialog = new SaveFileDialog())
             {
@@ -59,7 +67,11 @@ namespace TableExport
             }
         }
 
-        // Escapes a value for CSV (wraps in quotes, doubles quotes inside)
+        /// <summary>
+        /// Escapes a value for CSV output by wrapping in quotes and doubling any internal quotes.
+        /// </summary>
+        /// <param name="value">The string value to escape.</param>
+        /// <returns>The escaped CSV string.</returns>
         private static string EscapeCsv(string value)
         {
             if (value.Contains("\"") || value.Contains(",") || value.Contains("\n") || value.Contains("\r"))
@@ -69,7 +81,12 @@ namespace TableExport
             return value;
         }
 
-        public static void ExportToExcel(DataGridView dgv)
+        /// <summary>
+        /// Exports the contents of a DataGridView to an Excel (.xlsx) file using EPPlus.
+        /// Prompts the user to select the file location.
+        /// </summary>
+        /// <param name="dgv">The DataGridView to export.</param>
+        public static void SaveToExcel(DataGridView dgv)
         {
             using (SaveFileDialog saveDialog = new SaveFileDialog())
             {
@@ -114,6 +131,63 @@ namespace TableExport
 
                     MessageBox.Show("Експорт завершено успішно!");
                 }
+            }
+        }
+
+        /// <summary>
+        /// Saves the contents of a DataGridView to a text file (tab-separated values).
+        /// Prompts the user to select the file location.
+        /// </summary>
+        /// <param name="dataGridView">The DataGridView to export.</param>
+        public static void SaveSelectedFile(DataGridView dataGridView)
+        {
+            // Initialize SaveFileDialog
+            SaveFileDialog saveFile = new SaveFileDialog
+            {
+                DefaultExt = "*.txt",
+                Filter = "TXT Files|*.txt"
+            };
+
+            // Show the dialog and check if the user selected a file
+            if (saveFile.ShowDialog() != DialogResult.OK || saveFile.FileName.Length <= 0)
+                return;
+
+            try
+            {
+                // Create a StreamWriter to write to the selected file
+                using (var sw = new StreamWriter(saveFile.FileName))
+                {
+                    // Iterate through DataGridView rows and columns
+                    for (int i = 0; i < dataGridView.Rows.Count - 1; i++)
+                    {
+                        var forValues = new List<string>();
+                        for (int j = 0; j < dataGridView.Columns.Count; j++)
+                        {
+                            if (dataGridView.Rows[i].Cells[j].Value != null)
+                            {
+                                forValues.Add(dataGridView.Rows[i].Cells[j].Value.ToString());
+                            }
+                        }
+                        sw.WriteLine(string.Join("\t", forValues));
+                    }
+                    var cellValues = new List<string>();
+                    for (int j = 0; j < dataGridView.Columns.Count; j++)
+                    {
+                        if (dataGridView.Rows[dataGridView.Rows.Count - 1].Cells[j].Value != null)
+                        {
+                            cellValues.Add(dataGridView.Rows[dataGridView.Rows.Count - 1].Cells[j].Value.ToString());
+                        }
+                    }
+                    sw.Write(string.Join("\t", cellValues));
+
+                }
+                // Inform the user that the data was saved successfully
+                MessageBox.Show("Дані збережено");
+            }
+            catch (Exception ex)
+            {
+                // Show an error message if something went wrong
+                MessageBox.Show($"Помилка при збереженні файлу: {ex.Message}");
             }
         }
     }
