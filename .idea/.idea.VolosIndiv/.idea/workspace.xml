@@ -8,25 +8,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="740b782f-bc98-4491-9dae-5060cdea22c8" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.VolosIndiv/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.VolosIndiv/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VolosIndiv/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vs/VolosIndiv/CopilotIndices/17.13.431.34963/CodeChunks.db" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vs/VolosIndiv/CopilotIndices/17.13.431.34963/CodeChunks.db-shm" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vs/VolosIndiv/CopilotIndices/17.13.431.34963/CodeChunks.db-wal" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vs/VolosIndiv/CopilotIndices/17.13.431.34963/SemanticSymbols.db" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vs/VolosIndiv/CopilotIndices/17.13.431.34963/SemanticSymbols.db-shm" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vs/VolosIndiv/CopilotIndices/17.13.431.34963/SemanticSymbols.db-wal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/VolosIndiv/CopilotIndices/17.13.444.19527/CodeChunks.db" beforeDir="false" afterPath="$PROJECT_DIR$/.vs/VolosIndiv/CopilotIndices/17.13.444.19527/CodeChunks.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/VolosIndiv/CopilotIndices/17.13.444.19527/SemanticSymbols.db" beforeDir="false" afterPath="$PROJECT_DIR$/.vs/VolosIndiv/CopilotIndices/17.13.444.19527/SemanticSymbols.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.vs/VolosIndiv/v17/.suo" beforeDir="false" afterPath="$PROJECT_DIR$/.vs/VolosIndiv/v17/.suo" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.vs/VolosIndiv/v17/DocumentLayout.backup.json" beforeDir="false" afterPath="$PROJECT_DIR$/.vs/VolosIndiv/v17/DocumentLayout.backup.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.vs/VolosIndiv/v17/DocumentLayout.json" beforeDir="false" afterPath="$PROJECT_DIR$/.vs/VolosIndiv/v17/DocumentLayout.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LanguageAnalysis/Form1.Designer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/LanguageAnalysis/Form1.Designer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LanguageAnalysis/Form1.cs" beforeDir="false" afterPath="$PROJECT_DIR$/LanguageAnalysis/Form1.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LanguageAnalysis/Form1.resx" beforeDir="false" afterPath="$PROJECT_DIR$/LanguageAnalysis/Form1.resx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LanguageAnalysis/bin/Debug/VolosIndiv.exe" beforeDir="false" afterPath="$PROJECT_DIR$/LanguageAnalysis/bin/Debug/VolosIndiv.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LanguageAnalysis/bin/Debug/VolosIndiv.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/LanguageAnalysis/bin/Debug/VolosIndiv.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LanguageAnalysis/obj/Debug/DesignTimeResolveAssemblyReferences.cache" beforeDir="false" afterPath="$PROJECT_DIR$/LanguageAnalysis/obj/Debug/DesignTimeResolveAssemblyReferences.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LanguageAnalysis/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache" beforeDir="false" afterPath="$PROJECT_DIR$/LanguageAnalysis/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LanguageAnalysis/obj/Debug/LanguageAnalysis.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/LanguageAnalysis/obj/Debug/LanguageAnalysis.csproj.AssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LanguageAnalysis/obj/Debug/Interop.WMPLib.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LanguageAnalysis/obj/Debug/Interop.WMPLib.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LanguageAnalysis/obj/Debug/LanguageAnalysis.csproj.GenerateResource.cache" beforeDir="false" afterPath="$PROJECT_DIR$/LanguageAnalysis/obj/Debug/LanguageAnalysis.csproj.GenerateResource.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LanguageAnalysis/obj/Debug/LanguageAnalysis.csproj.ResolveComReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/LanguageAnalysis/obj/Debug/LanguageAnalysis.csproj.ResolveComReference.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LanguageAnalysis/obj/Debug/VolosIndiv.exe" beforeDir="false" afterPath="$PROJECT_DIR$/LanguageAnalysis/obj/Debug/VolosIndiv.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LanguageAnalysis/obj/Debug/VolosIndiv.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/LanguageAnalysis/obj/Debug/VolosIndiv.pdb" afterDir="false" />
     </list>
@@ -36,6 +28,11 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="dev-dumasik" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -60,6 +57,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    ".NET Project.LanguageAnalysis.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "UI__Functional__fix",
     "node.js.detected.package.eslint": "true",
@@ -101,6 +99,7 @@
       <updated>1746728102486</updated>
       <workItem from="1746728105140" duration="156000" />
       <workItem from="1746728294122" duration="445000" />
+      <workItem from="1748101729387" duration="730000" />
     </task>
     <servers />
   </component>

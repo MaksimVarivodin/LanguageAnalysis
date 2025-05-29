@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NGramm;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,6 +13,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using VolosIndiv.Parsing;
 
 
 
@@ -19,6 +21,10 @@ namespace VolosIndiv
 {
     public partial class Form1 : Form
     {
+
+        const string ChineeseParsingResourceFolder = "ChineeseResources";
+        const string JapaneseParsingResourceFolder = "JapaneeseResources\\Dictionary";
+
         private enum AverageType
         {
             FirstAverage,
@@ -28,8 +34,10 @@ namespace VolosIndiv
         public Form1()
         {
             InitializeComponent();
-        }
+            InitializeAsianParsingResources();
 
+        }
+        
 
 
         readonly DataGridView _dg = new DataGridView();
@@ -153,7 +161,7 @@ namespace VolosIndiv
 
         private void clearButtonClick(object sender, EventArgs e)
         {
-            clearData();
+            ClearData();
             clearFormData("Джерело не обрано(Очищено)", "Джерело не обрано", "Джерело не обрано");
         }
 
@@ -401,9 +409,15 @@ namespace VolosIndiv
         #endregion
 
         #region Private helper methods
+        private void InitializeAsianParsingResources() {
 
+            // Initialize JiebaNet for Chinese and NgrammProcessor for Japanese
+            if (FolderChecker.IsValidFolder(ChineeseParsingResourceFolder))
+                JiebaNet.Segmenter.ConfigManager.ConfigFileBaseDir = ChineeseParsingResourceFolder;
+           NgrammProcessor.InitializeJapaneseProcessing(JapaneseParsingResourceFolder);
+        }
 
-        private void clearBinningData()
+        private void ClearBinningData()
         {
             _dg.ColumnCount = 7;
             _dg1.ColumnCount = 7;
@@ -412,9 +426,9 @@ namespace VolosIndiv
             _dg1.Rows.Clear();
             _dg2.Rows.Clear();
         }
-        private void clearData()
+        private void ClearData()
         {
-            clearBinningData();
+            ClearBinningData();
             selectedFolderPath = string.Empty;
             x = null;
             y = null;
@@ -572,20 +586,23 @@ namespace VolosIndiv
             var ylist = new double[files.Count];
 
             // calculations for tables
-            await Task.WhenAll(files.Select((file, index) => Task.Run(() =>
+            await Task.WhenAll(files.Select((file, index) => Task.Run(async () =>
             {
-                var (rawText, unsignedText) = TextParser.ExtractTexts(file);
+                NgrammProcessor processor = new NgrammProcessor(file);
+                await processor.Preprocess();
 
-                if (!byWords)
-
+                if (byWords)
                 {
-                    xlist[index] = TextParser.GetAllSymbolsCount(rawText, includingSpaces.Checked);
-                    ylist[index] = TextParser.GetUniqueSymbolsCount(rawText, !includingSpaces.Checked, ignoreRegexCheckbox.Checked);
+                    await processor.ProcessWordNGramms(1);
+                    xlist[index] = processor.GetFileContent().Length;
+                    ylist[index] = processor.GetWordsCount();
                 }
                 else
                 {
-                    xlist[index] = TextParser.GetAllWordsCount(unsignedText);
-                    ylist[index] = TextParser.GetDictionaryCount(unsignedText, ignoreRegexCheckbox.Checked);
+
+                    await processor.ProcessSymbolNGramms(1);
+                    xlist[index] = processor.GetFileContent().Length;
+                    ylist[index] = processor.GetSymbolsCount(NgrammProcessor.ProcessSpaces);
                 }
 
                 // Update progress bar and processed files count
@@ -624,189 +641,9 @@ namespace VolosIndiv
         }
 
 
-
-
-
-        private (string, string) ProcessText(string filename)
-        {
-            string rawText;
-            bool ignoreSpaces = true;
-            bool ignoreNewLines = false;
-
-            using (var sr = new StreamReader(filename))
-            {
-                rawText = PreprocessWithRegex(sr.ReadToEnd());
-            }
-
-            if (ignoreRegexCheckbox.Checked)
-            {
-                rawText = rawText.ToLower();
-            }
-
-            var unsignedTextBuilder = new StringBuilder();
-            var textAsRawBuilder = new StringBuilder();
-            bool addedToRaw = false;
-
-
-            for (int i = 0; i < rawText.Length; i++)
-            {
-                var symbol = rawText[i];
-
-                if (!char.IsControl(symbol) || symbol == '\r' || symbol == '\n' || symbol == '\t')
-                {
-                    if (char.IsLetterOrDigit(symbol))
-                    {
-                        addedToRaw = true;
-                        textAsRawBuilder.Append(symbol);
-                        unsignedTextBuilder.Append(symbol);
-                        ignoreSpaces = false;
-                        ignoreNewLines = false;
-                    }
-                    else if (symbol == ' ' || symbol == '\t' || symbol == '\u00a0')
-                    {
-                        if (!ignoreSpaces)
-                        {
-                            addedToRaw = true;
-                            textAsRawBuilder.Append(' ');
-                            unsignedTextBuilder.Append(' ');
-                            ignoreSpaces = true;
-                        }
-                    }
-                    else if (symbol == '\n' && !ignoreNewLines)
-                    {
-                        addedToRaw = true;
-                        textAsRawBuilder.Append(' ');
-                        unsignedTextBuilder.Append(' ');
-                        ignoreSpaces = true;
-                        ignoreNewLines = true;
-                    }
-                    else if (StolenRegexp_ss.Contains(symbol))
-                    {
-                        addedToRaw = true;
-                        textAsRawBuilder.Append(symbol);
-                    }
-                    else if (symbol == '-' && i > 0 && i < rawText.Length - 1)
-                    {
-                        if (char.IsLetter(rawText[i - 1]) && char.IsLetter(rawText[i + 1]))
-                        {
-                            addedToRaw = true;
-                            textAsRawBuilder.Append(symbol);
-                            unsignedTextBuilder.Append(symbol);
-                        }
-                    }
-                    else if (symbol == '`' || symbol == '\'' || symbol == '’' || symbol == 'ʼ')
-                    {
-                        addedToRaw = true;
-                        textAsRawBuilder.Append('\'');
-                        unsignedTextBuilder.Append('\'');
-                    }
-                    else if (Endsigns.Contains(symbol))
-                    {
-                        addedToRaw = true;
-                        textAsRawBuilder.Append(symbol);
-                    }
-
-                    if (!addedToRaw && symbol != '\r' && symbol != '\n' && symbol != ' ')
-                    {
-                        textAsRawBuilder.Append(symbol);
-                    }
-
-                    addedToRaw = false;
-                }
-            }
-
-            var textAsRaw = textAsRawBuilder.ToString();
-            var unsignedText = unsignedTextBuilder.ToString();
-
-            return (textAsRaw, unsignedText);
-        }
-
-
-
-
-
-
-
-        private string PreprocessWithRegex(string text)
-        {
-            Regex reg_exp = new Regex("(" + StolenRegexp_ss_or + ")--");
-            text = reg_exp.Replace(text, "--");
-
-            reg_exp = new Regex("--(" + StolenRegexp_ss_or + ")");
-            text = reg_exp.Replace(text, "--");
-
-            reg_exp = new Regex(@"(?<=(\w))--(?=(\w))");
-            text = reg_exp.Replace(text, " ");
-
-            return text;
-        }
-        private int GetAllSymbolsCount(string text)
-        {
-            return text.Count(symbol => !includingSpaces.Checked ? symbol != ' ' : true);
-        }
-
-        private int GetUniqueSymbolsCount(string text)
-        {
-            var uniqueSymbols = new HashSet<char>();
-
-            foreach (var ch in text)
-            {
-                if (!includingSpaces.Checked && ch == ' ')
-                {
-                    continue;
-                }
-                uniqueSymbols.Add(ignoreRegexCheckbox.Checked ? char.ToLower(ch) : ch);
-            }
-
-            return uniqueSymbols.Count;
-        }
-
-
-        private int GetAllWordsCount(string text)
-        {
-            var parsedWords = text
-                .Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
-                .ToList();
-
-            return parsedWords.Count;
-        }
-
-
-        private int GetDictionaryCount(string text)
-        {
-            var punctuation = new HashSet<char> { '.', ',', ';', '!', '?', ':', '-', '\'', '\"', '’', '“', '”' };
-
-            var words = text
-                .Split(new char[] { ' ', '\t', '\n', '\r', '\u00a0' }, StringSplitOptions.RemoveEmptyEntries);
-
-            var uniqueWords = new HashSet<string>();
-
-            foreach (var rawWord in words)
-            {
-                var cleanedWord = rawWord.Trim(punctuation.ToArray());
-
-                if (ignoreRegexCheckbox.Checked)
-                {
-                    cleanedWord = cleanedWord.ToLower();
-                }
-
-                if (!string.IsNullOrWhiteSpace(cleanedWord))
-                {
-                    uniqueWords.Add(cleanedWord);
-                }
-            }
-
-            return uniqueWords.Count;
-        }
-
-
-
-
-
-
         private async Task BinningScript(ArrayList xList, ArrayList yList)
         {
-            clearBinningData();
+            ClearBinningData();
             var binCount = ((int)binQuantityUpDown.Value);
             x = xList.ToArray(typeof(double)) as double[];
             y = yList.ToArray(typeof(double)) as double[];
@@ -879,7 +716,7 @@ namespace VolosIndiv
             if (binningGridView.Rows.Count <= 2)
                 return;
             binningGridView.Rows.Clear();
-            clearBinningData();
+            ClearBinningData();
 
             await UpdateDataGrid(_dg);
         }
@@ -985,7 +822,7 @@ namespace VolosIndiv
             }
         }
 
-        private void openFolderMenuItemClick(object sender, EventArgs e)
+        private void OpenFolderMenuItemClick(object sender, EventArgs e)
         {
 
             using (var folderBrowserDialog = new FolderBrowserDialog())
@@ -1005,7 +842,7 @@ namespace VolosIndiv
             }
         }
 
-        private void openBinningFileMenuItemClick(object sender, EventArgs e)
+        private void OpenBinningFileMenuItemClick(object sender, EventArgs e)
         {
             var dgv = binningGridView;
             progressBar1.Maximum = 100;
@@ -1043,7 +880,15 @@ namespace VolosIndiv
 
         }
 
+        private void IgnoreRegexChanged(object sender, EventArgs e)
+        {
+            NgrammProcessor.ignore_case = ignoreRegexCheckbox.Checked;
+        }
 
+        private void IncludeSpacesChanged(object sender, EventArgs e)
+        {
+            NgrammProcessor.ProcessSpaces = includingSpaces.Checked;
+        }
 
         private double GetLogLinearRegression(double basePow)
         {

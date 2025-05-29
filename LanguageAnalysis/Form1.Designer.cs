@@ -261,6 +261,7 @@
             this.ignoreRegexCheckbox.TabIndex = 24;
             this.ignoreRegexCheckbox.Text = "Ігнорувати регістр";
             this.ignoreRegexCheckbox.UseVisualStyleBackColor = true;
+            this.ignoreRegexCheckbox.CheckedChanged += new System.EventHandler(this.IgnoreRegexChanged);
             // 
             // includingSpaces
             // 
@@ -274,6 +275,7 @@
             this.includingSpaces.TabIndex = 26;
             this.includingSpaces.Text = "Враховувати пробіли";
             this.includingSpaces.UseVisualStyleBackColor = true;
+            this.includingSpaces.CheckedChanged += new System.EventHandler(this.IncludeSpacesChanged);
             // 
             // folderLabel
             // 
@@ -503,15 +505,13 @@
             // 
             // parsingResultsChart
             // 
-            this.parsingResultsChart.AccessibleRole = System.Windows.Forms.AccessibleRole.Chart;
-            this.parsingResultsChart.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.TopRight;
             chartArea1.Name = "ChartArea1";
             this.parsingResultsChart.ChartAreas.Add(chartArea1);
-            this.parsingResultsChart.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.parsingResultsChart.Dock = System.Windows.Forms.DockStyle.Fill;
             legend1.Alignment = System.Drawing.StringAlignment.Center;
+            legend1.DockedToChartArea = "ChartArea1";
             legend1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
-            legend1.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold);
+            legend1.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold);
             legend1.IsTextAutoFit = false;
             legend1.Name = "Legend1";
             legend1.Title = "Парсинг";
@@ -519,16 +519,15 @@
             this.parsingResultsChart.Legends.Add(legend1);
             this.parsingResultsChart.Location = new System.Drawing.Point(3, 3);
             this.parsingResultsChart.Name = "parsingResultsChart";
-            series1.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.Left;
+            this.parsingResultsChart.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Excel;
             series1.ChartArea = "ChartArea1";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
-            series1.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold);
+            series1.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold);
             series1.Legend = "Legend1";
-            series1.Name = "Не обрано джерело";
-            series1.YValuesPerPoint = 2;
+            series1.Name = "Кількість";
             this.parsingResultsChart.Series.Add(series1);
             this.parsingResultsChart.Size = new System.Drawing.Size(644, 507);
-            this.parsingResultsChart.TabIndex = 5;
+            this.parsingResultsChart.TabIndex = 0;
             this.parsingResultsChart.Text = "chart1";
             // 
             // progressBar1
@@ -609,7 +608,7 @@
             this.папкуToolStripMenuItem.Name = "папкуToolStripMenuItem";
             this.папкуToolStripMenuItem.Size = new System.Drawing.Size(204, 24);
             this.папкуToolStripMenuItem.Text = "Папку";
-            this.папкуToolStripMenuItem.Click += new System.EventHandler(this.openFolderMenuItemClick);
+            this.папкуToolStripMenuItem.Click += new System.EventHandler(this.OpenFolderMenuItemClick);
             // 
             // словникToolStripMenuItem
             // 
@@ -623,7 +622,7 @@
             this.файлБінуванняToolStripMenuItem.Name = "файлБінуванняToolStripMenuItem";
             this.файлБінуванняToolStripMenuItem.Size = new System.Drawing.Size(204, 24);
             this.файлБінуванняToolStripMenuItem.Text = "Файл бінування";
-            this.файлБінуванняToolStripMenuItem.Click += new System.EventHandler(this.openBinningFileMenuItemClick);
+            this.файлБінуванняToolStripMenuItem.Click += new System.EventHandler(this.OpenBinningFileMenuItemClick);
             // 
             // зберегтиToolStripMenuItem
             // 
@@ -714,7 +713,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Unique;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.ProgressBar progressBar1;
-        private System.Windows.Forms.DataVisualization.Charting.Chart parsingResultsChart;
+        
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.NumericUpDown powAUpDown;
         private System.Windows.Forms.NumericUpDown binQuantityUpDown;
@@ -735,6 +734,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
+        private System.Windows.Forms.DataVisualization.Charting.Chart parsingResultsChart;
     }
 }
 

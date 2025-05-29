@@ -23,8 +23,8 @@ namespace NGramm
         bool ignore_ends = false;
         private bool isCode = false;
 
-        public static string signs = "\\|\"{}()[]=+_~!`@'#$-…%^&*:№:";
-        public string ss = "\\|\"{}()[]=+_~`'@#$…%^&*№:";
+        public static string signs = "\\|\"{}()[]=+_~!@'#$-…%^&*:№:";
+        public string ss = "\\|\"{}()[]=+_~'@#$…%^&*№:";
         public static HashSet<char> endsigns = new HashSet<char>(".?!;。？！¿¡؟؛¿¡።༼⸮〽⋯…⸰;".ToCharArray());
         public static string endsignss = ",.?!;";
         public string rawTextorg = "";
@@ -42,8 +42,8 @@ namespace NGramm
         private static HashSet<char> spaces_list = new HashSet<char> { '\u0020', '\u00a0', '\u1680', '\u2000', '\u2001', '\u2002', '\u2003', '\u2004', '\u2005', '\u2006', '\u2007', '\u2008', '\u2009', '\u200a', '\u202f', '\u205f', '\u3000', '\u200b' };
         private static char[] skip_spaces = new char[] { '\u3000' };
         private static string[] consequtive_spaces_pattern = spaces_list.Select(x => $"({x})+").ToArray();
-        private readonly Regex spaces_pattern = new Regex($"({string.Join("|", consequtive_spaces_pattern)})", RegexOptions.Compiled);
-        private static List<UnicodeCategory> nonRenderingCategories = new List<UnicodeCategory> {
+        private readonly Regex spaces_pattern = new Regex($"({string.Join("|", consequtive_spaces_pattern)})", RegexOptions.Compiled); private static
+            List<UnicodeCategory> nonRenderingCategories = new List<UnicodeCategory> {
             UnicodeCategory.Control,
             UnicodeCategory.OtherNotAssigned,
             UnicodeCategory.Surrogate,
@@ -114,66 +114,66 @@ namespace NGramm
                     }
 
                     char ch = rawTextorg[i];
-/*                    if (!char.IsControl(ch))
-                    {*/
-                        bool added = false;
-                        if (char.IsLetter(ch))
-                        {
-                            _raw.Append(ch);
-                            added = true;
-                            _uns.Append(ch);
-                            _ends.Append(ch);
-                            ignore_spaces = ignore_ends = ignore_nlines = false;
-                        }
-                        else if (char.IsDigit(ch))
-                        {
-                            _raw.Append(ch);
-                            added = true;
-                            _uns.Append(ch);
-                            _ends.Append(ch);
-                            ignore_spaces = ignore_ends = ignore_nlines = false;
-                        }
-                        else if (!ignore_spaces && (spaces_list.Contains(ch) || ch == '\t'))
-                        {
-                            _raw.Append(ch);
-                            added = true;
-                            _uns.Append(ch);
-                            _ends.Append(ch);
-                            ignore_spaces = true;
-                            ignore_ends = false;
-                        }
-                        else if ((ch == '\n') && !ignore_nlines)
-                        {
-                            _raw.Append(ch);
-                            added = true;
-                            _uns.Append(ch);
-                            _ends.Append(ch);
-                            ignore_spaces = true;
-                            ignore_nlines = true;
-                            ignore_ends = false;
-                        }
-                        else if (ss.Contains(ch))
-                        {
-                            _raw.Append(ch);
-                            added = true;
-                        }
-                        else if (ch == '-')
-                        {
-                            _raw.Append(ch);
-                            added = true;
-                        }
-                        else if (!ignore_ends && IsEndSign(ch))
-                        {
-                            _raw.Append(ch);
-                            added = true;
-                            _ends.Append(ch);
-                        }
-                        else if (!added)
-                        {
-                            _raw.Append(ch);
-                            added = true;
-                        }
-                   }
+                    /*                    if (!char.IsControl(ch))
+                                        {*/
+                    bool added = false;
+                    if (char.IsLetter(ch))
+                    {
+                        _raw.Append(ch);
+                        added = true;
+                        _uns.Append(ch);
+                        _ends.Append(ch);
+                        ignore_spaces = ignore_ends = ignore_nlines = false;
+                    }
+                    else if (char.IsDigit(ch))
+                    {
+                        _raw.Append(ch);
+                        added = true;
+                        _uns.Append(ch);
+                        _ends.Append(ch);
+                        ignore_spaces = ignore_ends = ignore_nlines = false;
+                    }
+                    else if (!ignore_spaces && (spaces_list.Contains(ch) || ch == '\t'))
+                    {
+                        _raw.Append(ch);
+                        added = true;
+                        _uns.Append(ch);
+                        _ends.Append(ch);
+                        ignore_spaces = true;
+                        ignore_ends = false;
+                    }
+                    else if ((ch == '\n') && !ignore_nlines)
+                    {
+                        _raw.Append(ch);
+                        added = true;
+                        _uns.Append(ch);
+                        _ends.Append(ch);
+                        ignore_spaces = true;
+                        ignore_nlines = true;
+                        ignore_ends = false;
+                    }
+                    else if (ss.Contains(ch))
+                    {
+                        _raw.Append(ch);
+                        added = true;
+                    }
+                    else if (ch == '-')
+                    {
+                        _raw.Append(ch);
+                        added = true;
+                    }
+                    else if (!ignore_ends && IsEndSign(ch))
+                    {
+                        _raw.Append(ch);
+                        added = true;
+                        _ends.Append(ch);
+                    }
+                    else if (!added)
+                    {
+                        _raw.Append(ch);
+                        added = true;
+                    }
+                }
                 //}
 
                 rawTextorg = _raw.ToString();
@@ -211,7 +211,7 @@ namespace NGramm
                 var text = RemoveConsequtiveSpaces(unsignedTextorg);
                 CountDesiredVariables = text.Length;
                 var progressMult = text.Length * n / 95;
-                ClearAllNGrammContainers();
+                literal_ngrams = new ConcurrentBag<NGrammContainer>();
 
                 Parallel.For(1, n + 1, PerformanceSettings.ParallelOpt, nn =>
                 {
@@ -263,7 +263,7 @@ namespace NGramm
                             {
                                 if (isSpace)
                                     ngram += ' ';
-                                else 
+                                else
                                     ngram += ch;
                             }
                             else
@@ -341,7 +341,7 @@ namespace NGramm
 
 
                 CountDesiredVariables = text.Length;
-                ClearAllNGrammContainers();
+                symbol_ngrams = new ConcurrentBag<NGrammContainer>();
                 int progressMul = text.Length / 95;
                 Parallel.For(1, n + 1, PerformanceSettings.ParallelOpt, nn =>
                 {
@@ -362,7 +362,7 @@ namespace NGramm
 
             for (int i = 0; i < text.Length; i++)
             {
-                if (reportMul != 0 && i> reportMul * ct)
+                if (reportMul != 0 && i > reportMul * ct)
                 {
                     progressReporter.MoveProgress();
                     ct++;
@@ -383,7 +383,8 @@ namespace NGramm
                             if (!show_NBS && isSpace)
                             {
                                 ngramBuilder.Append(' ');
-                            } else
+                            }
+                            else
                                 ngramBuilder.Append(ch);
                         }
                         else
@@ -391,7 +392,8 @@ namespace NGramm
                             if (show_NBS && (isSpace || notPrintableSymbol))
                             {
                                 ngramBuilder.Append(ch);
-                            } else if(!isSpace && !notPrintableSymbol)
+                            }
+                            else if (!isSpace && !notPrintableSymbol)
                             {
                                 ngramBuilder.Append(ch);
                             }
@@ -415,7 +417,8 @@ namespace NGramm
             return container;
         }
 
-        public int GetSymbolsCount(bool countSpaces) {
+        public int GetSymbolsCount(bool countSpaces)
+        {
             var text = rawTextorg;
 
             if (!consequtive_spaces)
@@ -424,8 +427,13 @@ namespace NGramm
 
                 if (!show_NBS)
                 {
-                    text = spacesInRow.Replace(text, " ");
+                    text = new string(text.Where(x => !NonRenderingCategories(x)).ToArray());
                 }
+            }
+
+            if (!show_NBS)
+            {
+                text = new string(text.Where(x => !NonRenderingCategories(x)).ToArray());
             }
 
             return countSpaces ? text.Length : text.Count(c => !spaces_list.Contains(c));
@@ -435,7 +443,7 @@ namespace NGramm
 
         #region Word ngramms
 
-        public List<NGrammContainer> ProcessWordNGrammsInWindow(List<CategorizedTokens> words ,int n, int windowSize, int windowStep, int startPos, int endPos)
+        public List<NGrammContainer> ProcessWordNGrammsInWindow(List<CategorizedTokens> words, int n, int windowSize, int windowStep, int startPos, int endPos)
         {
             var res = new List<NGrammContainer>();
             int pos = startPos;
@@ -444,7 +452,7 @@ namespace NGramm
                 var wrds = words.Skip(pos).Take(windowSize).ToList();
                 var cts = new NGrammContainer(Enumerable.Range(1, n).Select(nn => ProcessWordNgrmmToContainer(wrds, nn, false, ignore_case)).ToList(), n);
                 res.Add(cts);
-                
+
                 pos += windowStep;
             }
             return res;
@@ -459,7 +467,7 @@ namespace NGramm
 
                 var words = Words(ignore_punctuation ? unsignedTextorg : endsignedTextorg);
                 CountDesiredVariables = words.Count;
-                ClearAllNGrammContainers();
+                words_ngrams = new ConcurrentBag<NGrammContainer>();
                 int progressMult = words.Count / 95;
 
                 Parallel.For(1, n + 1, PerformanceSettings.ParallelOpt, nn =>
@@ -483,7 +491,7 @@ namespace NGramm
 
             for (int i = 0; i < words.Count; i++)
             {
-                if (progressMul != 0 && i> progressMul * ct)
+                if (progressMul != 0 && i > progressMul * ct)
                 {
                     progressReporter.MoveProgress();
                     ct++;
@@ -519,7 +527,7 @@ namespace NGramm
                             {
                                 ngramBuilder.Append(word);
                             }
-                            else 
+                            else
                             if (!IsEndSign(ngramBuilder[ngramBuilder.Length - 1])) ngramBuilder.Append($" {word}");
                             else
                             {
@@ -581,7 +589,7 @@ namespace NGramm
                 for (int i = 1; i < matches.Groups.Count; i++)
                 {
                     var token = tokens.FirstOrDefault(x => x.Value == matches.Groups[i].Value);
-                    if(token != null)
+                    if (token != null)
                         tokens.Remove(token);
                 }
                 var value = matches.Groups.Cast<Group>().ToList().Skip(1);
@@ -592,7 +600,7 @@ namespace NGramm
                 });
             }
 
-            for(int i = 0; i < tokens.Count; i++)
+            for (int i = 0; i < tokens.Count; i++)
             {
                 var token = tokens[i];
                 //Видаляє префік Token. із типу токену
@@ -614,7 +622,8 @@ namespace NGramm
                             i--;
                         }
                     }
-                } else
+                }
+                else
                 {
                     if (token.Type.Contains("Comment") || token.Type.Contains("Doc"))
                     {
@@ -641,11 +650,13 @@ namespace NGramm
 
             var splitList = new List<char>(spaces_list);
             splitList.Add('\n');
-            if (textContainSpaces) {
+            if (textContainSpaces)
+            {
                 return text.Split(splitList.ToArray(), StringSplitOptions.RemoveEmptyEntries)
                     .Select(value => new CategorizedTokens { Value = value, Type = string.Empty })
                     .ToList(); ;
-            } else
+            }
+            else
             {
                 return TrySplitWords(text);
             }
@@ -671,12 +682,12 @@ namespace NGramm
                     .ToList();
         }
 
-        private static(int Hiragana, int Katakana, int Kanji) AnalyzeText(string input)
+        private static (int Hiragana, int Katakana, int Kanji) AnalyzeText(string input)
         {
             int hiragana = 0, katakana = 0, kanji = 0;
             foreach (char c in input)
             {
-                if (c >= '\u3040' && c <= '\u309F') hiragana++;     
+                if (c >= '\u3040' && c <= '\u309F') hiragana++;
                 else if ((c >= '\u30A0' && c <= '\u30FF') ||
                          (c >= '\u31F0' && c <= '\u31FF') ||
                          (c >= '\uFF65' && c <= '\uFF9F')) katakana++;
@@ -705,18 +716,15 @@ namespace NGramm
             return segmenter.Cut(text, true).ToArray();
         }
 
+        
 
-        private void ClearAllNGrammContainers()
-        {
-            symbol_ngrams = new ConcurrentBag<NGrammContainer>();
-            literal_ngrams = new ConcurrentBag<NGrammContainer>();
-            words_ngrams = new ConcurrentBag<NGrammContainer>();
-        }
+
 
         private string RemoveConsequtiveSpaces(string input)
         {
             var result = input;
-            foreach (string item in consequtive_spaces_pattern) {
+            foreach (string item in consequtive_spaces_pattern)
+            {
                 var regex = new Regex(item, RegexOptions.Multiline);
 
                 result = regex.Replace(result, match =>
