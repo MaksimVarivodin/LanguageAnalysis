@@ -88,7 +88,7 @@ namespace NGramm
             return encoding.GetString(bytes);
         }
 
-        public async Task Preprocess(double oneDividedToFileCount)
+        public async Task Preprocess()
         {
             await Task.Run(() =>
             {
@@ -204,7 +204,7 @@ namespace NGramm
         public Task ProcessSymbolNGramms(int n) =>
             Task.Run(() =>
             {
-                progressReporter.StartNewOperation($"Обчислення символьних н-грамм від 1 до {n}");
+                //progressReporter.StartNewOperation($"Обчислення символьних н-грамм від 1 до {n}");
                 var text = RawTextOrg;
 
                 if (!ConsequtiveSpaces)
@@ -419,13 +419,13 @@ namespace NGramm
 
             Task.Run(() =>
             {
-                progressReporter.StartNewOperation($"Обчислення словесних н-грамм від 1 до {n}");
+                //progressReporter.StartNewOperation($"Обчислення словесних н-грамм від 1 до {n}");
                 progressReporter.MoveProgress();
 
                 var words = Words(ignore_punctuation ? UnsignedTextorg : EndsignedTextorg);
                 CountDesiredVariables = words.Count;
                 words_ngrams = new ConcurrentBag<NGrammContainer>();
-                int progressMult = words.Count / 95;
+                int progressMult = words.Count / 99;
 
                 Parallel.For(1, n + 1, PerformanceSettings.ParallelOpt, nn =>
                 {

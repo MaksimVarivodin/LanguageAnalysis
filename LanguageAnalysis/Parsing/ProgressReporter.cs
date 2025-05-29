@@ -17,7 +17,7 @@ namespace NGramm
         {
             Reset();
             OperationNameChanged?.Invoke(this, name);
-            StartTimer();
+            //StartTimer();
         }
 
         public void MoveProgress(int inc = 1)
@@ -45,7 +45,7 @@ namespace NGramm
 
         public void Finish()
         {
-            StopTimer();
+            //StopTimer();
             Interlocked.Exchange(ref progress, 100);
             ProgressChanged?.Invoke(this, 100);
 

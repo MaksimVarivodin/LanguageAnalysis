@@ -28,14 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea12 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend12 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series12 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.countByWordsButton = new System.Windows.Forms.Button();
             this.fbd = new System.Windows.Forms.OpenFileDialog();
             this.saveFiles = new System.Windows.Forms.SaveFileDialog();
             this.clearButton = new System.Windows.Forms.Button();
-            this.textsAnalyzedLabel = new System.Windows.Forms.Label();
             this.updateButton = new System.Windows.Forms.Button();
             this.equalLengthRadio = new System.Windows.Forms.RadioButton();
             this.differentLengthRadio = new System.Windows.Forms.RadioButton();
@@ -47,7 +46,6 @@
             this.elapsedTimeLabel = new System.Windows.Forms.Label();
             this.ignoreRegexCheckbox = new System.Windows.Forms.CheckBox();
             this.includingSpaces = new System.Windows.Forms.CheckBox();
-            this.folderLabel = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.binQuantityUpDown = new System.Windows.Forms.NumericUpDown();
             this.powAUpDown = new System.Windows.Forms.NumericUpDown();
@@ -71,6 +69,9 @@
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.textToProcessLabel = new System.Windows.Forms.Label();
+            this.textsAnalyzedLabel = new System.Windows.Forms.Label();
+            this.folderLabel = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.відкритиПапкуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -80,6 +81,13 @@
             this.зберегтиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.словникToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.файлБінуванняToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.графікToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.txtНативнийToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.csvToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.xlsxToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.txtToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.csvToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.xlsxToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.binQuantityUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.powAUpDown)).BeginInit();
@@ -123,18 +131,6 @@
             this.clearButton.Text = "Очистити";
             this.clearButton.UseVisualStyleBackColor = true;
             this.clearButton.Click += new System.EventHandler(this.clearButtonClick);
-            // 
-            // textsAnalyzedLabel
-            // 
-            this.textsAnalyzedLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.textsAnalyzedLabel.AutoSize = true;
-            this.textsAnalyzedLabel.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textsAnalyzedLabel.Location = new System.Drawing.Point(6, 55);
-            this.textsAnalyzedLabel.Name = "textsAnalyzedLabel";
-            this.textsAnalyzedLabel.Size = new System.Drawing.Size(88, 18);
-            this.textsAnalyzedLabel.TabIndex = 6;
-            this.textsAnalyzedLabel.Text = "Текстів: 0";
             // 
             // updateButton
             // 
@@ -242,7 +238,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.elapsedTimeLabel.AutoSize = true;
             this.elapsedTimeLabel.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.elapsedTimeLabel.Location = new System.Drawing.Point(512, 26);
+            this.elapsedTimeLabel.Location = new System.Drawing.Point(564, 30);
             this.elapsedTimeLabel.Name = "elapsedTimeLabel";
             this.elapsedTimeLabel.Size = new System.Drawing.Size(120, 18);
             this.elapsedTimeLabel.TabIndex = 23;
@@ -276,17 +272,6 @@
             this.includingSpaces.Text = "Враховувати пробіли";
             this.includingSpaces.UseVisualStyleBackColor = true;
             this.includingSpaces.CheckedChanged += new System.EventHandler(this.IncludeSpacesChanged);
-            // 
-            // folderLabel
-            // 
-            this.folderLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.folderLabel.AutoSize = true;
-            this.folderLabel.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.folderLabel.Location = new System.Drawing.Point(512, 55);
-            this.folderLabel.Name = "folderLabel";
-            this.folderLabel.Size = new System.Drawing.Size(56, 18);
-            this.folderLabel.TabIndex = 27;
-            this.folderLabel.Text = "Папка:";
             // 
             // groupBox1
             // 
@@ -505,27 +490,27 @@
             // 
             // parsingResultsChart
             // 
-            chartArea1.Name = "ChartArea1";
-            this.parsingResultsChart.ChartAreas.Add(chartArea1);
+            chartArea12.Name = "ChartArea1";
+            this.parsingResultsChart.ChartAreas.Add(chartArea12);
             this.parsingResultsChart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend1.Alignment = System.Drawing.StringAlignment.Center;
-            legend1.DockedToChartArea = "ChartArea1";
-            legend1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
-            legend1.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold);
-            legend1.IsTextAutoFit = false;
-            legend1.Name = "Legend1";
-            legend1.Title = "Парсинг";
-            legend1.TitleFont = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold);
-            this.parsingResultsChart.Legends.Add(legend1);
+            legend12.Alignment = System.Drawing.StringAlignment.Center;
+            legend12.DockedToChartArea = "ChartArea1";
+            legend12.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
+            legend12.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold);
+            legend12.IsTextAutoFit = false;
+            legend12.Name = "Legend1";
+            legend12.Title = "Парсинг";
+            legend12.TitleFont = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold);
+            this.parsingResultsChart.Legends.Add(legend12);
             this.parsingResultsChart.Location = new System.Drawing.Point(3, 3);
             this.parsingResultsChart.Name = "parsingResultsChart";
             this.parsingResultsChart.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Excel;
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
-            series1.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold);
-            series1.Legend = "Legend1";
-            series1.Name = "Кількість";
-            this.parsingResultsChart.Series.Add(series1);
+            series12.ChartArea = "ChartArea1";
+            series12.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+            series12.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold);
+            series12.Legend = "Legend1";
+            series12.Name = "Кількість";
+            this.parsingResultsChart.Series.Add(series12);
             this.parsingResultsChart.Size = new System.Drawing.Size(644, 507);
             this.parsingResultsChart.TabIndex = 0;
             this.parsingResultsChart.Text = "chart1";
@@ -535,10 +520,10 @@
             this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar1.Location = new System.Drawing.Point(5, 26);
+            this.progressBar1.Location = new System.Drawing.Point(13, 26);
             this.progressBar1.Margin = new System.Windows.Forms.Padding(2);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(489, 26);
+            this.progressBar1.Size = new System.Drawing.Size(539, 26);
             this.progressBar1.TabIndex = 1;
             // 
             // tabControl1
@@ -560,10 +545,11 @@
             // 
             this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox5.Controls.Add(this.textToProcessLabel);
+            this.groupBox5.Controls.Add(this.textsAnalyzedLabel);
             this.groupBox5.Controls.Add(this.folderLabel);
             this.groupBox5.Controls.Add(this.progressBar1);
             this.groupBox5.Controls.Add(this.elapsedTimeLabel);
-            this.groupBox5.Controls.Add(this.textsAnalyzedLabel);
             this.groupBox5.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.groupBox5.Location = new System.Drawing.Point(16, 577);
             this.groupBox5.Name = "groupBox5";
@@ -571,6 +557,43 @@
             this.groupBox5.TabIndex = 6;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Виконання";
+            // 
+            // textToProcessLabel
+            // 
+            this.textToProcessLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.textToProcessLabel.AutoSize = true;
+            this.textToProcessLabel.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textToProcessLabel.Location = new System.Drawing.Point(6, 55);
+            this.textToProcessLabel.Name = "textToProcessLabel";
+            this.textToProcessLabel.Size = new System.Drawing.Size(72, 18);
+            this.textToProcessLabel.TabIndex = 29;
+            this.textToProcessLabel.Text = "Текст: _";
+            // 
+            // textsAnalyzedLabel
+            // 
+            this.textsAnalyzedLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.textsAnalyzedLabel.AutoSize = true;
+            this.textsAnalyzedLabel.BackColor = System.Drawing.Color.OliveDrab;
+            this.textsAnalyzedLabel.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textsAnalyzedLabel.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.textsAnalyzedLabel.Location = new System.Drawing.Point(230, 30);
+            this.textsAnalyzedLabel.Name = "textsAnalyzedLabel";
+            this.textsAnalyzedLabel.Size = new System.Drawing.Size(104, 18);
+            this.textsAnalyzedLabel.TabIndex = 28;
+            this.textsAnalyzedLabel.Text = "Оброблено: 0";
+            // 
+            // folderLabel
+            // 
+            this.folderLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.folderLabel.AutoSize = true;
+            this.folderLabel.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.folderLabel.Location = new System.Drawing.Point(564, 55);
+            this.folderLabel.Name = "folderLabel";
+            this.folderLabel.Size = new System.Drawing.Size(72, 18);
+            this.folderLabel.TabIndex = 27;
+            this.folderLabel.Text = "Папка: _";
             // 
             // menuStrip1
             // 
@@ -600,7 +623,7 @@
             this.словникToolStripMenuItem,
             this.файлБінуванняToolStripMenuItem});
             this.відкритиПапкуToolStripMenuItem.Name = "відкритиПапкуToolStripMenuItem";
-            this.відкритиПапкуToolStripMenuItem.Size = new System.Drawing.Size(150, 24);
+            this.відкритиПапкуToolStripMenuItem.Size = new System.Drawing.Size(180, 24);
             this.відкритиПапкуToolStripMenuItem.Text = "Відкрити";
             // 
             // папкуToolStripMenuItem
@@ -628,24 +651,80 @@
             // 
             this.зберегтиToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.словникToolStripMenuItem1,
-            this.файлБінуванняToolStripMenuItem1});
+            this.файлБінуванняToolStripMenuItem1,
+            this.графікToolStripMenuItem});
             this.зберегтиToolStripMenuItem.Name = "зберегтиToolStripMenuItem";
-            this.зберегтиToolStripMenuItem.Size = new System.Drawing.Size(150, 24);
+            this.зберегтиToolStripMenuItem.Size = new System.Drawing.Size(180, 24);
             this.зберегтиToolStripMenuItem.Text = "Зберегти";
             // 
             // словникToolStripMenuItem1
             // 
+            this.словникToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.txtНативнийToolStripMenuItem,
+            this.csvToolStripMenuItem2,
+            this.xlsxToolStripMenuItem2});
             this.словникToolStripMenuItem1.Name = "словникToolStripMenuItem1";
             this.словникToolStripMenuItem1.Size = new System.Drawing.Size(204, 24);
             this.словникToolStripMenuItem1.Text = "Словник";
-            this.словникToolStripMenuItem1.Click += new System.EventHandler(this.saveDictionaryMenuItemClick);
             // 
             // файлБінуванняToolStripMenuItem1
             // 
+            this.файлБінуванняToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.txtToolStripMenuItem,
+            this.csvToolStripMenuItem3,
+            this.xlsxToolStripMenuItem3});
             this.файлБінуванняToolStripMenuItem1.Name = "файлБінуванняToolStripMenuItem1";
             this.файлБінуванняToolStripMenuItem1.Size = new System.Drawing.Size(204, 24);
             this.файлБінуванняToolStripMenuItem1.Text = "Файл бінування";
-            this.файлБінуванняToolStripMenuItem1.Click += new System.EventHandler(this.saveBinningFileMenuItemClick);
+            // 
+            // графікToolStripMenuItem
+            // 
+            this.графікToolStripMenuItem.Name = "графікToolStripMenuItem";
+            this.графікToolStripMenuItem.Size = new System.Drawing.Size(204, 24);
+            this.графікToolStripMenuItem.Text = "Графік";
+            this.графікToolStripMenuItem.Click += new System.EventHandler(this.SaveChartClick);
+            // 
+            // txtНативнийToolStripMenuItem
+            // 
+            this.txtНативнийToolStripMenuItem.Name = "txtНативнийToolStripMenuItem";
+            this.txtНативнийToolStripMenuItem.Size = new System.Drawing.Size(204, 24);
+            this.txtНативнийToolStripMenuItem.Text = ".txt(Нативний)";
+            this.txtНативнийToolStripMenuItem.Click += new System.EventHandler(this.saveDictionaryMenuItemClick);
+            // 
+            // csvToolStripMenuItem2
+            // 
+            this.csvToolStripMenuItem2.Name = "csvToolStripMenuItem2";
+            this.csvToolStripMenuItem2.Size = new System.Drawing.Size(204, 24);
+            this.csvToolStripMenuItem2.Text = ".csv";
+            this.csvToolStripMenuItem2.Click += new System.EventHandler(this.ExportDictionaryCSV);
+            // 
+            // xlsxToolStripMenuItem2
+            // 
+            this.xlsxToolStripMenuItem2.Name = "xlsxToolStripMenuItem2";
+            this.xlsxToolStripMenuItem2.Size = new System.Drawing.Size(204, 24);
+            this.xlsxToolStripMenuItem2.Text = ".xlsx";
+            this.xlsxToolStripMenuItem2.Click += new System.EventHandler(this.ExportDictionaryXLSX);
+            // 
+            // txtToolStripMenuItem
+            // 
+            this.txtToolStripMenuItem.Name = "txtToolStripMenuItem";
+            this.txtToolStripMenuItem.Size = new System.Drawing.Size(204, 24);
+            this.txtToolStripMenuItem.Text = ".txt(нативний)";
+            this.txtToolStripMenuItem.Click += new System.EventHandler(this.saveBinningFileMenuItemClick);
+            // 
+            // csvToolStripMenuItem3
+            // 
+            this.csvToolStripMenuItem3.Name = "csvToolStripMenuItem3";
+            this.csvToolStripMenuItem3.Size = new System.Drawing.Size(204, 24);
+            this.csvToolStripMenuItem3.Text = ".csv";
+            this.csvToolStripMenuItem3.Click += new System.EventHandler(this.ExportBinningFileCSV);
+            // 
+            // xlsxToolStripMenuItem3
+            // 
+            this.xlsxToolStripMenuItem3.Name = "xlsxToolStripMenuItem3";
+            this.xlsxToolStripMenuItem3.Size = new System.Drawing.Size(204, 24);
+            this.xlsxToolStripMenuItem3.Text = ".xlsx";
+            this.xlsxToolStripMenuItem3.Click += new System.EventHandler(this.ExportBinningXLSX);
             // 
             // Form1
             // 
@@ -690,7 +769,6 @@
         private System.Windows.Forms.SaveFileDialog saveFiles;
         private System.Windows.Forms.Button clearButton;
         private System.Windows.Forms.ListBox listBox1;
-        private System.Windows.Forms.Label textsAnalyzedLabel;
         private System.Windows.Forms.Button updateButton;
         private System.Windows.Forms.RadioButton equalLengthRadio;
         private System.Windows.Forms.RadioButton differentLengthRadio;
@@ -701,16 +779,11 @@
         private System.Windows.Forms.Button countBySymbolsButton;
         private System.Windows.Forms.CheckBox ignoreRegexCheckbox;
         private System.Windows.Forms.CheckBox includingSpaces;
-        private System.Windows.Forms.Label folderLabel;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.DataGridView binningGridView;
         private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.DataGridView dictionaryGridView;
-        private System.Windows.Forms.DataGridViewTextBoxColumn NameDG;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Count;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Unique;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.ProgressBar progressBar1;
         
@@ -735,6 +808,20 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
         private System.Windows.Forms.DataVisualization.Charting.Chart parsingResultsChart;
+        private System.Windows.Forms.Label folderLabel;
+        private System.Windows.Forms.Label textToProcessLabel;
+        private System.Windows.Forms.Label textsAnalyzedLabel;
+        private System.Windows.Forms.DataGridView dictionaryGridView;
+        private System.Windows.Forms.DataGridViewTextBoxColumn NameDG;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Count;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Unique;
+        private System.Windows.Forms.ToolStripMenuItem txtНативнийToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem csvToolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem xlsxToolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem txtToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem csvToolStripMenuItem3;
+        private System.Windows.Forms.ToolStripMenuItem xlsxToolStripMenuItem3;
+        private System.Windows.Forms.ToolStripMenuItem графікToolStripMenuItem;
     }
 }
 

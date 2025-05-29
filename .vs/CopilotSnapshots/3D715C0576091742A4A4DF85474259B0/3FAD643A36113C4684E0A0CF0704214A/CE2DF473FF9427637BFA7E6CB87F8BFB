@@ -1,0 +1,975 @@
+﻿using NGramm;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Diagnostics;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
+using FolderWork;
+
+
+
+namespace VolosIndiv
+{
+    public partial class Form1 : Form
+    {
+
+        const string ChineeseParsingResourceFolder = "ChineeseResources";
+        const string JapaneseParsingResourceFolder = "JapaneeseResources\\Dictionary";
+
+        private enum AverageType
+        {
+            FirstAverage,
+            SecondAverage,
+            ThirdAverage,
+        }
+        public Form1()
+        {
+            InitializeComponent();
+            InitializeAsianParsingResources();
+            
+        }
+        
+
+
+        readonly DataGridView _dg = new DataGridView();
+        readonly DataGridView _dg1 = new DataGridView();
+        readonly DataGridView _dg2 = new DataGridView();
+
+        // dont ask why ss, i have no fucking clue, i stole it while trying to repair the app written previously
+        const string StolenRegexp_ss = "\\|\"{}()[]=+_~!@#$…%^&*№:";
+        const string StolenRegexp_ss_or = "\\\\|\\||\"|{|}|\\(|\\)|\\[|\\]|=|\\+|_|~|!|@|#|\\$|…|%|\\^|&|\\*|№|:|,|\\.|\\?|;"; // same
+        const string Endsigns = ",.?!;";
+        private string selectedFolderPath;
+
+        double[] x, y;
+        double[] avgX;
+        double[] avgY;
+        double[] avgQuadY;
+        int[] textCount;
+        int[] textCount2;
+        int[] textCount3;
+
+        double maxPow = 0;
+        int maxSteps = 0;
+
+        int parsedTexts;
+
+
+
+
+        #region UIHandlers Methods
+
+
+
+        /// <summary>
+        /// Clears and resets the form's data and UI elements related to text analysis.
+        /// </summary>
+        /// <param name="chartName">The name to set for the chart series.</param>
+        /// <param name="countColumnName">The header text for the "Count" column in the dictionary grid view.</param>
+        /// <param name="uniqueColumnName">The header text for the "Unique" column in the dictionary grid view.</param>
+        private void clearFormData(string chartName, string countColumnName, string uniqueColumnName)
+        {
+            //parsingResultsChart.ChartAreas[0].AxisX.IsLogarithmic = false;
+
+            dictionaryGridView.Rows.Clear();
+            binningGridView.Rows.Clear();
+            parsingResultsChart.Series[0].Points.Clear();
+            textsAnalyzedLabel.Text = string.Empty;
+            parsingResultsChart.Legends[0].Title = chartName;
+            parsingResultsChart.Series[0].Name = countColumnName;
+            dictionaryGridView.Columns["Count"].HeaderText = countColumnName;
+            dictionaryGridView.Columns["Unique"].HeaderText = uniqueColumnName;
+            x = null;
+            y = null;
+            avgX = null;
+            avgY = null;
+            avgQuadY = null;
+            textCount = null;
+            textCount2 = null;
+            textCount3 = null;
+            parsedTexts = 0;
+        }
+        private void Reporter_ProgressChanged(object sender, int e)
+        {
+
+            RunOnUiContext(() =>
+            {
+                if (e > progressBar1.Maximum || e < progressBar1.Minimum) return;
+                progressBar1.Value = e;
+            });
+        }
+
+
+        private async void countBySymbolsClick(object sender, EventArgs e)
+        {
+            clearFormData("Символи", "Кількість символів", "Кількість унікальних символів");
+
+            await OpenFolder(selectedFolderPath, false);
+        }
+
+        private async void countByWordsClick(object sender, EventArgs e)
+        {
+            clearFormData("Слова", "Кількість слів", "Кількість унікальних слів");
+
+            await OpenFolder(selectedFolderPath, true);
+        }
+
+       
+
+
+        private void expBinningSearchButtonClick(object sender, EventArgs e)
+        {
+            double a = 1.1, b = 3d;
+            double eps = 0.00002; //точність від лукавого
+            double avalue = 0d, bvalue = 0d;
+
+            for (; a < 3d; a += 0.01)
+            {
+                avalue = GetLogLinearRegression(a);
+
+                if (avalue > bvalue)
+                {
+                    b = a;
+                    bvalue = avalue;
+                }
+            }
+            MessageBox.Show($"Done! The best base = {b}");
+            powAUpDown.Value = ((decimal)b);
+        }
+
+        private async void radioEqualLength_CheckedChanged(object sender, EventArgs e)
+        {
+            await RadioButtonCheckedChanged(_dg);
+        }
+
+        private async void radioDifferentLength_CheckedChanged(object sender, EventArgs e)
+        {
+            await RadioButtonCheckedChanged(_dg1);
+        }
+
+        private async void radioGrowLength_CheckedChanged(object sender, EventArgs e)
+        {
+            await RadioButtonCheckedChanged(_dg2);
+        }
+
+        private void saveDictionaryMenuItemClick(object sender, EventArgs e)
+        {
+            SaveSelectedFile(dictionaryGridView); // Save data from `dataGridView1`
+        }
+
+        private void saveBinningFileMenuItemClick(object sender, EventArgs e)
+        {
+            SaveSelectedFile(binningGridView); // Save data from `dataGridView2`
+        }
+
+
+        private void clearButtonClick(object sender, EventArgs e)
+        {
+            ClearData();
+            clearFormData("Джерело не обрано(Очищено)", "Джерело не обрано", "Джерело не обрано");
+        }
+
+        private void dataGridView1_SortCompare(object sender, DataGridViewSortCompareEventArgs e)
+        {
+            switch (e.Column.Name)
+            {
+                case "Count":
+                case "Unique":
+                    {
+                        if (!int.TryParse(e.CellValue1.ToString(), out var a))
+                            a = 0;
+                        if (!int.TryParse(e.CellValue2.ToString(), out var b))
+                            b = 0;
+
+                        e.SortResult = a.CompareTo(b);
+                        break;
+                    }
+                case "NameDG":
+                    e.SortResult = String.Compare(
+                        e.CellValue1.ToString(),
+                        e.CellValue2.ToString(),
+                        CultureInfo.CurrentCulture,
+                        CompareOptions.IgnoreCase
+                    );
+                    break;
+            }
+            e.Handled = true;
+        }
+
+        private void updateButtonClick(object sender, EventArgs e)
+        {
+            binningGridView.Rows.Clear();
+
+            int M = (int)binQuantityUpDown.Value;
+            double basePow = 0d;
+            try
+            {
+                basePow = (double)powAUpDown.Value;
+            }
+            catch
+            {
+                MessageBox.Show("Введіть основу степеня!");
+                return;
+            }
+
+            if (dictionaryGridView.Rows.Count > 0)
+            {
+                var xList = new List<double>();
+                var yList = new List<double>();
+
+                foreach (DataGridViewRow row in dictionaryGridView.Rows)
+                {
+                    if (row.Cells[1].Value != null && row.Cells[2].Value != null &&
+                        double.TryParse(row.Cells[1].Value.ToString(), out var xVal) &&
+                        double.TryParse(row.Cells[2].Value.ToString(), out var yVal))
+                    {
+                        xList.Add(xVal);
+                        yList.Add(yVal);
+                    }
+                }
+
+                x = xList.ToArray();
+                y = yList.ToArray();
+                parsedTexts = x.Length;
+                textsAnalyzedLabel.Text = $"Кількість текстів: {parsedTexts}";
+            }
+            else
+            {
+                MessageBox.Show("Словник не завантажено.");
+                return;
+            }
+
+            if (M >= parsedTexts)
+            {
+                MessageBox.Show("Кількість бінів має бути меншою за кількість рядків у словнику.");
+                return;
+            }
+
+            if (equalLengthRadio.Checked)
+            {
+                double step = (x.Max() - x.Min()) / (double)M;
+                AverageMethod(x, y, M, 0, AverageType.FirstAverage, out avgX, out avgY, out avgQuadY, out textCount);
+                for (int i = 0; i < M; i++)
+                {
+                    binningGridView.Rows.Add(i + 1, x.Min() + i * step, x.Min() + (i + 1) * step, avgX[i], avgY[i], avgQuadY[i], textCount[i]);
+                }
+            }
+            else if (differentLengthRadio.Checked)
+            {
+                int step = x.Length / M;  // Цілий розмір перших бінів
+                int remainder = x.Length % M;  // Залишок
+
+                avgX = new double[M];
+                avgY = new double[M];
+                avgQuadY = new double[M];
+                textCount2 = new int[M];
+                Array.Sort(x, y);
+                int totalAssigned = 0;
+
+                for (int i = 0; i < M; i++)
+                {
+                    int currentBinSize = (i == M - 1) ? remainder + step : step; // Додаємо залишок в останній бін
+
+                    int start = totalAssigned;
+                    int end = start + currentBinSize;
+
+                    double sumX = 0, sumY = 0, sumY2 = 0;
+                    int count = 0;
+
+                    for (int j = start; j < end; j++)
+                    {
+                        sumX += x[j];
+                        sumY += y[j];
+                        sumY2 += y[j] * y[j];
+                        count++;
+                    }
+
+                    double avg_x = count > 0 ? sumX / count : 0;
+                    double avg_y = count > 0 ? sumY / count : 0;
+                    double std_y = (count > 1) ? Math.Sqrt((sumY2 - count * avg_y * avg_y) / (count - 1)) : 0;
+
+                    avgX[i] = avg_x;
+                    avgY[i] = avg_y;
+                    avgQuadY[i] = std_y;
+                    textCount2[i] = count;
+
+                    binningGridView.Rows.Add(i + 1, x[start], x[end - 1], avg_x, avg_y, std_y, count);
+
+                    totalAssigned = end;
+                }
+
+            }
+            else if (growingLengthRadio.Checked)
+            {
+                Array.Sort(x, y);
+
+                double maxValue = x.Max();
+                int actualSteps = 0;
+
+                // Визначаємо кількість бінів залежно від основи A та максимуму
+                while (Math.Pow(basePow, actualSteps + 1) <= maxValue)
+                {
+                    actualSteps++;
+                }
+                actualSteps++; // включаємо останній бін, що охоплює maxValue
+
+                // Обчислення
+                AverageMethod(x, y, actualSteps, basePow, AverageType.ThirdAverage,
+                    out avgX, out avgY, out avgQuadY, out textCount3);
+
+                // Збираємо всі рядки для таблиці
+                var rows = new List<(int binIndex, double left, double right, double avgX, double avgY, double stdY, int count)>();
+
+                for (int i = 0; i < actualSteps; i++)
+                {
+                    double left = Math.Pow(basePow, i);
+                    double right = Math.Pow(basePow, i + 1);
+
+                    rows.Add((
+                        i + 1,
+                        Math.Round(left, 5),
+                        Math.Round(right, 5),
+                        avgX[i],
+                        avgY[i],
+                        avgQuadY[i],
+                        textCount3[i]
+                    ));
+                }
+
+                // Очищаємо таблицю перед оновленням
+                binningGridView.Rows.Clear();
+
+                // Додаємо у правильному порядку
+                foreach (var row in rows.OrderBy(r => r.binIndex))
+                {
+                    binningGridView.Rows.Add(row.binIndex, row.left, row.right, row.avgX, row.avgY, row.stdY, row.count);
+                }
+            }
+            }
+
+
+
+        private async void openDictionaryMenuItemClick(object sender, EventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "Text files (*.txt)|*.txt";
+            dialog.Title = "Виберіть файл зі словником";
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    var lines = File.ReadAllLines(dialog.FileName);
+                    dictionaryGridView.Rows.Clear();
+                    x = new double[lines.Length];
+                    y = new double[lines.Length];
+
+                    for (int i = 0; i < lines.Length; i++)
+                    {
+                        var parts = lines[i].Split('\t');
+                        if (parts.Length >= 3 &&
+                            double.TryParse(parts[1], out var valX) &&
+                            double.TryParse(parts[2], out var valY))
+                        {
+                            dictionaryGridView.Rows.Add(parts[0], valX, valY);
+                            x[i] = valX;
+                            y[i] = valY;
+                        }
+                    }
+
+                    parsedTexts = x.Length;
+                    textsAnalyzedLabel.Text = $"Кількість текстів: {parsedTexts}";
+
+                    // Побудова графіка
+                    var xArray = x;
+                    var yArray = y;
+
+                    parsingResultsChart.Series[0].Points.Clear();
+
+                    // Налаштування графіка (лінійна вісь)
+                    parsingResultsChart.Series[0].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+                    parsingResultsChart.Series[0].MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
+                    parsingResultsChart.Series[0].MarkerSize = 6;
+
+                    parsingResultsChart.ChartAreas[0].AxisX.Title = "Кількість слів";
+                    parsingResultsChart.ChartAreas[0].AxisY.Title = "Частка унікальних слів";
+
+                    for (int i = 0; i < xArray.Length; i++)
+                    {
+                        parsingResultsChart.Series[0].Points.AddXY(xArray[i], yArray[i]);
+                    }
+
+                    // Оновити бінування після завантаження
+                    updateButton.PerformClick();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Помилка при відкритті файлу: " + ex.Message);
+                }
+            }
+
+        }
+
+        #endregion
+
+        #region Private helper methods
+        private void InitializeAsianParsingResources() {
+
+            // Initialize JiebaNet for Chinese and NgrammProcessor for Japanese
+            if (FolderChecker.IsValidFolder(ChineeseParsingResourceFolder))
+                JiebaNet.Segmenter.ConfigManager.ConfigFileBaseDir = ChineeseParsingResourceFolder;
+           NgrammProcessor.InitializeJapaneseProcessing(JapaneseParsingResourceFolder);
+        }
+
+        private void ClearBinningData()
+        {
+            _dg.ColumnCount = 7;
+            _dg1.ColumnCount = 7;
+            _dg2.ColumnCount = 7;
+            _dg.Rows.Clear();
+            _dg1.Rows.Clear();
+            _dg2.Rows.Clear();
+        }
+        private void ClearData()
+        {
+            ClearBinningData();
+            selectedFolderPath = string.Empty;
+            x = null;
+            y = null;
+            avgX = null;
+            avgY = null;
+            avgQuadY = null;
+            textCount = null;
+            textCount2 = null;
+            textCount3 = null;
+        }
+        
+        private void AverageMethod(double[] x, double[] y, int maxStep, double basePow, AverageType type, out double[] L, out double[] V, out double[] dV,
+            out int[] textCount)
+        {
+            double step = 0d;
+            switch (type)
+            {
+                case AverageType.FirstAverage:
+                    step = (x.Max() - x.Min()) / (double)maxStep;
+                    break;
+                case AverageType.SecondAverage:
+                    step = x.Length / maxStep;
+                    break;
+            }
+            int count = 0;
+            double avgQuadL = 0;
+            double avgResL = 0;
+            double avgQuadV = 0;
+            double avgResV = 0;
+
+            L = new double[maxStep];
+            V = new double[maxStep];
+            dV = new double[maxStep];
+            textCount = new int[maxStep];
+            if (type is AverageType.SecondAverage)
+                Array.Sort(x, y);
+            for (var i = 0; i < maxStep; i++)
+            {
+                avgQuadL = 0;
+                avgQuadV = 0;
+                avgResL = 0;
+                avgResV = 0;
+                count = 0;
+                for (var j = 0; j < x.Length; j++)
+                {
+                    var shouldBeIncreased = false;
+                    switch (type)
+                    {
+                        case AverageType.FirstAverage:
+                            shouldBeIncreased = (x.Min() + i * step <= x[j]) && (x.Min() + (i + 1) * step >= x[j]);
+                            break;
+                        case AverageType.SecondAverage:
+                            shouldBeIncreased = (i * step <= j) && ((i + 1) * step > j);
+                            break;
+                        case AverageType.ThirdAverage:
+                            shouldBeIncreased = (Math.Pow(basePow, i) <= x[j]) && (Math.Pow(basePow, i + 1) >= x[j]);
+                            break;
+                        default:
+                            shouldBeIncreased = false;
+                            break;
+                    }
+                    if (!shouldBeIncreased)
+                        continue;
+                    avgResL += x[j];
+                    avgQuadL += x[j] * x[j];
+                    avgResV += y[j];
+                    avgQuadV += y[j] * y[j];
+                    count++;
+                }
+                if (count != 0)
+                {
+                    avgResL /= type is AverageType.SecondAverage ? step : count;
+                    avgQuadL /= type is AverageType.SecondAverage ? step : count; ;
+                    avgResV /= type is AverageType.SecondAverage ? step : count; ;
+                    avgQuadV /= type is AverageType.SecondAverage ? step : count; ;
+                }
+                else
+                {
+                    avgResL = 0;
+                    avgQuadL = 0;
+                    avgResV = 0;
+                    avgQuadV = 0;
+                }
+                textCount[i] = count;
+                if (count > 1)
+                {
+                    dV[i] = Math.Sqrt(count * (avgQuadV - Math.Pow(avgResV, 2)) / (count - 1));
+                }
+                else
+                {
+                    dV[i] = 0; // Not enough data points for standard deviation
+                }
+                L[i] = avgResL;
+                V[i] = avgResV;
+            }
+        }
+
+        private async Task<int> CountTextFilesAsync(string folderPath)
+        {
+            return await Task.Run(() =>
+            {
+                if (string.IsNullOrEmpty(folderPath) || !Directory.Exists(folderPath))
+                {
+                    throw new DirectoryNotFoundException("The specified folder does not exist.");
+                }
+
+                var textFiles = Directory.EnumerateFiles(folderPath, "*.txt", SearchOption.AllDirectories);
+                return textFiles.Count();
+            });
+        }
+
+        private async Task OpenFolder(string folderPath, bool byWords)
+        {
+            if (string.IsNullOrEmpty(folderPath))
+            {
+                MessageBox.Show("Please select a folder first.");
+                return;
+            }
+            
+            elapsedTimeLabel.Text = "Час виконання: Виконується";
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            textsAnalyzedLabel.Text = string.Empty;
+            parsedTexts = 0;
+           
+
+            var files = new List<string>();
+
+            // processing files
+            try
+            {
+                files = await ProcessDirectoryAsync(folderPath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return;
+            }
+
+            var xlist = new double[files.Count];
+            var ylist = new double[files.Count];
+            
+            // calculations for tables
+            await Task.WhenAll(files.Select((file, index) => Task.Run(async () =>
+            {
+                Invoke((Action)(() =>
+                {
+                    ++parsedTexts;
+                    textsAnalyzedLabel.Text = $"Оброблено: {parsedTexts} з {files.Count}";
+                    textToProcessLabel.Text = $"Текст: {Path.GetFileNameWithoutExtension(file)}";
+                    
+                }));
+                ProgressReporter reporter = new ProgressReporter();
+                reporter.ProgressChanged += Reporter_ProgressChanged;
+                NgrammProcessor processor = new NgrammProcessor(file, reporter);
+                await processor.Preprocess();
+
+                
+
+                if (byWords)
+                {
+                    await processor.ProcessWordNGramms(1);
+                    xlist[index] = processor.GetWordsCount();
+                    ylist[index] = processor.GetWordsNgrams().ElementAt(0).absCount;
+                }
+                else
+                {
+
+                    await processor.ProcessSymbolNGramms(1);
+                    xlist[index] = processor.GetSymbolsCount(NgrammProcessor.ProcessSpaces);
+                    ylist[index] = processor.GetSymbolNgrams().ElementAt(0).absCount;
+                }
+             
+
+
+            })));
+
+            var xList = new ArrayList(xlist.ToArray());
+            var yList = new ArrayList(ylist.ToArray());
+            
+
+            // adding data to the grid
+            for (var i = 0; i < xList.Count; i++)
+            {
+                parsingResultsChart.Series[0].Points.AddXY(xList[i], yList[i]);
+                AddToDataGrid(Path.GetFileNameWithoutExtension(files[i]), xlist[i], ylist[i]);
+            }
+
+            dictionaryGridView.Columns["Count"].ValueType = typeof(Int32);
+            elapsedTimeLabel.Text = "Час виконання: Завершення...";
+            await BinningScript(xList, yList);
+
+            stopwatch.Stop();
+
+            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}",
+                stopwatch.Elapsed.TotalHours, stopwatch.Elapsed.TotalMinutes, stopwatch.Elapsed.TotalSeconds);
+            this.elapsedTimeLabel.Text = $"Час виконання: {elapsedTime}";
+        }
+
+
+        private async Task BinningScript(ArrayList xList, ArrayList yList)
+        {
+            ClearBinningData();
+            var binCount = ((int)binQuantityUpDown.Value);
+            x = xList.ToArray(typeof(double)) as double[];
+            y = yList.ToArray(typeof(double)) as double[];
+
+            
+
+            double basePow = ((double)powAUpDown.Value);
+
+            if (binCount < xList.Count)
+            {
+
+                for (var i = 0; i < 100; i++)
+                {
+                    maxPow = Math.Pow(basePow, i);
+                    if (x == null || !(maxPow > x.Max()))
+                        continue;
+                    maxSteps = i;
+                    break;
+                }
+                //STEPS TO ADD on GRID?
+
+                double step = (x.Max() - x.Min()) / (double)binCount;
+
+                
+
+                AverageMethod(x, y, binCount, 0, AverageType.FirstAverage, out avgX, out avgY, out avgQuadY, out textCount);
+
+                for (int i = 0; i < binCount; i++)
+                {
+                    //MessageBox.Show($"AVG ITER = {i}; {x.Min() + i * step} - {x.Min() + (i + 1) * step}; Step = {step}");
+                    _dg.Rows.Add(i + 1, Convert.ToString(x.Min() + i * step), Convert.ToString(x.Min() + (i + 1) * step), avgX[i], avgY[i], avgQuadY[i], textCount[i]);
+                }
+
+
+
+                AverageMethod(x, y, maxSteps, basePow, AverageType.ThirdAverage, out avgX, out avgY, out avgQuadY, out textCount3);
+                int stepN = 0;
+
+                for (int i = 0; i < maxSteps; i++)
+                {
+                    stepN = i;
+
+                    _dg2.Rows.Add(Convert.ToString(i + 1), Convert.ToString(Math.Pow(basePow, stepN)), Convert.ToString(Math.Pow(basePow, stepN + 1)), avgX[i], avgY[i], avgQuadY[i], textCount3[i]);
+                }
+
+                int step1 = (int)x.Length / binCount;
+
+                AverageMethod(x, y, binCount, 0, AverageType.SecondAverage, out avgX, out avgY, out avgQuadY, out textCount2);
+
+                for (int i = 0; i < binCount; i++)
+                {
+                    //MessageBox.Show($"AVG2 ITER = {i}; {x[i * step1]} - {x[(step1 * (i + 1) - 1)]}; Step = {step1}");
+                    _dg1.Rows.Add(Convert.ToString(i + 1), Convert.ToString(x[i * step1]), Convert.ToString(x[(step1 * (i + 1) - 1)]), avgX[i], avgY[i], avgQuadY[i], textCount2[i]);
+                }
+
+
+                var selectedDataGrid = equalLengthRadio.Checked ? _dg :
+                    differentLengthRadio.Checked ? _dg1 : _dg2;
+                await UpdateDataGrid(selectedDataGrid);
+            }
+        }
+
+        private void AddToDataGrid(string name, double count, double unique)
+        {
+            dictionaryGridView.Rows.Add(name, count.ToString(CultureInfo.InvariantCulture), unique.ToString(CultureInfo.InvariantCulture));
+        }
+
+        private async Task RadioButtonCheckedChanged(DataGridView dataGrid)
+        {
+            if (binningGridView.Rows.Count <= 2)
+                return;
+            binningGridView.Rows.Clear();
+            ClearBinningData();
+
+            await UpdateDataGrid(_dg);
+        }
+
+        private void SaveSelectedFile(DataGridView dataGridView)
+        {
+            // Initialize SaveFileDialog
+            SaveFileDialog saveFile = new SaveFileDialog
+            {
+                DefaultExt = "*.txt",
+                Filter = "TXT Files|*.txt"
+            };
+
+            // Show the dialog and check if the user selected a file
+            if (saveFile.ShowDialog() != DialogResult.OK || saveFile.FileName.Length <= 0)
+                return;
+
+            try
+            {
+                // Create a StreamWriter to write to the selected file
+                using (var sw = new StreamWriter(saveFile.FileName))
+                {
+                    // Iterate through DataGridView rows and columns
+                    for (int i = 0; i < dataGridView.Rows.Count; i++)
+                    {
+                        var cellValues = new List<string>();
+                        for (int j = 0; j < dataGridView.Columns.Count; j++)
+                        {
+                            if (dataGridView.Rows[i].Cells[j].Value != null)
+                            {
+                                cellValues.Add(dataGridView.Rows[i].Cells[j].Value.ToString());
+                            }
+                        }
+                        sw.WriteLine(string.Join("\t", cellValues));
+                    }
+                }
+                // Inform the user that the data was saved successfully
+                MessageBox.Show("Дані збережено");
+            }
+            catch (Exception ex)
+            {
+                // Show an error message if something went wrong
+                MessageBox.Show($"Помилка при збереженні файлу: {ex.Message}");
+            }
+        }
+
+
+        private async Task UpdateDataGrid(DataGridView dataGrid)
+        {
+            var rows = dataGrid.Rows.Cast<DataGridViewRow>()
+            .Where(r => r.Cells[0].Value != null)
+            .OrderBy(r => r.Cells[0].Value.ToString()) // Сортування за першим стовпцем
+            .ToList();
+
+            foreach (var row in rows)
+            {
+                var items = new object[row.Cells.Count];
+                for (var i = 0; i < row.Cells.Count; i++)
+                {
+                    items[i] = row.Cells[i].Value;
+                }
+                await AddRowAsync(binningGridView, items);
+            }
+        }
+        private async Task AddRowAsync(DataGridView dataGridView, object[] items)
+        {
+            await Task.Run(() =>
+            {
+                dataGridView.Invoke(new Action(() =>
+                {
+                    dataGridView.Rows.Add(items);
+                    dataGridView.Update();
+                }));
+            });
+        }
+
+        private static async Task<List<string>> ProcessDirectoryAsync(string targetDirectory)
+        {
+            try
+            {
+                if(!FolderChecker.IsValidFolder(targetDirectory))
+                    throw new Exception("Invalid folder path or folder does not exist. ");
+                var fileEntries = new List<string>();
+
+                var filesInTargetDirectory = await Task.Run(() => Directory.GetFiles(targetDirectory));
+                fileEntries.AddRange(filesInTargetDirectory);
+
+                var subdirectoryEntries = await Task.Run(() => Directory.GetDirectories(targetDirectory));
+                var subdirectoryTasks = subdirectoryEntries.Select(ProcessDirectoryAsync).ToList();
+
+                await Task.WhenAll(subdirectoryTasks);
+
+                foreach (var subdirectoryTask in subdirectoryTasks)
+                {
+                    var filesInSubdirectory = await subdirectoryTask;
+                    fileEntries.AddRange(filesInSubdirectory);
+                }
+
+                return fileEntries;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message + "Error loading directory");
+                throw;
+            }
+        }
+
+        private void OpenFolderMenuItemClick(object sender, EventArgs e)
+        {
+
+            using (var folderBrowserDialog = new FolderBrowserDialog())
+            {
+                folderBrowserDialog.Description = "Виберіть папку з текстами";
+                folderBrowserDialog.SelectedPath = System.Environment.CurrentDirectory;
+                if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+                {
+                    selectedFolderPath = folderBrowserDialog.SelectedPath;
+                    string folderName = Path.GetFileName(selectedFolderPath.TrimEnd(Path.DirectorySeparatorChar));
+
+                    folderLabel.Text = "Папка: " + folderBrowserDialog.SelectedPath;
+
+                    countByWordsButton.Enabled = true;
+                    countBySymbolsButton.Enabled = true;
+                }
+            }
+        }
+
+        private void OpenBinningFileMenuItemClick(object sender, EventArgs e)
+        {
+            var dgv = binningGridView;
+            progressBar1.Maximum = 100;
+            progressBar1.Value = 0;
+            //for files in current folder
+            try
+            {
+                dgv.ColumnCount = 7;
+                dgv.Rows.Clear();
+                if (fbd.ShowDialog() == DialogResult.OK && fbd.FileName.Length > 0)
+                {
+                    string[] lines = File.ReadAllLines(fbd.FileName, Encoding.UTF8);
+                    progressBar1.Maximum = lines.Length;
+
+                    foreach (string line in lines)
+                    {
+                        string[] res = Regex.Split(line, "\t");
+                        dgv.Rows.Add(res);
+                        progressBar1.Value++;
+
+                    }
+
+
+                }
+
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("The process done");
+            }
+
+            parsedTexts = File.ReadLines(fbd.FileName).Count();
+            textsAnalyzedLabel.Text = Convert.ToString("Текстів: " + parsedTexts);
+            int M = Convert.ToInt32(binQuantityUpDown.Text);
+
+        }
+
+        private void IgnoreRegexChanged(object sender, EventArgs e)
+        {
+            NgrammProcessor.ignore_case = ignoreRegexCheckbox.Checked;
+        }
+
+        private void IncludeSpacesChanged(object sender, EventArgs e)
+        {
+            NgrammProcessor.ProcessSpaces = includingSpaces.Checked;
+        }
+
+        private double GetLogLinearRegression(double basePow)
+        {
+            var steps = 0;
+            double res = 0;
+            if (x != null)
+            {
+                while (res < x.Max())
+                {
+                    steps++;
+                    res = Math.Pow(basePow, steps);
+                }
+                AverageMethod(x, y, steps, basePow, AverageType.ThirdAverage, out avgX, out avgY, out avgQuadY, out textCount3);
+
+                var avgQuadYList = avgQuadY.ToList();
+                var avgXList = avgX.ToList();
+
+                for (var i = 0; i < avgQuadYList.Count;)
+                {
+                    if (avgQuadYList[i] == 0)
+                    {
+                        avgQuadYList.RemoveAt(i);
+                        avgXList.RemoveAt(i);
+                    }
+                    else
+                    {
+                        i++;
+                    }
+                }
+
+                var avgQuadYLog = (from quads in avgQuadYList select Math.Log10(quads)).ToArray();
+                var avgXLog = (from xs in avgXList select Math.Log10(xs)).ToArray();
+
+                var sr = new Accord.Statistics.Models.Regression.Linear.OrdinaryLeastSquares();
+                var regressionResult = sr.Learn(avgXLog, avgQuadYLog);
+                return regressionResult.CoefficientOfDetermination(avgXLog, avgQuadYLog);
+            }
+            return 2.0;
+        }
+
+        private void SaveChartClick(object sender, EventArgs e)
+        {
+            using (SaveFileDialog saveDialog = new SaveFileDialog())
+            {
+                saveDialog.Filter = "PNG Image|*.png";
+                saveDialog.Title = "Save Chart as PNG";
+
+                if (saveDialog.ShowDialog() == DialogResult.OK)               
+                    parsingResultsChart.SaveImage(saveDialog.FileName, ChartImageFormat.Png);
+                
+            }
+        }
+
+        private void cSVToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void RunOnUiContext(Action action)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(action);
+            }
+            else
+            {
+                action();
+            }
+        }
+
+        #endregion
+    }
+}
+
+
+
+
+
+

@@ -13,8 +13,9 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using VolosIndiv.Parsing;
-
+using System.Windows.Forms.DataVisualization.Charting;
+using FolderWork;
+using TableExport;
 
 
 namespace VolosIndiv
@@ -35,7 +36,7 @@ namespace VolosIndiv
         {
             InitializeComponent();
             InitializeAsianParsingResources();
-
+            
         }
         
 
@@ -84,7 +85,10 @@ namespace VolosIndiv
             binningGridView.Rows.Clear();
             parsingResultsChart.Series[0].Points.Clear();
             textsAnalyzedLabel.Text = string.Empty;
-
+            parsingResultsChart.Legends[0].Title = chartName;
+            parsingResultsChart.Series[0].Name = countColumnName;
+            dictionaryGridView.Columns["Count"].HeaderText = countColumnName;
+            dictionaryGridView.Columns["Unique"].HeaderText = uniqueColumnName;
             x = null;
             y = null;
             avgX = null;
@@ -94,6 +98,46 @@ namespace VolosIndiv
             textCount2 = null;
             textCount3 = null;
             parsedTexts = 0;
+        }
+        private void Reporter_ProgressChanged(object sender, int e)
+        {
+
+            RunOnUiContext(() =>
+            {
+                if (e > progressBar1.Maximum || e < progressBar1.Minimum) return;
+                progressBar1.Value = e;
+            });
+        }
+        private void SaveChartClick(object sender, EventArgs e)
+        {
+            using (SaveFileDialog saveDialog = new SaveFileDialog())
+            {
+                saveDialog.Filter = "PNG Image|*.png";
+                saveDialog.Title = "Save Chart as PNG";
+
+                if (saveDialog.ShowDialog() == DialogResult.OK)
+                {
+                    parsingResultsChart.SaveImage(saveDialog.FileName, ChartImageFormat.Png);
+                    MessageBox.Show("Експорт завершено успішно.", "Експорт PNG", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
+
+        private void ExportDictionaryCSV(object sender, EventArgs e)
+        {
+            TableExport.TableExporter.ExportToCSV(dictionaryGridView);
+        }
+        private void ExportBinningFileCSV(object sender, EventArgs e)
+        {
+            TableExport.TableExporter.ExportToCSV(binningGridView);
+        }
+        private void ExportDictionaryXLSX(object sender, EventArgs e)
+        {
+            TableExport.TableExporter.ExportToExcel(dictionaryGridView);
+        }
+        private void ExportBinningXLSX(object sender, EventArgs e)
+        {
+            TableExport.TableExporter.ExportToExcel(binningGridView);
         }
 
         private async void countBySymbolsClick(object sender, EventArgs e)
@@ -547,34 +591,21 @@ namespace VolosIndiv
                 MessageBox.Show("Please select a folder first.");
                 return;
             }
-
-            elapsedTimeLabel.Text = string.Empty;
+            
+            elapsedTimeLabel.Text = "Час виконання: Виконується";
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
             textsAnalyzedLabel.Text = string.Empty;
             parsedTexts = 0;
-            // opening folder
-            try
-            {
-                int textFileCount = await CountTextFilesAsync(folderPath);
-                textsAnalyzedLabel.Text = $"Кількість текстів: {textFileCount}";
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error while counting files: {ex.Message}");
-                return;
-            }
+           
 
             var files = new List<string>();
-            var processedFiles = 0;
 
             // processing files
             try
             {
                 files = await ProcessDirectoryAsync(folderPath);
-                progressBar1.Maximum = files.Count;
-                progressBar1.Value = 0; // Reset progress bar value
             }
             catch (Exception ex)
             {
@@ -584,39 +615,45 @@ namespace VolosIndiv
 
             var xlist = new double[files.Count];
             var ylist = new double[files.Count];
-
+            
             // calculations for tables
             await Task.WhenAll(files.Select((file, index) => Task.Run(async () =>
             {
-                NgrammProcessor processor = new NgrammProcessor(file);
+                Invoke((Action)(() =>
+                {
+                    ++parsedTexts;
+                    textsAnalyzedLabel.Text = $"Оброблено: {parsedTexts} з {files.Count}";
+                    textToProcessLabel.Text = $"Текст: {Path.GetFileNameWithoutExtension(file)}";
+                    
+                }));
+                ProgressReporter reporter = new ProgressReporter();
+                reporter.ProgressChanged += Reporter_ProgressChanged;
+                NgrammProcessor processor = new NgrammProcessor(file, reporter);
                 await processor.Preprocess();
+
+                
 
                 if (byWords)
                 {
                     await processor.ProcessWordNGramms(1);
-                    xlist[index] = processor.GetFileContent().Length;
-                    ylist[index] = processor.GetWordsCount();
+                    xlist[index] = processor.GetWordsCount();
+                    ylist[index] = processor.GetWordsNgrams().ElementAt(0).absCount;
                 }
                 else
                 {
 
                     await processor.ProcessSymbolNGramms(1);
-                    xlist[index] = processor.GetFileContent().Length;
-                    ylist[index] = processor.GetSymbolsCount(NgrammProcessor.ProcessSpaces);
+                    xlist[index] = processor.GetSymbolsCount(NgrammProcessor.ProcessSpaces);
+                    ylist[index] = processor.GetSymbolNgrams().ElementAt(0).absCount;
                 }
+             
 
-                // Update progress bar and processed files count
-                Interlocked.Increment(ref processedFiles);
-                Invoke((Action)(() =>
-                {
-                    progressBar1.Value = processedFiles;
-                }));
+
             })));
-
 
             var xList = new ArrayList(xlist.ToArray());
             var yList = new ArrayList(ylist.ToArray());
-
+            
 
             // adding data to the grid
             for (var i = 0; i < xList.Count; i++)
@@ -626,18 +663,14 @@ namespace VolosIndiv
             }
 
             dictionaryGridView.Columns["Count"].ValueType = typeof(Int32);
-
+            elapsedTimeLabel.Text = "Час виконання: Завершення...";
             await BinningScript(xList, yList);
 
             stopwatch.Stop();
 
-            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}:{3:00}",
-                stopwatch.Elapsed.TotalHours, stopwatch.Elapsed.TotalMinutes, stopwatch.Elapsed.TotalSeconds, stopwatch.Elapsed.TotalMilliseconds);
+            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}",
+                stopwatch.Elapsed.TotalHours, stopwatch.Elapsed.TotalMinutes, stopwatch.Elapsed.TotalSeconds);
             this.elapsedTimeLabel.Text = $"Час виконання: {elapsedTime}";
-            Invoke((Action)(() =>
-            {
-                progressBar1.Value = 0;
-            }));
         }
 
 
@@ -797,6 +830,8 @@ namespace VolosIndiv
         {
             try
             {
+                if(!FolderChecker.IsValidFolder(targetDirectory))
+                    throw new Exception("Invalid folder path or folder does not exist. ");
                 var fileEntries = new List<string>();
 
                 var filesInTargetDirectory = await Task.Run(() => Directory.GetFiles(targetDirectory));
@@ -817,7 +852,7 @@ namespace VolosIndiv
             }
             catch (Exception e)
             {
-                MessageBox.Show("Error loading directory");
+                MessageBox.Show(e.Message + "Error loading directory");
                 throw;
             }
         }
@@ -927,6 +962,20 @@ namespace VolosIndiv
                 return regressionResult.CoefficientOfDetermination(avgXLog, avgQuadYLog);
             }
             return 2.0;
+        }
+
+        
+
+        private void RunOnUiContext(Action action)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(action);
+            }
+            else
+            {
+                action();
+            }
         }
 
         #endregion
