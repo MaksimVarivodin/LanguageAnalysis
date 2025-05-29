@@ -36,9 +36,12 @@ namespace VolosIndiv
         {
             InitializeComponent();
             InitializeAsianParsingResources();
-            
+            // Налаштування графіка (лінійна вісь)
+            parsingResultsChart.Series[0].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+            parsingResultsChart.Series[0].MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
+            parsingResultsChart.Series[0].MarkerSize = 10;
         }
-        
+
 
 
         readonly DataGridView _dg = new DataGridView();
@@ -154,7 +157,7 @@ namespace VolosIndiv
             await OpenFolder(selectedFolderPath, true);
         }
 
-       
+
 
 
         private void expBinningSearchButtonClick(object sender, EventArgs e)
@@ -208,13 +211,73 @@ namespace VolosIndiv
             ClearData();
             clearFormData("Джерело не обрано(Очищено)", "Джерело не обрано", "Джерело не обрано");
         }
+        private double doubleParseFromStringInvariant(string data)
+        {
+            if (data.Length <= 0)
+                return 0d;
+            if (double.TryParse(data, NumberStyles.Float, CultureInfo.InvariantCulture, out var x1))
+                return x1;
+            return 0d;
+        }
+        private double doubleParseFromStringCurrent(string data)
+        {
+            if (data.Length <= 0)
+                return 0d;
+            if (double.TryParse(data, NumberStyles.Float, CultureInfo.CurrentCulture, out var x1))
+                return x1;
+            return 0d;
+        }
+        private double doubleParseFromString(string data)
+        {
+            var result = doubleParseFromStringCurrent(data);
+            if (result != 0d)
+                return result;
+            result = doubleParseFromStringInvariant(data);
+            if (result != 0d)
+                return result;
+            return 0d;
+        }
+        private (double, double) doubleParseFromStrings(string data)
+        {
 
-        private void dataGridView1_SortCompare(object sender, DataGridViewSortCompareEventArgs e)
+            if (data.Length <= 0)
+                return (0d, 0d);
+            var parts = data.Split('\t');
+            if (parts.Length != 3)
+                return (0d, 0d);
+            if (double.TryParse(parts[1], NumberStyles.Float, CultureInfo.CurrentCulture, out var x2) &&
+                double.TryParse(parts[2], NumberStyles.Float, CultureInfo.CurrentCulture, out var y2))
+                return (x2, y2);
+            else if (double.TryParse(parts[1], NumberStyles.Float, CultureInfo.InvariantCulture, out var x1) &&
+                double.TryParse(parts[2], NumberStyles.Float, CultureInfo.InvariantCulture, out var y1))
+                return (x1, y1);
+
+
+            return (0d, 0d);
+        }
+        public static int CompareDouble(double a, double b, double epsilon = 1e-9)
+        {
+            // Проверка особых случаев
+            if (double.IsNaN(a) || double.IsNaN(b))
+                throw new ArgumentException("Cannot compare NaN values");
+
+            // Бесконечности
+            if (double.IsPositiveInfinity(a) && double.IsPositiveInfinity(b)) return 0;
+            if (double.IsNegativeInfinity(a) && double.IsNegativeInfinity(b)) return 0;
+
+            // Основное сравнение с погрешностью
+            double diff = a - b;
+
+            if (Math.Abs(diff) < epsilon)
+                return 0;  // a ≈ b
+
+            return diff > 0 ? 1 : -1; // a > b : a < b
+        }
+        private void dictionaryGridView_SortCompare(object sender, DataGridViewSortCompareEventArgs e)
         {
             switch (e.Column.Name)
             {
                 case "Count":
-                case "Unique":
                     {
                         if (!int.TryParse(e.CellValue1.ToString(), out var a))
                             a = 0;
@@ -222,6 +285,13 @@ namespace VolosIndiv
                             b = 0;
 
                         e.SortResult = a.CompareTo(b);
+                        break;
+                    }
+                case "Unique":
+                    {
+                        var a = doubleParseFromString(e.CellValue1.ToString());
+                        var b = doubleParseFromString(e.CellValue2.ToString());
+                        e.SortResult = CompareDouble(a, b, 1e-12);
                         break;
                     }
                 case "NameDG":
@@ -236,7 +306,8 @@ namespace VolosIndiv
             e.Handled = true;
         }
 
-        private void updateButtonClick(object sender, EventArgs e)
+
+        private async void updateButtonClick(object sender, EventArgs e)
         {
             binningGridView.Rows.Clear();
 
@@ -259,12 +330,11 @@ namespace VolosIndiv
 
                 foreach (DataGridViewRow row in dictionaryGridView.Rows)
                 {
-                    if (row.Cells[1].Value != null && row.Cells[2].Value != null &&
-                        double.TryParse(row.Cells[1].Value.ToString(), out var xVal) &&
-                        double.TryParse(row.Cells[2].Value.ToString(), out var yVal))
+                    if (row.Cells[1].Value != null && row.Cells[2].Value != null)
                     {
-                        xList.Add(xVal);
-                        yList.Add(yVal);
+
+                        xList.Add(doubleParseFromString(row.Cells[1].Value.ToString()));
+                        yList.Add(doubleParseFromString(row.Cells[2].Value.ToString()));
                     }
                 }
 
@@ -385,7 +455,7 @@ namespace VolosIndiv
                     binningGridView.Rows.Add(row.binIndex, row.left, row.right, row.avgX, row.avgY, row.stdY, row.count);
                 }
             }
-            }
+        }
 
 
 
@@ -406,11 +476,13 @@ namespace VolosIndiv
 
                     for (int i = 0; i < lines.Length; i++)
                     {
+
                         var parts = lines[i].Split('\t');
-                        if (parts.Length >= 3 &&
-                            double.TryParse(parts[1], out var valX) &&
-                            double.TryParse(parts[2], out var valY))
+
+
+                        if (parts.Length >= 3)
                         {
+                            var (valX, valY) = doubleParseFromStrings(lines[i]);
                             dictionaryGridView.Rows.Add(parts[0], valX, valY);
                             x[i] = valX;
                             y[i] = valY;
@@ -426,10 +498,7 @@ namespace VolosIndiv
 
                     parsingResultsChart.Series[0].Points.Clear();
 
-                    // Налаштування графіка (лінійна вісь)
-                    parsingResultsChart.Series[0].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
-                    parsingResultsChart.Series[0].MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
-                    parsingResultsChart.Series[0].MarkerSize = 6;
+
 
                     parsingResultsChart.ChartAreas[0].AxisX.Title = "Кількість слів";
                     parsingResultsChart.ChartAreas[0].AxisY.Title = "Частка унікальних слів";
@@ -453,12 +522,13 @@ namespace VolosIndiv
         #endregion
 
         #region Private helper methods
-        private void InitializeAsianParsingResources() {
+        private void InitializeAsianParsingResources()
+        {
 
             // Initialize JiebaNet for Chinese and NgrammProcessor for Japanese
             if (FolderChecker.IsValidFolder(ChineeseParsingResourceFolder))
                 JiebaNet.Segmenter.ConfigManager.ConfigFileBaseDir = ChineeseParsingResourceFolder;
-           NgrammProcessor.InitializeJapaneseProcessing(JapaneseParsingResourceFolder);
+            NgrammProcessor.InitializeJapaneseProcessing(JapaneseParsingResourceFolder);
         }
 
         private void ClearBinningData()
@@ -483,7 +553,7 @@ namespace VolosIndiv
             textCount2 = null;
             textCount3 = null;
         }
-        
+
         private void AverageMethod(double[] x, double[] y, int maxStep, double basePow, AverageType type, out double[] L, out double[] V, out double[] dV,
             out int[] textCount)
         {
@@ -591,14 +661,14 @@ namespace VolosIndiv
                 MessageBox.Show("Please select a folder first.");
                 return;
             }
-            
+
             elapsedTimeLabel.Text = "Час виконання: Виконується";
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
             textsAnalyzedLabel.Text = string.Empty;
             parsedTexts = 0;
-           
+
 
             var files = new List<string>();
 
@@ -615,7 +685,7 @@ namespace VolosIndiv
 
             var xlist = new double[files.Count];
             var ylist = new double[files.Count];
-            
+
             // calculations for tables
             await Task.WhenAll(files.Select((file, index) => Task.Run(async () =>
             {
@@ -624,14 +694,14 @@ namespace VolosIndiv
                     ++parsedTexts;
                     textsAnalyzedLabel.Text = $"Оброблено: {parsedTexts} з {files.Count}";
                     textToProcessLabel.Text = $"Текст: {Path.GetFileNameWithoutExtension(file)}";
-                    
+
                 }));
                 ProgressReporter reporter = new ProgressReporter();
                 reporter.ProgressChanged += Reporter_ProgressChanged;
                 NgrammProcessor processor = new NgrammProcessor(file, reporter);
                 await processor.Preprocess();
 
-                
+
 
                 if (byWords)
                 {
@@ -646,14 +716,14 @@ namespace VolosIndiv
                     xlist[index] = processor.GetSymbolsCount(NgrammProcessor.ProcessSpaces);
                     ylist[index] = processor.GetSymbolNgrams().ElementAt(0).absCount;
                 }
-             
+
 
 
             })));
 
             var xList = new ArrayList(xlist.ToArray());
             var yList = new ArrayList(ylist.ToArray());
-            
+
 
             // adding data to the grid
             for (var i = 0; i < xList.Count; i++)
@@ -681,7 +751,7 @@ namespace VolosIndiv
             x = xList.ToArray(typeof(double)) as double[];
             y = yList.ToArray(typeof(double)) as double[];
 
-            
+
 
             double basePow = ((double)powAUpDown.Value);
 
@@ -700,7 +770,7 @@ namespace VolosIndiv
 
                 double step = (x.Max() - x.Min()) / (double)binCount;
 
-                
+
 
                 AverageMethod(x, y, binCount, 0, AverageType.FirstAverage, out avgX, out avgY, out avgQuadY, out textCount);
 
@@ -830,7 +900,7 @@ namespace VolosIndiv
         {
             try
             {
-                if(!FolderChecker.IsValidFolder(targetDirectory))
+                if (!FolderChecker.IsValidFolder(targetDirectory))
                     throw new Exception("Invalid folder path or folder does not exist. ");
                 var fileEntries = new List<string>();
 
@@ -964,7 +1034,7 @@ namespace VolosIndiv
             return 2.0;
         }
 
-        
+
 
         private void RunOnUiContext(Action action)
         {

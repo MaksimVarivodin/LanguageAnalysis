@@ -1,7 +1,7 @@
 D:\Projects\ОПМ\LanguageAnalysis\LanguageAnalysis\bin\Release\Accord.dll.config
-D:\Projects\ОПМ\LanguageAnalysis\LanguageAnalysis\bin\Release\VolosIndiv.exe.config
-D:\Projects\ОПМ\LanguageAnalysis\LanguageAnalysis\bin\Release\VolosIndiv.exe
-D:\Projects\ОПМ\LanguageAnalysis\LanguageAnalysis\bin\Release\VolosIndiv.pdb
+D:\Projects\ОПМ\LanguageAnalysis\LanguageAnalysis\bin\Release\LanguageAnalysis.exe.config
+D:\Projects\ОПМ\LanguageAnalysis\LanguageAnalysis\bin\Release\LanguageAnalysis.exe
+D:\Projects\ОПМ\LanguageAnalysis\LanguageAnalysis\bin\Release\LanguageAnalysis.pdb
 D:\Projects\ОПМ\LanguageAnalysis\LanguageAnalysis\bin\Release\Accord.dll
 D:\Projects\ОПМ\LanguageAnalysis\LanguageAnalysis\bin\Release\Accord.Math.Core.dll
 D:\Projects\ОПМ\LanguageAnalysis\LanguageAnalysis\bin\Release\Accord.Math.dll
@@ -40,5 +40,5 @@ D:\Projects\ОПМ\LanguageAnalysis\LanguageAnalysis\obj\Release\VolosIndiv.Prop
 D:\Projects\ОПМ\LanguageAnalysis\LanguageAnalysis\obj\Release\LanguageAnalysis.csproj.GenerateResource.cache
 D:\Projects\ОПМ\LanguageAnalysis\LanguageAnalysis\obj\Release\LanguageAnalysis.csproj.CoreCompileInputs.cache
 D:\Projects\ОПМ\LanguageAnalysis\LanguageAnalysis\obj\Release\Language.041F1EF4.Up2Date
-D:\Projects\ОПМ\LanguageAnalysis\LanguageAnalysis\obj\Release\VolosIndiv.exe
-D:\Projects\ОПМ\LanguageAnalysis\LanguageAnalysis\obj\Release\VolosIndiv.pdb
+D:\Projects\ОПМ\LanguageAnalysis\LanguageAnalysis\obj\Release\LanguageAnalysis.exe
+D:\Projects\ОПМ\LanguageAnalysis\LanguageAnalysis\obj\Release\LanguageAnalysis.pdb

@@ -20,6 +20,3 @@ C:\Users\Maksym\Projects\ОПМ\LanguageAnalysis\LanguageAnalysis\obj\Debug\Lang
 C:\Users\Maksym\Projects\ОПМ\LanguageAnalysis\LanguageAnalysis\obj\Debug\Language.041F1EF4.Up2Date
 C:\Users\Maksym\Projects\ОПМ\LanguageAnalysis\LanguageAnalysis\obj\Debug\VolosIndiv.exe
 C:\Users\Maksym\Projects\ОПМ\LanguageAnalysis\LanguageAnalysis\obj\Debug\VolosIndiv.pdb
-D:\Projects\ОПМ\LanguageAnalysis\LanguageAnalysis\bin\Debug\VolosIndiv.exe
-D:\Projects\ОПМ\LanguageAnalysis\LanguageAnalysis\bin\Debug\JiebaNet.Segmenter.dll
-D:\Projects\ОПМ\LanguageAnalysis\LanguageAnalysis\bin\Debug\LibNMeCab.dll

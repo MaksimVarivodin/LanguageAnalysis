@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea12 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend12 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series12 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.countByWordsButton = new System.Windows.Forms.Button();
             this.fbd = new System.Windows.Forms.OpenFileDialog();
             this.saveFiles = new System.Windows.Forms.SaveFileDialog();
@@ -80,14 +80,14 @@
             this.файлБінуванняToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.зберегтиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.словникToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.файлБінуванняToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.графікToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.txtНативнийToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.csvToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.xlsxToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.файлБінуванняToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.txtToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.csvToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.xlsxToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.графікToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.binQuantityUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.powAUpDown)).BeginInit();
@@ -454,7 +454,7 @@
             this.dictionaryGridView.RowHeadersWidth = 51;
             this.dictionaryGridView.Size = new System.Drawing.Size(644, 507);
             this.dictionaryGridView.TabIndex = 1;
-            this.dictionaryGridView.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.dataGridView1_SortCompare);
+            this.dictionaryGridView.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.dictionaryGridView_SortCompare);
             // 
             // NameDG
             // 
@@ -490,27 +490,26 @@
             // 
             // parsingResultsChart
             // 
-            chartArea12.Name = "ChartArea1";
-            this.parsingResultsChart.ChartAreas.Add(chartArea12);
+            chartArea2.Name = "ChartArea1";
+            this.parsingResultsChart.ChartAreas.Add(chartArea2);
             this.parsingResultsChart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend12.Alignment = System.Drawing.StringAlignment.Center;
-            legend12.DockedToChartArea = "ChartArea1";
-            legend12.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
-            legend12.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold);
-            legend12.IsTextAutoFit = false;
-            legend12.Name = "Legend1";
-            legend12.Title = "Парсинг";
-            legend12.TitleFont = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold);
-            this.parsingResultsChart.Legends.Add(legend12);
+            legend2.Alignment = System.Drawing.StringAlignment.Center;
+            legend2.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
+            legend2.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold);
+            legend2.IsTextAutoFit = false;
+            legend2.Name = "Legend1";
+            legend2.Title = "Парсинг";
+            legend2.TitleFont = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold);
+            this.parsingResultsChart.Legends.Add(legend2);
             this.parsingResultsChart.Location = new System.Drawing.Point(3, 3);
             this.parsingResultsChart.Name = "parsingResultsChart";
             this.parsingResultsChart.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Excel;
-            series12.ChartArea = "ChartArea1";
-            series12.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
-            series12.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold);
-            series12.Legend = "Legend1";
-            series12.Name = "Кількість";
-            this.parsingResultsChart.Series.Add(series12);
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+            series2.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold);
+            series2.Legend = "Legend1";
+            series2.Name = "Кількість";
+            this.parsingResultsChart.Series.Add(series2);
             this.parsingResultsChart.Size = new System.Drawing.Size(644, 507);
             this.parsingResultsChart.TabIndex = 0;
             this.parsingResultsChart.Text = "chart1";
@@ -623,7 +622,7 @@
             this.словникToolStripMenuItem,
             this.файлБінуванняToolStripMenuItem});
             this.відкритиПапкуToolStripMenuItem.Name = "відкритиПапкуToolStripMenuItem";
-            this.відкритиПапкуToolStripMenuItem.Size = new System.Drawing.Size(180, 24);
+            this.відкритиПапкуToolStripMenuItem.Size = new System.Drawing.Size(150, 24);
             this.відкритиПапкуToolStripMenuItem.Text = "Відкрити";
             // 
             // папкуToolStripMenuItem
@@ -654,7 +653,7 @@
             this.файлБінуванняToolStripMenuItem1,
             this.графікToolStripMenuItem});
             this.зберегтиToolStripMenuItem.Name = "зберегтиToolStripMenuItem";
-            this.зберегтиToolStripMenuItem.Size = new System.Drawing.Size(180, 24);
+            this.зберегтиToolStripMenuItem.Size = new System.Drawing.Size(150, 24);
             this.зберегтиToolStripMenuItem.Text = "Зберегти";
             // 
             // словникToolStripMenuItem1
@@ -666,23 +665,6 @@
             this.словникToolStripMenuItem1.Name = "словникToolStripMenuItem1";
             this.словникToolStripMenuItem1.Size = new System.Drawing.Size(204, 24);
             this.словникToolStripMenuItem1.Text = "Словник";
-            // 
-            // файлБінуванняToolStripMenuItem1
-            // 
-            this.файлБінуванняToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.txtToolStripMenuItem,
-            this.csvToolStripMenuItem3,
-            this.xlsxToolStripMenuItem3});
-            this.файлБінуванняToolStripMenuItem1.Name = "файлБінуванняToolStripMenuItem1";
-            this.файлБінуванняToolStripMenuItem1.Size = new System.Drawing.Size(204, 24);
-            this.файлБінуванняToolStripMenuItem1.Text = "Файл бінування";
-            // 
-            // графікToolStripMenuItem
-            // 
-            this.графікToolStripMenuItem.Name = "графікToolStripMenuItem";
-            this.графікToolStripMenuItem.Size = new System.Drawing.Size(204, 24);
-            this.графікToolStripMenuItem.Text = "Графік";
-            this.графікToolStripMenuItem.Click += new System.EventHandler(this.SaveChartClick);
             // 
             // txtНативнийToolStripMenuItem
             // 
@@ -705,6 +687,16 @@
             this.xlsxToolStripMenuItem2.Text = ".xlsx";
             this.xlsxToolStripMenuItem2.Click += new System.EventHandler(this.ExportDictionaryXLSX);
             // 
+            // файлБінуванняToolStripMenuItem1
+            // 
+            this.файлБінуванняToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.txtToolStripMenuItem,
+            this.csvToolStripMenuItem3,
+            this.xlsxToolStripMenuItem3});
+            this.файлБінуванняToolStripMenuItem1.Name = "файлБінуванняToolStripMenuItem1";
+            this.файлБінуванняToolStripMenuItem1.Size = new System.Drawing.Size(204, 24);
+            this.файлБінуванняToolStripMenuItem1.Text = "Файл бінування";
+            // 
             // txtToolStripMenuItem
             // 
             this.txtToolStripMenuItem.Name = "txtToolStripMenuItem";
@@ -726,6 +718,13 @@
             this.xlsxToolStripMenuItem3.Text = ".xlsx";
             this.xlsxToolStripMenuItem3.Click += new System.EventHandler(this.ExportBinningXLSX);
             // 
+            // графікToolStripMenuItem
+            // 
+            this.графікToolStripMenuItem.Name = "графікToolStripMenuItem";
+            this.графікToolStripMenuItem.Size = new System.Drawing.Size(204, 24);
+            this.графікToolStripMenuItem.Text = "Графік";
+            this.графікToolStripMenuItem.Click += new System.EventHandler(this.SaveChartClick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -738,7 +737,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.MinimumSize = new System.Drawing.Size(937, 712);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Language Analysis";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.binQuantityUpDown)).EndInit();
