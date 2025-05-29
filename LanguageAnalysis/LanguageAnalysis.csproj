@@ -15,6 +15,7 @@
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -27,7 +28,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -48,7 +48,7 @@
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>5</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -157,17 +157,17 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="app.manifest" />
-    <None Include="ChineeseResources\char_state_tab.json" />
-    <None Include="ChineeseResources\pos_prob_emit.json" />
-    <None Include="ChineeseResources\pos_prob_start.json" />
-    <None Include="ChineeseResources\pos_prob_trans.json" />
-    <None Include="ChineeseResources\prob_emit.json" />
-    <None Include="ChineeseResources\prob_trans.json" />
-    <None Include="JapaneeseResources\Dictionary\char.bin" />
-    <None Include="JapaneeseResources\Dictionary\dicrc" />
-    <None Include="JapaneeseResources\Dictionary\matrix.bin" />
-    <None Include="JapaneeseResources\Dictionary\sys.dic" />
-    <None Include="JapaneeseResources\Dictionary\unk.dic" />
+    <None Include="ChineseResources\char_state_tab.json" />
+    <None Include="ChineseResources\pos_prob_emit.json" />
+    <None Include="ChineseResources\pos_prob_start.json" />
+    <None Include="ChineseResources\pos_prob_trans.json" />
+    <None Include="ChineseResources\prob_emit.json" />
+    <None Include="ChineseResources\prob_trans.json" />
+    <None Include="JapaneseResources\Dictionary\char.bin" />
+    <None Include="JapaneseResources\Dictionary\dicrc" />
+    <None Include="JapaneseResources\Dictionary\matrix.bin" />
+    <None Include="JapaneseResources\Dictionary\sys.dic" />
+    <None Include="JapaneseResources\Dictionary\unk.dic" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -207,10 +207,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="ChineeseResources\cn_synonym.txt" />
-    <Content Include="ChineeseResources\dict.txt" />
-    <Content Include="ChineeseResources\idf.txt" />
-    <Content Include="ChineeseResources\stopwords.txt" />
+    <Content Include="ChineseResources\cn_synonym.txt" />
+    <Content Include="ChineseResources\dict.txt" />
+    <Content Include="ChineseResources\idf.txt" />
+    <Content Include="ChineseResources\stopwords.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Accord.3.8.0\build\Accord.targets" Condition="Exists('..\packages\Accord.3.8.0\build\Accord.targets')" />
@@ -223,7 +223,7 @@
   </Target>
   <Import Project="..\packages\NMeCab.0.06.4\build\NMeCab.targets" Condition="Exists('..\packages\NMeCab.0.06.4\build\NMeCab.targets')" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /y /i /s /e "$(ProjectDir)ChineeseResources" "Resources"</PostBuildEvent>
+    <PostBuildEvent>xcopy /y /i /s /e "$(ProjectDir)ChineseResources" "Resources"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -23,8 +23,8 @@ namespace VolosIndiv
     public partial class Form1 : Form
     {
 
-        const string ChineeseParsingResourceFolder = "ChineeseResources";
-        const string JapaneseParsingResourceFolder = "JapaneeseResources\\Dictionary";
+        const string ChineeseParsingResourceFolder = "ChineseResources";
+        const string JapaneseParsingResourceFolder = "JapaneseResources\\Dictionary";
 
         private enum AverageType
         {
