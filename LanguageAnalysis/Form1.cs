@@ -41,6 +41,9 @@ namespace VolosIndiv
             parsingResultsChart.Series[0].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
             parsingResultsChart.Series[0].MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
             parsingResultsChart.Series[0].MarkerSize = 10;
+            NgrammProcessor.IgnoreCase = ignoreRegexCheckbox.Checked;
+            NgrammProcessor.ProcessSpaces = includingSpacesCheckbox.Checked;
+
         }
 
 
@@ -79,7 +82,7 @@ namespace VolosIndiv
         /// </summary>
         private void IgnoreRegexChanged(object sender, EventArgs e)
         {
-            NgrammProcessor.ignore_case = ignoreRegexCheckbox.Checked;
+            NgrammProcessor.IgnoreCase = ignoreRegexCheckbox.Checked;
         }
 
         /// <summary>
@@ -88,7 +91,7 @@ namespace VolosIndiv
         /// </summary>
         private void IncludeSpacesChanged(object sender, EventArgs e)
         {
-            NgrammProcessor.ProcessSpaces = includingSpaces.Checked;
+            NgrammProcessor.ProcessSpaces = includingSpacesCheckbox.Checked;
         }
 
         /// <summary>
@@ -920,18 +923,22 @@ namespace VolosIndiv
         /// <param name="byWords">If true, process by words; otherwise, by symbols.</param>
         private async Task OpenFolder(string folderPath, bool byWords)
         {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
             if (string.IsNullOrEmpty(folderPath))
             {
                 MessageBox.Show("Please select a folder first.");
                 return;
             }
-
             elapsedTimeLabel.Text = "Час виконання: Виконується";
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
-
             textsAnalyzedLabel.Text = string.Empty;
             parsedTexts = 0;
+
+
+
+            ProgressReporter reporter = new ProgressReporter();
+            reporter.ProgressChanged += Reporter_ProgressChanged;
 
 
             var files = new List<string>();
@@ -950,6 +957,8 @@ namespace VolosIndiv
             var xlist = new double[files.Count];
             var ylist = new double[files.Count];
 
+
+
             // calculations for tables
             await Task.WhenAll(files.Select((file, index) => Task.Run(async () =>
             {
@@ -958,10 +967,11 @@ namespace VolosIndiv
                     ++parsedTexts;
                     textsAnalyzedLabel.Text = $"Оброблено: {parsedTexts} з {files.Count}";
                     textToProcessLabel.Text = $"Текст: {Path.GetFileNameWithoutExtension(file)}";
+                    reporter.Reset();
 
                 }));
-                ProgressReporter reporter = new ProgressReporter();
-                reporter.ProgressChanged += Reporter_ProgressChanged;
+
+
                 NgrammProcessor processor = new NgrammProcessor(file, reporter);
                 await processor.Preprocess();
 
@@ -984,6 +994,8 @@ namespace VolosIndiv
 
 
             })));
+            textsAnalyzedLabel.Text = "Перенесення данних у UI";
+
 
             var xList = new ArrayList(xlist.ToArray());
             var yList = new ArrayList(ylist.ToArray());
@@ -997,14 +1009,17 @@ namespace VolosIndiv
             }
 
             dictionaryGridView.Columns["Count"].ValueType = typeof(Int32);
-            elapsedTimeLabel.Text = "Час виконання: Завершення...";
+
             await BinningScript(xList, yList);
 
             stopwatch.Stop();
 
             string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}",
-                stopwatch.Elapsed.TotalHours, stopwatch.Elapsed.TotalMinutes, stopwatch.Elapsed.TotalSeconds);
+            stopwatch.Elapsed.TotalHours, stopwatch.Elapsed.TotalMinutes, stopwatch.Elapsed.TotalSeconds);
             this.elapsedTimeLabel.Text = $"Час виконання: {elapsedTime}";
+            textsAnalyzedLabel.Text = $"Оброблено: {parsedTexts} з {files.Count}";
+
+
         }
 
         /// <summary>

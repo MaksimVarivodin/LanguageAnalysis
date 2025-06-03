@@ -1,4 +1,5 @@
-.vs
-LanguageAnalysis/obj
+/.vs
+/LanguageAnalysis/obj
 /Курсова робота, Варіводін, Феім14-с.pptx
 /.idea/.idea.LanguageAnalysis/.idea
+/LanguageAnalysis/bin

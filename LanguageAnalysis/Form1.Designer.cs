@@ -45,7 +45,7 @@
             this.countBySymbolsButton = new System.Windows.Forms.Button();
             this.elapsedTimeLabel = new System.Windows.Forms.Label();
             this.ignoreRegexCheckbox = new System.Windows.Forms.CheckBox();
-            this.includingSpaces = new System.Windows.Forms.CheckBox();
+            this.includingSpacesCheckbox = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.binQuantityUpDown = new System.Windows.Forms.NumericUpDown();
             this.powAUpDown = new System.Windows.Forms.NumericUpDown();
@@ -261,17 +261,17 @@
             // 
             // includingSpaces
             // 
-            this.includingSpaces.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.includingSpaces.AutoSize = true;
-            this.includingSpaces.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.includingSpaces.Location = new System.Drawing.Point(9, 46);
-            this.includingSpaces.Margin = new System.Windows.Forms.Padding(2);
-            this.includingSpaces.Name = "includingSpaces";
-            this.includingSpaces.Size = new System.Drawing.Size(179, 22);
-            this.includingSpaces.TabIndex = 26;
-            this.includingSpaces.Text = "Враховувати пробіли";
-            this.includingSpaces.UseVisualStyleBackColor = true;
-            this.includingSpaces.CheckedChanged += new System.EventHandler(this.IncludeSpacesChanged);
+            this.includingSpacesCheckbox.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.includingSpacesCheckbox.AutoSize = true;
+            this.includingSpacesCheckbox.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.includingSpacesCheckbox.Location = new System.Drawing.Point(9, 46);
+            this.includingSpacesCheckbox.Margin = new System.Windows.Forms.Padding(2);
+            this.includingSpacesCheckbox.Name = "includingSpaces";
+            this.includingSpacesCheckbox.Size = new System.Drawing.Size(179, 22);
+            this.includingSpacesCheckbox.TabIndex = 26;
+            this.includingSpacesCheckbox.Text = "Враховувати пробіли";
+            this.includingSpacesCheckbox.UseVisualStyleBackColor = true;
+            this.includingSpacesCheckbox.CheckedChanged += new System.EventHandler(this.IncludeSpacesChanged);
             // 
             // groupBox1
             // 
@@ -281,7 +281,7 @@
             this.groupBox1.Controls.Add(this.powAUpDown);
             this.groupBox1.Controls.Add(this.groupBox2);
             this.groupBox1.Controls.Add(this.ignoreRegexCheckbox);
-            this.groupBox1.Controls.Add(this.includingSpaces);
+            this.groupBox1.Controls.Add(this.includingSpacesCheckbox);
             this.groupBox1.Controls.Add(this.expBinningSearchButton);
             this.groupBox1.Controls.Add(this.clearButton);
             this.groupBox1.Controls.Add(this.label3);
@@ -777,7 +777,7 @@
         private System.Windows.Forms.Button expBinningSearchButton;
         private System.Windows.Forms.Button countBySymbolsButton;
         private System.Windows.Forms.CheckBox ignoreRegexCheckbox;
-        private System.Windows.Forms.CheckBox includingSpaces;
+        private System.Windows.Forms.CheckBox includingSpacesCheckbox;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.TabPage tabPage1;

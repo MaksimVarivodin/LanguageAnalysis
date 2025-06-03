@@ -39,7 +39,7 @@ namespace TableExport
                         // Заголовки
                         var headers = visibleColumns
                             .Select(col => EscapeCsv(col.HeaderText));
-                        sb.AppendLine(string.Join(",", headers));
+                        sb.AppendLine(string.Join(";", headers));
 
                         // Данные
                         foreach (DataGridViewRow row in dgv.Rows)
@@ -53,7 +53,7 @@ namespace TableExport
                                     var value = row.Cells[col.Index].Value;
                                     return EscapeCsv(value?.ToString() ?? string.Empty);
                                 });
-                            sb.AppendLine(string.Join(",", cells));
+                            sb.AppendLine(string.Join(";", cells));
                         }
 
                         File.WriteAllText(saveDialog.FileName, sb.ToString(), Encoding.UTF8);

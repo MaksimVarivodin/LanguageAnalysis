@@ -28,21 +28,18 @@ namespace NGramm
         public string SS = "\\|\"{}()[]=+_~'@#$…%^&*№:";
         public static HashSet<char> EndSigns = new HashSet<char>(".?!;。？！¿¡؟؛¿¡።༼⸮〽⋯…⸰;".ToCharArray());
         public static string EndSignss = ",.?!;";
-        public string RawTextOrg = "";
-        public int CountDesiredVariables = 0;
-        public string UnsignedTextorg = "";
-        public string EndsignedTextorg = "";
-        public string Raw = "";
+
         public static bool ProcessSpaces = true;
         public static bool ConsequtiveSpaces = true;        
-        public static bool ignore_case = true;
+        public static bool IgnoreCase = true;
         public static bool ignore_punctuation = true;
         public static bool ignoreComments = false;
 
         private static HashSet<char> spaces_list = new HashSet<char> { '\u0020', '\u00a0', '\u1680', '\u2000', '\u2001', '\u2002', '\u2003', '\u2004', '\u2005', '\u2006', '\u2007', '\u2008', '\u2009', '\u200a', '\u202f', '\u205f', '\u3000', '\u200b' };
         private static char[] skip_spaces = new char[] { '\u3000' };
         private static string[] consequtive_spaces_pattern = spaces_list.Select(x => $"({x})+").ToArray();
-        private readonly Regex spaces_pattern = new Regex($"({string.Join("|", consequtive_spaces_pattern)})", RegexOptions.Compiled); private static
+        private readonly Regex spaces_pattern = new Regex($"({string.Join("|", consequtive_spaces_pattern)})", RegexOptions.Compiled); 
+        private static
             List<UnicodeCategory> nonRenderingCategories = new List<UnicodeCategory> {
             UnicodeCategory.Control,
             UnicodeCategory.OtherNotAssigned,
@@ -57,15 +54,26 @@ namespace NGramm
         private ConcurrentBag<NGrammContainer> words_ngrams = new ConcurrentBag<NGrammContainer>();
         private ConcurrentBag<NGrammContainer> literal_ngrams = new ConcurrentBag<NGrammContainer>();
 
-        private readonly string _filename;
-    
+        public string RawTextOrg = "";
+        public int CountDesiredVariables = 0;
+        public string UnsignedTextorg = "";
+        public string EndsignedTextorg = "";
+        public string Raw = "";
+        private string fileName;
+
+        public string Filename
+        {
+            get => fileName;
+            set =>  fileName = value;
+        }
+           
         public readonly ProgressReporter progressReporter;
         private static MeCabParam mecabParameter;
 
         public NgrammProcessor(string filename, ProgressReporter progressReporter)
         {
 
-            _filename = filename;
+            Filename = filename;
             CountDesiredVariables = 0;
             this.progressReporter = progressReporter;
         }
@@ -74,7 +82,7 @@ namespace NGramm
 
         public string GetFileContent()
         {
-            var bytes = File.ReadAllBytes(_filename);
+            var bytes = File.ReadAllBytes(Filename);
             CharsetDetector cdet = new CharsetDetector();
             cdet.Feed(bytes, 0, bytes.Length);
             cdet.DataEnd();
@@ -279,7 +287,7 @@ namespace NGramm
                     {
                         var ngram = ngramBuilder.ToString();
                         ngramBuilder.Clear();
-                        container.Add(ignore_case ? ngram.ToLower() : ngram);
+                        container.Add(IgnoreCase ? ngram.ToLower() : ngram);
                     }
                 }
             }
@@ -394,7 +402,7 @@ namespace NGramm
 
                     if (!breaked)
                     {
-                        container.Add(ignore_case ? ngram.ToLower() : ngram);
+                        container.Add(IgnoreCase ? ngram.ToLower() : ngram);
                     }
                 }
             }
@@ -429,7 +437,7 @@ namespace NGramm
 
                 Parallel.For(1, n + 1, PerformanceSettings.ParallelOpt, nn =>
                 {
-                    var ct = ProcessWordNgrmmToContainer(words, nn, ignore_punctuation, ignore_case, progressMult);
+                    var ct = ProcessWordNgrmmToContainer(words, nn, ignore_punctuation, IgnoreCase, progressMult);
                     words_ngrams.Add(ct);
                 });
 
