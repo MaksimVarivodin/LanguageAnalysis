@@ -278,7 +278,6 @@ namespace VolosIndiv
             using (var folderBrowserDialog = new FolderBrowserDialog())
             {
                 folderBrowserDialog.Description = "Виберіть папку з текстами";
-                folderBrowserDialog.SelectedPath = System.Environment.CurrentDirectory;
                 if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
                 {
                     selectedFolderPath = folderBrowserDialog.SelectedPath;

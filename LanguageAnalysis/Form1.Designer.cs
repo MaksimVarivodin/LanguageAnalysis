@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.countByWordsButton = new System.Windows.Forms.Button();
             this.fbd = new System.Windows.Forms.OpenFileDialog();
             this.saveFiles = new System.Windows.Forms.SaveFileDialog();
@@ -259,14 +259,14 @@
             this.ignoreRegexCheckbox.UseVisualStyleBackColor = true;
             this.ignoreRegexCheckbox.CheckedChanged += new System.EventHandler(this.IgnoreRegexChanged);
             // 
-            // includingSpaces
+            // includingSpacesCheckbox
             // 
             this.includingSpacesCheckbox.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.includingSpacesCheckbox.AutoSize = true;
             this.includingSpacesCheckbox.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.includingSpacesCheckbox.Location = new System.Drawing.Point(9, 46);
             this.includingSpacesCheckbox.Margin = new System.Windows.Forms.Padding(2);
-            this.includingSpacesCheckbox.Name = "includingSpaces";
+            this.includingSpacesCheckbox.Name = "includingSpacesCheckbox";
             this.includingSpacesCheckbox.Size = new System.Drawing.Size(179, 22);
             this.includingSpacesCheckbox.TabIndex = 26;
             this.includingSpacesCheckbox.Text = "Враховувати пробіли";
@@ -490,26 +490,26 @@
             // 
             // parsingResultsChart
             // 
-            chartArea2.Name = "ChartArea1";
-            this.parsingResultsChart.ChartAreas.Add(chartArea2);
+            chartArea1.Name = "ChartArea1";
+            this.parsingResultsChart.ChartAreas.Add(chartArea1);
             this.parsingResultsChart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend2.Alignment = System.Drawing.StringAlignment.Center;
-            legend2.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
-            legend2.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold);
-            legend2.IsTextAutoFit = false;
-            legend2.Name = "Legend1";
-            legend2.Title = "Парсинг";
-            legend2.TitleFont = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold);
-            this.parsingResultsChart.Legends.Add(legend2);
+            legend1.Alignment = System.Drawing.StringAlignment.Center;
+            legend1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
+            legend1.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold);
+            legend1.IsTextAutoFit = false;
+            legend1.Name = "Legend1";
+            legend1.Title = "Парсинг";
+            legend1.TitleFont = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold);
+            this.parsingResultsChart.Legends.Add(legend1);
             this.parsingResultsChart.Location = new System.Drawing.Point(3, 3);
             this.parsingResultsChart.Name = "parsingResultsChart";
             this.parsingResultsChart.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Excel;
-            series2.ChartArea = "ChartArea1";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
-            series2.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold);
-            series2.Legend = "Legend1";
-            series2.Name = "Кількість";
-            this.parsingResultsChart.Series.Add(series2);
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+            series1.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold);
+            series1.Legend = "Legend1";
+            series1.Name = "Кількість";
+            this.parsingResultsChart.Series.Add(series1);
             this.parsingResultsChart.Size = new System.Drawing.Size(644, 507);
             this.parsingResultsChart.TabIndex = 0;
             this.parsingResultsChart.Text = "chart1";
@@ -622,7 +622,7 @@
             this.словникToolStripMenuItem,
             this.файлБінуванняToolStripMenuItem});
             this.відкритиПапкуToolStripMenuItem.Name = "відкритиПапкуToolStripMenuItem";
-            this.відкритиПапкуToolStripMenuItem.Size = new System.Drawing.Size(150, 24);
+            this.відкритиПапкуToolStripMenuItem.Size = new System.Drawing.Size(180, 24);
             this.відкритиПапкуToolStripMenuItem.Text = "Відкрити";
             // 
             // папкуToolStripMenuItem
@@ -653,7 +653,7 @@
             this.файлБінуванняToolStripMenuItem1,
             this.графікToolStripMenuItem});
             this.зберегтиToolStripMenuItem.Name = "зберегтиToolStripMenuItem";
-            this.зберегтиToolStripMenuItem.Size = new System.Drawing.Size(150, 24);
+            this.зберегтиToolStripMenuItem.Size = new System.Drawing.Size(180, 24);
             this.зберегтиToolStripMenuItem.Text = "Зберегти";
             // 
             // словникToolStripMenuItem1
