@@ -30,7 +30,7 @@ namespace NGramm
         public static string EndSignss = ",.?!;";
 
         public static bool ProcessSpaces = true;
-        public static bool ConsequtiveSpaces = true;        
+        public static bool ConsequtiveSpaces = false;        
         public static bool IgnoreCase = true;
         public static bool ignore_punctuation = true;
         public static bool ignoreComments = false;
