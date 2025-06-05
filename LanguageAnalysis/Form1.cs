@@ -17,6 +17,7 @@ using System.Windows.Forms.DataVisualization.Charting;
 using FolderWork;
 using TableExport;
 using Parsing;
+using JiebaNet.Segmenter.Common;
 
 
 namespace VolosIndiv
@@ -278,8 +279,11 @@ namespace VolosIndiv
             using (var folderBrowserDialog = new FolderBrowserDialog())
             {
                 folderBrowserDialog.Description = "Виберіть папку з текстами";
+                if(selectedFolderPath.IsNotEmpty())
+                    folderBrowserDialog.SelectedPath = selectedFolderPath;  
                 if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
                 {
+
                     selectedFolderPath = folderBrowserDialog.SelectedPath;
                     string folderName = Path.GetFileName(selectedFolderPath.TrimEnd(Path.DirectorySeparatorChar));
 
