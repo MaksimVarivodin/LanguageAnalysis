@@ -1,3 +1,0 @@
-+LOTR_en	2026230	64	
-+monkey_text_M5k_L1kk	800374	4357	
-test_monkey	88012	4306	
