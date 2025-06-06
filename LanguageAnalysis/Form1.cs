@@ -20,7 +20,7 @@ using Parsing;
 using JiebaNet.Segmenter.Common;
 
 
-namespace VolosIndiv
+namespace VolosIndiv 
 {
     public partial class Form1 : Form
     {
