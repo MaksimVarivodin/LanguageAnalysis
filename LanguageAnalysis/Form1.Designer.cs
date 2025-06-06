@@ -31,6 +31,7 @@
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.countByWordsButton = new System.Windows.Forms.Button();
             this.fbd = new System.Windows.Forms.OpenFileDialog();
             this.saveFiles = new System.Windows.Forms.SaveFileDialog();
@@ -622,7 +623,7 @@
             this.словникToolStripMenuItem,
             this.файлБінуванняToolStripMenuItem});
             this.відкритиПапкуToolStripMenuItem.Name = "відкритиПапкуToolStripMenuItem";
-            this.відкритиПапкуToolStripMenuItem.Size = new System.Drawing.Size(180, 24);
+            this.відкритиПапкуToolStripMenuItem.Size = new System.Drawing.Size(150, 24);
             this.відкритиПапкуToolStripMenuItem.Text = "Відкрити";
             // 
             // папкуToolStripMenuItem
@@ -653,7 +654,7 @@
             this.файлБінуванняToolStripMenuItem1,
             this.графікToolStripMenuItem});
             this.зберегтиToolStripMenuItem.Name = "зберегтиToolStripMenuItem";
-            this.зберегтиToolStripMenuItem.Size = new System.Drawing.Size(180, 24);
+            this.зберегтиToolStripMenuItem.Size = new System.Drawing.Size(150, 24);
             this.зберегтиToolStripMenuItem.Text = "Зберегти";
             // 
             // словникToolStripMenuItem1
@@ -734,6 +735,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.MinimumSize = new System.Drawing.Size(937, 712);
             this.Name = "Form1";
@@ -767,7 +769,7 @@
         private System.Windows.Forms.OpenFileDialog fbd;
         private System.Windows.Forms.SaveFileDialog saveFiles;
         private System.Windows.Forms.Button clearButton;
-        private System.Windows.Forms.ListBox listBox1;
+        
         private System.Windows.Forms.Button updateButton;
         private System.Windows.Forms.RadioButton equalLengthRadio;
         private System.Windows.Forms.RadioButton differentLengthRadio;
