@@ -18,7 +18,7 @@ using FolderWork;
 using TableExport;
 using Parsing;
 using JiebaNet.Segmenter.Common;
-
+using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace VolosIndiv 
 {
@@ -38,13 +38,14 @@ namespace VolosIndiv
         {
             InitializeComponent();
             InitializeAsianParsingResources();
-            // Налаштування графіка (лінійна вісь)
+            // Chart settings
             parsingResultsChart.Series[0].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
             parsingResultsChart.Series[0].MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
-            parsingResultsChart.Series[0].MarkerSize = 10;
+            parsingResultsChart.Series[0].MarkerSize = 14;
             NgrammProcessor.IgnoreCase = ignoreRegexCheckbox.Checked;
             NgrammProcessor.ProcessSpaces = includingSpacesCheckbox.Checked;
-
+            
+            
         }
 
 
@@ -199,8 +200,14 @@ namespace VolosIndiv
         private void clearButtonClick(object sender, EventArgs e)
         {
             ClearData();
-
-            clearFormData("Джерело не обрано(Очищено)", "Джерело не обрано", "Джерело не обрано");
+            textToProcessLabel.Text = "Текст для обробки: не обрано";
+            folderLabel.Text = "Папка: не обрана";
+            textsAnalyzedLabel.Text = "Оброблено: 0";
+            elapsedTimeLabel.Text = "Час виконання: _";
+            countByWordsButton.Enabled = false;
+            countBySymbolsButton.Enabled = false;
+            
+            clearFormData("Джерело не обрано", "Джерело не обрано", "Джерело не обрано");
         }
 
         /// <summary>
@@ -276,18 +283,18 @@ namespace VolosIndiv
         /// </summary>
         private void OpenFolderMenuItemClick(object sender, EventArgs e)
         {
-            using (var folderBrowserDialog = new FolderBrowserDialog())
+            using (var folderBrowserDialog = new CommonOpenFileDialog())
             {
-                folderBrowserDialog.Description = "Виберіть папку з текстами";
-                if(selectedFolderPath.IsNotEmpty())
-                    folderBrowserDialog.SelectedPath = selectedFolderPath;  
-                if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+                folderBrowserDialog.Title = "Виберіть папку з текстами";
+                folderBrowserDialog.IsFolderPicker = true;
+                folderBrowserDialog.RestoreDirectory = true;
+                if (folderBrowserDialog.ShowDialog() == CommonFileDialogResult.Ok && FolderChecker.IsValidFolder(folderBrowserDialog.FileName))
                 {
 
-                    selectedFolderPath = folderBrowserDialog.SelectedPath;
+                    selectedFolderPath = folderBrowserDialog.FileName;
                     string folderName = Path.GetFileName(selectedFolderPath.TrimEnd(Path.DirectorySeparatorChar));
 
-                    folderLabel.Text = "Папка: " + folderBrowserDialog.SelectedPath;
+                    folderLabel.Text = "Папка: " + folderBrowserDialog.FileName;
 
                     countByWordsButton.Enabled = true;
                     countBySymbolsButton.Enabled = true;
@@ -419,7 +426,11 @@ namespace VolosIndiv
                     }
 
                     // Оновити бінування після завантаження
+                    updateButton.Enabled = true;
                     updateButton.PerformClick();
+                    updateButton.Enabled = false;
+                    textToProcessLabel.Text = $"Обрано словник";
+                    folderLabel.Text =  $"Словник: {Path.GetFileNameWithoutExtension(dialog.FileName)}" ;
                 }
                 catch (Exception ex)
                 {
@@ -1022,6 +1033,25 @@ namespace VolosIndiv
             this.elapsedTimeLabel.Text = $"Час виконання: {elapsedTime}";
             textsAnalyzedLabel.Text = $"Оброблено: {parsedTexts} з {files.Count}";
 
+
+        }
+        private void setBinningSettingsEnabled(bool enabled) {
+            equalLengthRadio.Enabled = enabled;
+            differentLengthRadio.Enabled = enabled;
+            growingLengthRadio.Enabled = enabled;
+            binQuantityUpDown.Enabled = enabled;
+            powAUpDown.Enabled = enabled;
+            updateButton.Enabled = enabled;
+            expBinningSearchButton.Enabled = enabled;
+        }
+
+
+        private void switchBinningSettings(object sender, EventArgs e)
+        {
+            if (tabControl1.SelectedIndex != 2)            
+                setBinningSettingsEnabled(false);
+            else
+                setBinningSettingsEnabled(true);
 
         }
 

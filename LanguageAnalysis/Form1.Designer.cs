@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -35,7 +36,6 @@
             this.countByWordsButton = new System.Windows.Forms.Button();
             this.fbd = new System.Windows.Forms.OpenFileDialog();
             this.saveFiles = new System.Windows.Forms.SaveFileDialog();
-            this.clearButton = new System.Windows.Forms.Button();
             this.updateButton = new System.Windows.Forms.Button();
             this.equalLengthRadio = new System.Windows.Forms.RadioButton();
             this.differentLengthRadio = new System.Windows.Forms.RadioButton();
@@ -73,7 +73,7 @@
             this.textToProcessLabel = new System.Windows.Forms.Label();
             this.textsAnalyzedLabel = new System.Windows.Forms.Label();
             this.folderLabel = new System.Windows.Forms.Label();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fileMenu = new System.Windows.Forms.MenuStrip();
             this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.відкритиПапкуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.папкуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -89,6 +89,8 @@
             this.csvToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.xlsxToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.графікToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cleanResourcesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.binQuantityUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.powAUpDown)).BeginInit();
@@ -101,7 +103,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.parsingResultsChart)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.groupBox5.SuspendLayout();
-            this.menuStrip1.SuspendLayout();
+            this.fileMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // countByWordsButton
@@ -109,11 +111,12 @@
             this.countByWordsButton.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.countByWordsButton.Enabled = false;
             this.countByWordsButton.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.countByWordsButton.Location = new System.Drawing.Point(13, 49);
+            this.countByWordsButton.Location = new System.Drawing.Point(20, 52);
             this.countByWordsButton.Name = "countByWordsButton";
             this.countByWordsButton.Size = new System.Drawing.Size(194, 30);
             this.countByWordsButton.TabIndex = 0;
             this.countByWordsButton.Text = "Слова";
+            this.toolTip1.SetToolTip(this.countByWordsButton, "\"Слова\"\r\nПорахувати слова в корпусі.");
             this.countByWordsButton.UseVisualStyleBackColor = true;
             this.countByWordsButton.Click += new System.EventHandler(this.countByWordsClick);
             // 
@@ -121,27 +124,17 @@
             // 
             this.fbd.AddExtension = false;
             // 
-            // clearButton
-            // 
-            this.clearButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.clearButton.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.clearButton.Location = new System.Drawing.Point(9, 417);
-            this.clearButton.Name = "clearButton";
-            this.clearButton.Size = new System.Drawing.Size(216, 30);
-            this.clearButton.TabIndex = 2;
-            this.clearButton.Text = "Очистити";
-            this.clearButton.UseVisualStyleBackColor = true;
-            this.clearButton.Click += new System.EventHandler(this.clearButtonClick);
-            // 
             // updateButton
             // 
             this.updateButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.updateButton.Enabled = false;
             this.updateButton.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.updateButton.Location = new System.Drawing.Point(9, 379);
+            this.updateButton.Location = new System.Drawing.Point(9, 230);
             this.updateButton.Name = "updateButton";
             this.updateButton.Size = new System.Drawing.Size(216, 30);
             this.updateButton.TabIndex = 9;
             this.updateButton.Text = "Оновити";
+            this.toolTip1.SetToolTip(this.updateButton, "\"Оновити\"\r\nОновлює вкладку \"Бінування\".");
             this.updateButton.UseVisualStyleBackColor = true;
             this.updateButton.Click += new System.EventHandler(this.updateButtonClick);
             // 
@@ -150,13 +143,15 @@
             this.equalLengthRadio.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.equalLengthRadio.AutoSize = true;
             this.equalLengthRadio.Checked = true;
+            this.equalLengthRadio.Enabled = false;
             this.equalLengthRadio.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.equalLengthRadio.Location = new System.Drawing.Point(9, 171);
+            this.equalLengthRadio.Location = new System.Drawing.Point(9, 22);
             this.equalLengthRadio.Name = "equalLengthRadio";
             this.equalLengthRadio.Size = new System.Drawing.Size(186, 22);
             this.equalLengthRadio.TabIndex = 10;
             this.equalLengthRadio.TabStop = true;
             this.equalLengthRadio.Text = "З однаковою довжиною";
+            this.toolTip1.SetToolTip(this.equalLengthRadio, "\"З однаковою довжиною\"\r\nБінування слів за однаковою довжиною.");
             this.equalLengthRadio.UseVisualStyleBackColor = true;
             this.equalLengthRadio.CheckedChanged += new System.EventHandler(this.radioEqualLength_CheckedChanged);
             // 
@@ -164,12 +159,14 @@
             // 
             this.differentLengthRadio.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.differentLengthRadio.AutoSize = true;
+            this.differentLengthRadio.Enabled = false;
             this.differentLengthRadio.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.differentLengthRadio.Location = new System.Drawing.Point(9, 201);
+            this.differentLengthRadio.Location = new System.Drawing.Point(9, 52);
             this.differentLengthRadio.Name = "differentLengthRadio";
             this.differentLengthRadio.Size = new System.Drawing.Size(162, 22);
             this.differentLengthRadio.TabIndex = 11;
             this.differentLengthRadio.Text = "Різні за довжиною";
+            this.toolTip1.SetToolTip(this.differentLengthRadio, "\"Різні за довжиною\"\r\nБінування різних за довжиною слів.");
             this.differentLengthRadio.UseVisualStyleBackColor = true;
             this.differentLengthRadio.CheckedChanged += new System.EventHandler(this.radioDifferentLength_CheckedChanged);
             // 
@@ -177,12 +174,14 @@
             // 
             this.growingLengthRadio.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.growingLengthRadio.AutoSize = true;
+            this.growingLengthRadio.Enabled = false;
             this.growingLengthRadio.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.growingLengthRadio.Location = new System.Drawing.Point(9, 231);
+            this.growingLengthRadio.Location = new System.Drawing.Point(9, 82);
             this.growingLengthRadio.Name = "growingLengthRadio";
             this.growingLengthRadio.Size = new System.Drawing.Size(162, 22);
             this.growingLengthRadio.TabIndex = 14;
             this.growingLengthRadio.Text = "Зростаюча довжина";
+            this.toolTip1.SetToolTip(this.growingLengthRadio, "\"Зростаюча довжина\"\r\nБінування за зростаючою довжиною.");
             this.growingLengthRadio.UseVisualStyleBackColor = true;
             this.growingLengthRadio.CheckedChanged += new System.EventHandler(this.radioGrowLength_CheckedChanged);
             // 
@@ -191,7 +190,7 @@
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(9, 261);
+            this.label2.Location = new System.Drawing.Point(9, 112);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(136, 18);
             this.label2.TabIndex = 16;
@@ -202,7 +201,7 @@
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.Location = new System.Drawing.Point(9, 320);
+            this.label3.Location = new System.Drawing.Point(9, 171);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(128, 18);
             this.label3.TabIndex = 17;
@@ -211,12 +210,15 @@
             // expBinningSearchButton
             // 
             this.expBinningSearchButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.expBinningSearchButton.Enabled = false;
             this.expBinningSearchButton.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.expBinningSearchButton.Location = new System.Drawing.Point(9, 455);
+            this.expBinningSearchButton.Location = new System.Drawing.Point(9, 266);
             this.expBinningSearchButton.Name = "expBinningSearchButton";
-            this.expBinningSearchButton.Size = new System.Drawing.Size(216, 75);
+            this.expBinningSearchButton.Size = new System.Drawing.Size(216, 57);
             this.expBinningSearchButton.TabIndex = 20;
             this.expBinningSearchButton.Text = "Основа експоненційного бінування";
+            this.toolTip1.SetToolTip(this.expBinningSearchButton, "\"Основа експоненійного бінування\"\r\nАвтоматично рахує основу експоненційного\r\nбіну" +
+        "вання.");
             this.expBinningSearchButton.UseVisualStyleBackColor = true;
             this.expBinningSearchButton.Click += new System.EventHandler(this.expBinningSearchButtonClick);
             // 
@@ -225,11 +227,12 @@
             this.countBySymbolsButton.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.countBySymbolsButton.Enabled = false;
             this.countBySymbolsButton.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.countBySymbolsButton.Location = new System.Drawing.Point(13, 19);
+            this.countBySymbolsButton.Location = new System.Drawing.Point(20, 86);
             this.countBySymbolsButton.Name = "countBySymbolsButton";
             this.countBySymbolsButton.Size = new System.Drawing.Size(194, 30);
             this.countBySymbolsButton.TabIndex = 21;
             this.countBySymbolsButton.Text = "Символи";
+            this.toolTip1.SetToolTip(this.countBySymbolsButton, "\"Символи\"\r\nПорахувати символи в корпусі.");
             this.countBySymbolsButton.UseVisualStyleBackColor = true;
             this.countBySymbolsButton.Click += new System.EventHandler(this.countBySymbolsClick);
             // 
@@ -252,11 +255,13 @@
             this.ignoreRegexCheckbox.Checked = true;
             this.ignoreRegexCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ignoreRegexCheckbox.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ignoreRegexCheckbox.Location = new System.Drawing.Point(9, 16);
+            this.ignoreRegexCheckbox.Location = new System.Drawing.Point(20, 24);
             this.ignoreRegexCheckbox.Name = "ignoreRegexCheckbox";
             this.ignoreRegexCheckbox.Size = new System.Drawing.Size(171, 22);
             this.ignoreRegexCheckbox.TabIndex = 24;
             this.ignoreRegexCheckbox.Text = "Ігнорувати регістр";
+            this.toolTip1.SetToolTip(this.ignoreRegexCheckbox, "\"Ігнорувати регістр\"\r\nІгнорувати регістр під час парсингу і під час \r\nпідрахунку " +
+        "слів/символів.");
             this.ignoreRegexCheckbox.UseVisualStyleBackColor = true;
             this.ignoreRegexCheckbox.CheckedChanged += new System.EventHandler(this.IgnoreRegexChanged);
             // 
@@ -265,12 +270,13 @@
             this.includingSpacesCheckbox.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.includingSpacesCheckbox.AutoSize = true;
             this.includingSpacesCheckbox.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.includingSpacesCheckbox.Location = new System.Drawing.Point(9, 46);
+            this.includingSpacesCheckbox.Location = new System.Drawing.Point(64, 121);
             this.includingSpacesCheckbox.Margin = new System.Windows.Forms.Padding(2);
             this.includingSpacesCheckbox.Name = "includingSpacesCheckbox";
-            this.includingSpacesCheckbox.Size = new System.Drawing.Size(179, 22);
+            this.includingSpacesCheckbox.Size = new System.Drawing.Size(123, 22);
             this.includingSpacesCheckbox.TabIndex = 26;
-            this.includingSpacesCheckbox.Text = "Враховувати пробіли";
+            this.includingSpacesCheckbox.Text = "З пропусками";
+            this.toolTip1.SetToolTip(this.includingSpacesCheckbox, "\"З пропусками\"\r\nЯкщо натиснуто, рахує кількість слів з пропусками.");
             this.includingSpacesCheckbox.UseVisualStyleBackColor = true;
             this.includingSpacesCheckbox.CheckedChanged += new System.EventHandler(this.IncludeSpacesChanged);
             // 
@@ -280,29 +286,29 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.binQuantityUpDown);
             this.groupBox1.Controls.Add(this.powAUpDown);
-            this.groupBox1.Controls.Add(this.groupBox2);
-            this.groupBox1.Controls.Add(this.ignoreRegexCheckbox);
-            this.groupBox1.Controls.Add(this.includingSpacesCheckbox);
             this.groupBox1.Controls.Add(this.expBinningSearchButton);
-            this.groupBox1.Controls.Add(this.clearButton);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.updateButton);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.equalLengthRadio);
             this.groupBox1.Controls.Add(this.growingLengthRadio);
             this.groupBox1.Controls.Add(this.differentLengthRadio);
-            this.groupBox1.Font = new System.Drawing.Font("Consolas", 10F, System.Drawing.FontStyle.Bold);
-            this.groupBox1.Location = new System.Drawing.Point(676, 30);
+            this.groupBox1.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold);
+            this.groupBox1.Location = new System.Drawing.Point(676, 184);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(235, 541);
+            this.groupBox1.Size = new System.Drawing.Size(235, 334);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Налаштування бінування";
+            this.toolTip1.SetToolTip(this.groupBox1, "\"Налаштування бінування\"\r\nБлок який призначений для налаштування \r\nвкладки \"Бінув" +
+        "ання");
             // 
             // binQuantityUpDown
             // 
             this.binQuantityUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.binQuantityUpDown.Enabled = false;
             this.binQuantityUpDown.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.binQuantityUpDown.Location = new System.Drawing.Point(9, 346);
+            this.binQuantityUpDown.Location = new System.Drawing.Point(9, 197);
             this.binQuantityUpDown.Minimum = new decimal(new int[] {
             1,
             0,
@@ -321,13 +327,14 @@
             // 
             this.powAUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.powAUpDown.DecimalPlaces = 1;
+            this.powAUpDown.Enabled = false;
             this.powAUpDown.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.powAUpDown.Increment = new decimal(new int[] {
             1,
             0,
             0,
             65536});
-            this.powAUpDown.Location = new System.Drawing.Point(9, 287);
+            this.powAUpDown.Location = new System.Drawing.Point(9, 138);
             this.powAUpDown.Minimum = new decimal(new int[] {
             1,
             0,
@@ -344,23 +351,27 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.countByWordsButton);
             this.groupBox2.Controls.Add(this.countBySymbolsButton);
+            this.groupBox2.Controls.Add(this.includingSpacesCheckbox);
+            this.groupBox2.Controls.Add(this.ignoreRegexCheckbox);
             this.groupBox2.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.groupBox2.Location = new System.Drawing.Point(9, 76);
+            this.groupBox2.Location = new System.Drawing.Point(676, 30);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(216, 87);
+            this.groupBox2.Size = new System.Drawing.Size(235, 148);
             this.groupBox2.TabIndex = 29;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Рахувати";
+            this.groupBox2.Text = "Обрахунок";
+            this.toolTip1.SetToolTip(this.groupBox2, "\"Обрахунок\"\r\nБлок відповідає за парсинг тексту і вибір того, що\r\nрахувати:\r\n- сло" +
+        "ва;\r\n- символи.\r\nТакож присутні додаткові налаштування.");
             // 
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.binningGridView);
             this.tabPage1.Location = new System.Drawing.Point(4, 27);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(650, 513);
+            this.tabPage1.Size = new System.Drawing.Size(650, 453);
             this.tabPage1.TabIndex = 3;
             this.tabPage1.Text = "Бінування";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -382,7 +393,7 @@
             this.binningGridView.Name = "binningGridView";
             this.binningGridView.RowHeadersVisible = false;
             this.binningGridView.RowHeadersWidth = 51;
-            this.binningGridView.Size = new System.Drawing.Size(650, 513);
+            this.binningGridView.Size = new System.Drawing.Size(650, 453);
             this.binningGridView.TabIndex = 0;
             // 
             // Column1
@@ -432,7 +443,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 27);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(650, 513);
+            this.tabPage3.Size = new System.Drawing.Size(650, 453);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Словник";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -453,7 +464,7 @@
             this.dictionaryGridView.Name = "dictionaryGridView";
             this.dictionaryGridView.ReadOnly = true;
             this.dictionaryGridView.RowHeadersWidth = 51;
-            this.dictionaryGridView.Size = new System.Drawing.Size(644, 507);
+            this.dictionaryGridView.Size = new System.Drawing.Size(644, 447);
             this.dictionaryGridView.TabIndex = 1;
             this.dictionaryGridView.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.dictionaryGridView_SortCompare);
             // 
@@ -484,7 +495,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 27);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(650, 513);
+            this.tabPage2.Size = new System.Drawing.Size(650, 460);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Графік";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -511,7 +522,7 @@
             series1.Legend = "Legend1";
             series1.Name = "Кількість";
             this.parsingResultsChart.Series.Add(series1);
-            this.parsingResultsChart.Size = new System.Drawing.Size(644, 507);
+            this.parsingResultsChart.Size = new System.Drawing.Size(644, 454);
             this.parsingResultsChart.TabIndex = 0;
             this.parsingResultsChart.Text = "chart1";
             // 
@@ -538,8 +549,9 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 27);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(658, 544);
+            this.tabControl1.Size = new System.Drawing.Size(658, 491);
             this.tabControl1.TabIndex = 5;
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.switchBinningSettings);
             // 
             // groupBox5
             // 
@@ -551,7 +563,7 @@
             this.groupBox5.Controls.Add(this.progressBar1);
             this.groupBox5.Controls.Add(this.elapsedTimeLabel);
             this.groupBox5.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.groupBox5.Location = new System.Drawing.Point(16, 577);
+            this.groupBox5.Location = new System.Drawing.Point(16, 524);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(895, 84);
             this.groupBox5.TabIndex = 6;
@@ -572,8 +584,9 @@
             // 
             // textsAnalyzedLabel
             // 
-            this.textsAnalyzedLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.textsAnalyzedLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textsAnalyzedLabel.AutoSize = true;
             this.textsAnalyzedLabel.BackColor = System.Drawing.Color.OliveDrab;
             this.textsAnalyzedLabel.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -595,22 +608,23 @@
             this.folderLabel.TabIndex = 27;
             this.folderLabel.Text = "Папка: _";
             // 
-            // menuStrip1
+            // fileMenu
             // 
-            this.menuStrip1.Font = new System.Drawing.Font("Consolas", 10F, System.Drawing.FontStyle.Bold);
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileMenu.Font = new System.Drawing.Font("Consolas", 10F, System.Drawing.FontStyle.Bold);
+            this.fileMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.файлToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(921, 27);
-            this.menuStrip1.TabIndex = 28;
-            this.menuStrip1.Text = "menuStrip1";
+            this.fileMenu.Location = new System.Drawing.Point(0, 0);
+            this.fileMenu.Name = "fileMenu";
+            this.fileMenu.Size = new System.Drawing.Size(921, 27);
+            this.fileMenu.TabIndex = 28;
+            this.fileMenu.Text = "menuStrip1";
             // 
             // файлToolStripMenuItem
             // 
             this.файлToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.відкритиПапкуToolStripMenuItem,
-            this.зберегтиToolStripMenuItem});
+            this.зберегтиToolStripMenuItem,
+            this.cleanResourcesToolStripMenuItem});
             this.файлToolStripMenuItem.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold);
             this.файлToolStripMenuItem.Name = "файлToolStripMenuItem";
             this.файлToolStripMenuItem.Size = new System.Drawing.Size(57, 23);
@@ -623,7 +637,7 @@
             this.словникToolStripMenuItem,
             this.файлБінуванняToolStripMenuItem});
             this.відкритиПапкуToolStripMenuItem.Name = "відкритиПапкуToolStripMenuItem";
-            this.відкритиПапкуToolStripMenuItem.Size = new System.Drawing.Size(150, 24);
+            this.відкритиПапкуToolStripMenuItem.Size = new System.Drawing.Size(222, 24);
             this.відкритиПапкуToolStripMenuItem.Text = "Відкрити";
             // 
             // папкуToolStripMenuItem
@@ -654,7 +668,7 @@
             this.файлБінуванняToolStripMenuItem1,
             this.графікToolStripMenuItem});
             this.зберегтиToolStripMenuItem.Name = "зберегтиToolStripMenuItem";
-            this.зберегтиToolStripMenuItem.Size = new System.Drawing.Size(150, 24);
+            this.зберегтиToolStripMenuItem.Size = new System.Drawing.Size(222, 24);
             this.зберегтиToolStripMenuItem.Text = "Зберегти";
             // 
             // словникToolStripMenuItem1
@@ -726,18 +740,30 @@
             this.графікToolStripMenuItem.Text = "Графік";
             this.графікToolStripMenuItem.Click += new System.EventHandler(this.SaveChartClick);
             // 
+            // cleanResourcesToolStripMenuItem
+            // 
+            this.cleanResourcesToolStripMenuItem.Name = "cleanResourcesToolStripMenuItem";
+            this.cleanResourcesToolStripMenuItem.Size = new System.Drawing.Size(222, 24);
+            this.cleanResourcesToolStripMenuItem.Text = "Очистити ресурси";
+            this.cleanResourcesToolStripMenuItem.Click += new System.EventHandler(this.clearButtonClick);
+            // 
+            // toolTip1
+            // 
+            this.toolTip1.ToolTipTitle = "Справка";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(921, 673);
+            this.ClientSize = new System.Drawing.Size(921, 620);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.tabControl1);
-            this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.fileMenu);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MainMenuStrip = this.menuStrip1;
-            this.MinimumSize = new System.Drawing.Size(937, 712);
+            this.MainMenuStrip = this.fileMenu;
+            this.MinimumSize = new System.Drawing.Size(937, 659);
             this.Name = "Form1";
             this.Text = "Language Analysis";
             this.groupBox1.ResumeLayout(false);
@@ -745,6 +771,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.binQuantityUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.powAUpDown)).EndInit();
             this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.binningGridView)).EndInit();
             this.tabPage3.ResumeLayout(false);
@@ -754,8 +781,8 @@
             this.tabControl1.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this.fileMenu.ResumeLayout(false);
+            this.fileMenu.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -768,7 +795,6 @@
         private System.Windows.Forms.Button countByWordsButton;
         private System.Windows.Forms.OpenFileDialog fbd;
         private System.Windows.Forms.SaveFileDialog saveFiles;
-        private System.Windows.Forms.Button clearButton;
         
         private System.Windows.Forms.Button updateButton;
         private System.Windows.Forms.RadioButton equalLengthRadio;
@@ -792,7 +818,7 @@
         private System.Windows.Forms.NumericUpDown powAUpDown;
         private System.Windows.Forms.NumericUpDown binQuantityUpDown;
         private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.MenuStrip fileMenu;
         private System.Windows.Forms.ToolStripMenuItem файлToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem відкритиПапкуToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem папкуToolStripMenuItem;
@@ -823,6 +849,8 @@
         private System.Windows.Forms.ToolStripMenuItem csvToolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem xlsxToolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem графікToolStripMenuItem;
+        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.ToolStripMenuItem cleanResourcesToolStripMenuItem;
     }
 }
 
