@@ -26,7 +26,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>4</ApplicationRevision>
+    <ApplicationRevision>5</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -250,7 +250,8 @@
   </Target>
   <Import Project="..\packages\NMeCab.0.06.4\build\NMeCab.targets" Condition="Exists('..\packages\NMeCab.0.06.4\build\NMeCab.targets')" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /y /i /s /e "$(ProjectDir)ChineseResources" "Resources"</PostBuildEvent>
+    <PostBuildEvent>xcopy /y /i /s /e "$(ProjectDir)ChineseResources" "Resources"
+xcopy /y /i /s /e "$(ProjectDir)JapaneseResources/Dictionary" "dic"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

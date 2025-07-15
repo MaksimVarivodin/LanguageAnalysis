@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Parsing
@@ -106,6 +107,15 @@ namespace Parsing
                 return 0;  // a ≈ b
 
             return diff > 0 ? 1 : -1; // a > b : a < b
+        }
+        public static bool IsDouble(string data)
+        {
+            double result;
+            bool isDouble = double.TryParse(data, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.CurrentCulture, out result)
+                || double.TryParse(data, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out result);
+
+            bool hasSeparator = Regex.IsMatch(data, @"[.,]");
+            return isDouble && hasSeparator;
         }
     }
 }

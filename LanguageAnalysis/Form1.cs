@@ -458,7 +458,11 @@ namespace VolosIndiv
 
                     foreach (string line in lines)
                     {
-                        string[] res = Regex.Split(line, "\t");
+                        if (string.IsNullOrWhiteSpace(line))
+                            continue; // Skip empty lines
+                        string trimBySpace = Regex.Replace(line, @" +", "\t");
+                        string trimByTab = Regex.Replace(trimBySpace, @"\t+", "\t");
+                        string[] res = Regex.Split(trimByTab, "\t");
                         dgv.Rows.Add(res);
                         progressBar1.Value++;
 
@@ -476,7 +480,7 @@ namespace VolosIndiv
             parsedTexts = File.ReadLines(fbd.FileName).Count();
             textsAnalyzedLabel.Text = Convert.ToString("Текстів: " + parsedTexts);
             int M = Convert.ToInt32(binQuantityUpDown.Text);
-
+            progressBar1.Value = 0;
         }
 
         /// <summary>
@@ -1060,6 +1064,30 @@ namespace VolosIndiv
                 setBinningSettingsEnabled(false);
             else
                 setBinningSettingsEnabled(true);
+        }
+
+        private void binningGridView_SortCompare(object sender, DataGridViewSortCompareEventArgs e)
+        {
+
+
+            if (DoubleParsers.IsDouble(e.CellValue1.ToString())
+                || DoubleParsers.IsDouble(e.CellValue2.ToString()))
+            {
+                var a = DoubleParsers.doubleParseFromString(e.CellValue1.ToString());
+                var b = DoubleParsers.doubleParseFromString(e.CellValue2.ToString());
+                e.SortResult = DoubleParsers.CompareDouble(a, b, 1e-5);
+               
+
+            }
+            else
+            {
+                int.TryParse(e.CellValue1.ToString(), out int a);
+                int.TryParse(e.CellValue2.ToString(), out int b);
+                e.SortResult = (a == b ? 0 : (a > b ? 1 : -1));
+            }
+            e.Handled = true;
+
+
         }
 
         /// <summary>

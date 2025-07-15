@@ -53,13 +53,6 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.binningGridView = new System.Windows.Forms.DataGridView();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.RightBorder = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.dictionaryGridView = new System.Windows.Forms.DataGridView();
             this.NameDG = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -91,6 +84,13 @@
             this.графікToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cleanResourcesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.Bin = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Left = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Right = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Ls = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Vs = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dV = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Texts = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.binQuantityUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.powAUpDown)).BeginInit();
@@ -123,6 +123,7 @@
             // fbd
             // 
             this.fbd.AddExtension = false;
+            this.fbd.Filter = "Text files (*.txt)|*.txt";
             // 
             // updateButton
             // 
@@ -381,13 +382,13 @@
             this.binningGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.binningGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.binningGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column1,
-            this.Column2,
-            this.RightBorder,
-            this.Column3,
-            this.Column4,
-            this.Column5,
-            this.Column6});
+            this.Bin,
+            this.Left,
+            this.Right,
+            this.Ls,
+            this.Vs,
+            this.dV,
+            this.Texts});
             this.binningGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.binningGridView.Location = new System.Drawing.Point(0, 0);
             this.binningGridView.Name = "binningGridView";
@@ -395,47 +396,7 @@
             this.binningGridView.RowHeadersWidth = 51;
             this.binningGridView.Size = new System.Drawing.Size(650, 460);
             this.binningGridView.TabIndex = 0;
-            // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "Бін #";
-            this.Column1.MinimumWidth = 6;
-            this.Column1.Name = "Column1";
-            // 
-            // Column2
-            // 
-            this.Column2.HeaderText = "Ліва Межа";
-            this.Column2.MinimumWidth = 6;
-            this.Column2.Name = "Column2";
-            // 
-            // RightBorder
-            // 
-            this.RightBorder.HeaderText = "Права Межа";
-            this.RightBorder.Name = "RightBorder";
-            // 
-            // Column3
-            // 
-            this.Column3.HeaderText = "Ls";
-            this.Column3.MinimumWidth = 6;
-            this.Column3.Name = "Column3";
-            // 
-            // Column4
-            // 
-            this.Column4.HeaderText = "Vs";
-            this.Column4.MinimumWidth = 6;
-            this.Column4.Name = "Column4";
-            // 
-            // Column5
-            // 
-            this.Column5.HeaderText = "dV";
-            this.Column5.MinimumWidth = 6;
-            this.Column5.Name = "Column5";
-            // 
-            // Column6
-            // 
-            this.Column6.HeaderText = "К-сть текстів";
-            this.Column6.MinimumWidth = 6;
-            this.Column6.Name = "Column6";
+            this.binningGridView.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.binningGridView_SortCompare);
             // 
             // tabPage3
             // 
@@ -751,6 +712,47 @@
             // 
             this.toolTip1.ToolTipTitle = "Справка";
             // 
+            // Bin
+            // 
+            this.Bin.HeaderText = "Бін #";
+            this.Bin.MinimumWidth = 6;
+            this.Bin.Name = "Bin";
+            // 
+            // Left
+            // 
+            this.Left.HeaderText = "Ліва Межа";
+            this.Left.MinimumWidth = 6;
+            this.Left.Name = "Left";
+            // 
+            // Right
+            // 
+            this.Right.HeaderText = "Права Межа";
+            this.Right.Name = "Right";
+            // 
+            // Ls
+            // 
+            this.Ls.HeaderText = "Ls";
+            this.Ls.MinimumWidth = 6;
+            this.Ls.Name = "Ls";
+            // 
+            // Vs
+            // 
+            this.Vs.HeaderText = "Vs";
+            this.Vs.MinimumWidth = 6;
+            this.Vs.Name = "Vs";
+            // 
+            // dV
+            // 
+            this.dV.HeaderText = "dV";
+            this.dV.MinimumWidth = 6;
+            this.dV.Name = "dV";
+            // 
+            // Texts
+            // 
+            this.Texts.HeaderText = "К-сть текстів";
+            this.Texts.MinimumWidth = 6;
+            this.Texts.Name = "Texts";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -827,13 +829,6 @@
         private System.Windows.Forms.ToolStripMenuItem зберегтиToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem словникToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem файлБінуванняToolStripMenuItem1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn RightBorder;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
         private System.Windows.Forms.DataVisualization.Charting.Chart parsingResultsChart;
         private System.Windows.Forms.Label folderLabel;
         private System.Windows.Forms.Label textToProcessLabel;
@@ -851,6 +846,13 @@
         private System.Windows.Forms.ToolStripMenuItem графікToolStripMenuItem;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.ToolStripMenuItem cleanResourcesToolStripMenuItem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Bin;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Left;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Right;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Ls;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Vs;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dV;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Texts;
     }
 }
 
