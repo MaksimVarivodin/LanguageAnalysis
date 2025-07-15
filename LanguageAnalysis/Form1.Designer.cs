@@ -371,7 +371,7 @@
             this.tabPage1.Controls.Add(this.binningGridView);
             this.tabPage1.Location = new System.Drawing.Point(4, 27);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(650, 453);
+            this.tabPage1.Size = new System.Drawing.Size(650, 460);
             this.tabPage1.TabIndex = 3;
             this.tabPage1.Text = "Бінування";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -393,7 +393,7 @@
             this.binningGridView.Name = "binningGridView";
             this.binningGridView.RowHeadersVisible = false;
             this.binningGridView.RowHeadersWidth = 51;
-            this.binningGridView.Size = new System.Drawing.Size(650, 453);
+            this.binningGridView.Size = new System.Drawing.Size(650, 460);
             this.binningGridView.TabIndex = 0;
             // 
             // Column1
@@ -443,7 +443,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 27);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(650, 453);
+            this.tabPage3.Size = new System.Drawing.Size(650, 460);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Словник";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -464,7 +464,7 @@
             this.dictionaryGridView.Name = "dictionaryGridView";
             this.dictionaryGridView.ReadOnly = true;
             this.dictionaryGridView.RowHeadersWidth = 51;
-            this.dictionaryGridView.Size = new System.Drawing.Size(644, 447);
+            this.dictionaryGridView.Size = new System.Drawing.Size(644, 454);
             this.dictionaryGridView.TabIndex = 1;
             this.dictionaryGridView.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.dictionaryGridView_SortCompare);
             // 
