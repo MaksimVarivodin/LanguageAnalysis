@@ -190,6 +190,7 @@
     <None Include="JapaneseResources\Dictionary\unk.dic" />
     <None Include="LanguageAnalysis_TemporaryKey.pfx" />
     <None Include="packages.config" />
+    <None Include="Parsing\Readme.md" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -231,13 +232,12 @@
     <Content Include="..\LICENSE.txt">
       <Link>LICENSE.txt</Link>
     </Content>
-    <Content Include="..\README.md">
-      <Link>README.md</Link>
-    </Content>
     <Content Include="ChineseResources\cn_synonym.txt" />
     <Content Include="ChineseResources\dict.txt" />
     <Content Include="ChineseResources\idf.txt" />
     <Content Include="ChineseResources\stopwords.txt" />
+    <Content Include="README.md" />
+    <Content Include="TableExport\Readme.md" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Accord.3.8.0\build\Accord.targets" Condition="Exists('..\packages\Accord.3.8.0\build\Accord.targets')" />

@@ -20,7 +20,7 @@ using Parsing;
 using JiebaNet.Segmenter.Common;
 using Microsoft.WindowsAPICodePack.Dialogs;
 
-namespace VolosIndiv 
+namespace VolosIndiv
 {
     public partial class Form1 : Form
     {
@@ -44,8 +44,8 @@ namespace VolosIndiv
             parsingResultsChart.Series[0].MarkerSize = 14;
             NgrammProcessor.IgnoreCase = ignoreRegexCheckbox.Checked;
             NgrammProcessor.ProcessSpaces = includingSpacesCheckbox.Checked;
-            
-            
+
+
         }
 
 
@@ -54,10 +54,7 @@ namespace VolosIndiv
         readonly DataGridView _dg1 = new DataGridView();
         readonly DataGridView _dg2 = new DataGridView();
 
-        // dont ask why ss, i have no fucking clue, i stole it while trying to repair the app written previously
-        const string StolenRegexp_ss = "\\|\"{}()[]=+_~!@#$…%^&*№:";
-        const string StolenRegexp_ss_or = "\\\\|\\||\"|{|}|\\(|\\)|\\[|\\]|=|\\+|_|~|!|@|#|\\$|…|%|\\^|&|\\*|№|:|,|\\.|\\?|;"; // same
-        const string Endsigns = ",.?!;";
+
         private string selectedFolderPath;
 
         double[] x, y;
@@ -206,7 +203,7 @@ namespace VolosIndiv
             elapsedTimeLabel.Text = "Час виконання: _";
             countByWordsButton.Enabled = false;
             countBySymbolsButton.Enabled = false;
-            
+
             clearFormData("Джерело не обрано", "Джерело не обрано", "Джерело не обрано");
         }
 
@@ -430,7 +427,7 @@ namespace VolosIndiv
                     updateButton.PerformClick();
                     updateButton.Enabled = false;
                     textToProcessLabel.Text = $"Обрано словник";
-                    folderLabel.Text =  $"Словник: {Path.GetFileNameWithoutExtension(dialog.FileName)}" ;
+                    folderLabel.Text = $"Словник: {Path.GetFileNameWithoutExtension(dialog.FileName)}";
                 }
                 catch (Exception ex)
                 {
@@ -1035,7 +1032,13 @@ namespace VolosIndiv
 
 
         }
-        private void setBinningSettingsEnabled(bool enabled) {
+
+        /// <summary>
+        /// Enables or disables binning settings controls in the UI.
+        /// </summary>
+        /// <param name="enabled">If true, enables the controls; otherwise, disables them.</param>
+        private void setBinningSettingsEnabled(bool enabled)
+        {
             equalLengthRadio.Enabled = enabled;
             differentLengthRadio.Enabled = enabled;
             growingLengthRadio.Enabled = enabled;
@@ -1046,13 +1049,17 @@ namespace VolosIndiv
         }
 
 
+        /// <summary>
+        /// Handles the tab selection change event to enable or disable binning settings.
+        /// </summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event arguments.</param>
         private void switchBinningSettings(object sender, EventArgs e)
         {
-            if (tabControl1.SelectedIndex != 2)            
+            if (tabControl1.SelectedIndex != 2)
                 setBinningSettingsEnabled(false);
             else
                 setBinningSettingsEnabled(true);
-
         }
 
         /// <summary>
